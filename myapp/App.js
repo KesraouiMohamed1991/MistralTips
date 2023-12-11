@@ -2,10 +2,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { Provider } from 'react-redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/lib/storage';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import user from './reducers/user';
 
 import Carte from './screens/Carte';
 import Profile from './screens/Profile';
@@ -19,7 +21,7 @@ import SignIn from './screens/HomeSub/SignIn';
 import SignUp from './screens/HomeSub/SignUp';
 
 
-const reducers = combineReducers({ reducername });
+const reducers = combineReducers({ user });
 const persistConfig = { key: 'myapp', storage };
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
