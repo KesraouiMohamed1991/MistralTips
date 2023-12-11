@@ -1,42 +1,48 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import SignUpForm from './element/SignUp Form'; // Importez votre composant SignUpForm
+import SignUpForm from './element/SignUp Form';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const SignUp = ({ navigation }) => {
-  const handleSignUp = (userData) => {
-    // Implémentez votre logique d'enregistrement d'utilisateur en utilisant les données utilisateur (nom d'utilisateur, email, mot de passe, numéro de téléphone)
-    console.log('Données utilisateur :', userData);
 
-    // Pour l'instant, naviguez vers l'écran principal de l'application
-    navigation.navigate('MyTabs');
+
+  const handleSignUp = async (userData) => {
+    try {
+      const response = await fetch('http://10.20.2.92:3000/bars/users/signUp', {
+        method: 'POST',
+        body: JSON.stringify(userData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        // Handle the result as needed
+        console.log('Server response:', result);
+
+
+        navigation.navigate('MyTabs');
+    //   } else {
+        console.error('Error uploading data to the server:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error during fetch:', error);
+    }
+
+     console.log('User Data:', userData);
+
   };
 
   return (
     <View style={styles.container}>
-      <Text style={{
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        color: colors.DeepBlue,
-        fontFamily: 'BricolageGrotesque',
-      }}>Inscription</Text>
-      {/* Votre formulaire d'inscription ici */}
+      <Text style={styles.title}>Inscription</Text>
       <SignUpForm onSignUp={handleSignUp} />
 
-      {/* Votre bouton d'inscription */}
-      <TouchableOpacity style={styles.btn} onPress={handleSignUp}>
+      <TouchableOpacity style={styles.btn}>
         <FontAwesome style={{ padding: 10 }} name="user-plus" size={20} color={colors.DeepBlue} />
         <Text style={styles.btnText}>S'inscrire</Text>
       </TouchableOpacity>
-
-
-
-
-
-
-
-   
     </View>
   );
 };
@@ -44,11 +50,8 @@ const SignUp = ({ navigation }) => {
 const colors = {
   Midnight: '#0f0a0a',
   DeepBlue: '#191D88',
-  NavyBlue: '#1450A3',
-  RoyalBlue: '#337CCF',
-  Marseille: '#30AADD',
   GoldenYellow: '#FFC436',
-  Radiance: '#ff6600',
+  Marseille: '#30AADD',
 };
 
 const styles = StyleSheet.create({

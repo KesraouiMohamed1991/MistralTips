@@ -5,10 +5,11 @@ const SignUpForm = ({ onSignUp }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   const handleSignUp = () => {
-    onSignUp({ username, email, password, phone });
+    // Send the form data to the parent to check and register in the database
+    onSignUp({ username, email, password, phoneNumber });
   };
 
   return (
@@ -41,8 +42,8 @@ const SignUpForm = ({ onSignUp }) => {
       <TextInput
         style={styles.input}
         placeholder="Numéro de téléphone"
-        value={phone}
-        onChangeText={setPhone}
+        value={phoneNumber}
+        onChangeText={setPhoneNumber}
         keyboardType="phone-pad"
       />
 
@@ -54,11 +55,7 @@ const SignUpForm = ({ onSignUp }) => {
 const colors = {
   Midnight: '#0f0a0a',
   DeepBlue: '#191D88',
-  NavyBlue: '#1450A3',
-  RoyalBlue: '#337CCF',
-  Marseille: '#30AADD',
   GoldenYellow: '#FFC436',
-  Radiance: '#ff6600',
 };
 
 const styles = StyleSheet.create({
@@ -75,9 +72,9 @@ const styles = StyleSheet.create({
     width: 260,
     marginBottom: 30,
     marginTop: 20,
-    textAlign: 'center', // Centrer le texte horizontalement
-    color: colors.DeepBlue, // Définir la couleur du texte
-    lineHeight: 40, // Ajuster la hauteur de ligne pour centrer le texte verticalement
+    textAlign: 'center',
+    color: colors.DeepBlue,
+    lineHeight: 40,
   },
 });
 

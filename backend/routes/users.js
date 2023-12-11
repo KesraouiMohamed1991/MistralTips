@@ -89,7 +89,7 @@ router.delete('/users/deleteOne', (req, res) => {
   if (!checkBody(req.body, ['username'])) {
     res.json({ result: false, error: 'Missing or empty fields' }); // Vérifie la présence du champ username
     return;
-  } 
+  }
   // Supprime l'utilisateur spécifié
   User.findOneAndDelete({ username: req.body.username }).then(data => {
     if (data) {

@@ -5,35 +5,11 @@ import SignInForm from './element/SignIn Form';
 
 const SignIn = ({ navigation }) => {
   const handleSignIn = ({ email, password }) => {
+
+    
+
     console.log('Email:', email);
     console.log('Password:', password);
-
-
-    const formdata = {
-  
-}
-
-
-      const response =  fetch('http://10.20.2.92:3000', {
-        method: 'POST',
-        body: formdata,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (response.ok) {
-        const result =  response.json();
-
-
-      } else {
-        console.error('Error uploading photo to the server:', response.status, response.statusText);
-      }
-
-
-
-
-
 
     // Navigate to the main app screen
     navigation.navigate('MyTabs');
