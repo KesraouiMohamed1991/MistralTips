@@ -32,11 +32,11 @@ const MyTabs = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarShowLabel: true,
+        tabBarShowLabel: false,
         tabBarHideOnKeyboard: false,
         style: {
           borderRadius: 15,
-          height: 90,
+          height: 70,
         },
         tabBarIcon: ({ color, size }) => {
           let iconName = '';
@@ -53,14 +53,15 @@ const MyTabs = () => {
 
           return <FontAwesome name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: colors.DeepBlue,
+        tabBarActiveTintColor: colors.Radiance,
         tabBarInactiveTintColor: colors.RoyalBlue,
         headerShown: false,
         tabBarStyle: {
           backgroundColor: 'white',
-          // borderBlockColor: 'red',
-          borderTopWidth: 0,
-          height: 60,
+          // borderBlockColor: 'white',
+          // borderTopWidth: 1,
+          // borderBottomWidth: 1,
+          height: 50,
         },
       })}
 

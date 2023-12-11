@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Animated, Easing, Image } fro
 import { useFonts } from 'expo-font';
 
 function HomeScreen({ navigation }) {
+  
   const [fontsLoaded] = useFonts({
     'Poppins-Regular': require('../assets/Poppins-Regular.ttf'),
     'Voyage-Regular': require('../assets/Voyage-Regular.otf'),

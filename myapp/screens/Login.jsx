@@ -11,6 +11,11 @@ const Login = ({ navigation }) => {
   });
 
   const handleSignUp = () => {
+
+
+    }
+
+
     navigation.navigate('SignUp'); 
   };
 
@@ -51,7 +56,7 @@ const Login = ({ navigation }) => {
       {renderEmailButton()}
     </View>
   );
-};
+;
 
 let colors = {
   Midnight: '#0f0a0a',
