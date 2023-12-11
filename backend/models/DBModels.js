@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 
-const BarSchema = mongoose.Schema({
+const barSchema = mongoose.Schema({
     name: String,
     map: String,
     note: Number,
     twTruncate4: Number,
-    prix: Boolean,
+    prix: Number,
     type: String,
     presentation: String,
     adresse: String,
@@ -59,7 +59,8 @@ const articleSchema = {
     name: 'String',
     description: 'String',
     date: 'Date',
-    image: 'String'
+    image: 'String',
+    adresse: 'String',
 };
 
 
@@ -68,10 +69,12 @@ const eventSchema = {
     name: 'String',
     description: 'String',
     date: 'Date',
-    image: 'String'
+    image: 'String',
+    adresse: 'String',
+   // bar: {type: mongoose.Schema.Types.ObjectId, ref: 'bars'},
 };
 
-const Bar = mongoose.model('bars', BarSchema);
+const Bar = mongoose.model('bars', barSchema);
 const Blog = mongoose.model('blogs', articleSchema);
 const Event = mongoose.model('events', eventSchema);
 
