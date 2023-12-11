@@ -1,57 +1,119 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import SignUpForm from './element/SignUp Form';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
-const SignUp = ({ navigation }) => {
-
-
-  const handleSignUp = async (userData) => {
-    try {
-      const response = await fetch('http://10.20.2.92:3000/bars/users/signUp', {
-        method: 'POST',
-        body: JSON.stringify(userData),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        // Handle the result as needed
-        console.log('Server response:', result);
-
-
-        navigation.navigate('MyTabs');
-    //   } else {
-        console.error('Error uploading data to the server:', response.status, response.statusText);
-      }
-    } catch (error) {
-      console.error('Error during fetch:', error);
-    }
-
-     console.log('User Data:', userData);
-
-  };
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Inscription</Text>
-      <SignUpForm onSignUp={handleSignUp} />
-
-      <TouchableOpacity style={styles.btn}>
-        <FontAwesome style={{ padding: 10 }} name="user-plus" size={20} color={colors.DeepBlue} />
-        <Text style={styles.btnText}>S'inscrire</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
 
 const colors = {
   Midnight: '#0f0a0a',
   DeepBlue: '#191D88',
   GoldenYellow: '#FFC436',
   Marseille: '#30AADD',
+};
+
+const SignUp = ({ navigation }) => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [loading, setLoading]=useState(false)
+
+  const handleSignUp = async () => {
+
+  if (username.length ===0 || password.length ===0) {
+    return;
+  }
+
+
+
+    try {
+      const response = await fetch('http://10.20.2.92:3000/bars/users/signup', {
+        method: 'POST',
+        body: JSON.stringify({ username, password, mail: email, phoneNumber }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      setLoading(true)
+
+      if (response.ok) {
+      setLoading(false)
+
+        const result = await response.json();
+        console.log('Server response:', result);
+
+        if (result.result) {
+          navigation.navigate('MyTabs');
+          setEmail('')
+          setPhoneNumber('')
+          setUsername('')
+          setPassword('')
+        } else {
+          console.error('Sign-up failed:', result.error);
+        }
+      } else {
+        console.error('Error uploading data to the server:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error during fetch:', error);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder="Nom d'utilisateur"
+        value={username}
+        onChangeText={setUsername}
+        autoCapitalize="none"
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Adresse e-mail"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Mot de passe"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Numéro de téléphone"
+        value={phoneNumber}
+        onChangeText={setPhoneNumber}
+        keyboardType="phone-pad"
+      />
+
+      
+   <TouchableOpacity
+  style={styles.btn}
+  onPress={handleSignUp}
+  disabled={loading}
+>
+  <FontAwesome
+    style={{ padding: 10 }}
+    name="user-plus"
+    size={20}
+    color={colors.DeepBlue}
+  />
+  <Text style={styles.btnText}>
+    {loading ? 'Connexion en cours...' : 'Connexion'}
+  </Text>
+</TouchableOpacity>
+
+
+
+
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -61,12 +123,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.Marseille,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+  input: {
+    height: 60,
+    borderColor: colors.GoldenYellow,
+    borderWidth: 2,
+    paddingHorizontal: 28,
+    borderRadius: 30,
+    paddingVertical: 10,
+    width: 260,
+    marginBottom: 30,
+    marginTop: 20,
+    textAlign: 'center',
     color: colors.DeepBlue,
-    fontFamily: 'BricolageGrotesque',
+    lineHeight: 40,
   },
   btn: {
     flexDirection: 'row',
