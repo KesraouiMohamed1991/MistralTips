@@ -9,6 +9,9 @@ const Profile = () => {
   );
 };
 
+
+
+
 const colors = {
   Midnight: '#0f0a0a',
   DeepBlue: '#191D88',
