@@ -56,21 +56,21 @@ const barSchema = mongoose.Schema({
 
 
 const articleSchema = {
-    name: 'String',
-    description: 'String',
-    date: 'Date',
-    image: 'String',
-    adresse: 'String',
+    name: String,
+    description: String,
+    date: Date,
+    image: String,
+    adresse: String,
 };
 
 
 
 const eventSchema = {
-    name: 'String',
-    description: 'String',
-    date: 'Date',
-    image: 'String',
-    adresse: 'String',
+    name: String,
+    description: String,
+    date: Date,
+    image: String,
+    adresse: String,
    // bar: {type: mongoose.Schema.Types.ObjectId, ref: 'bars'},
 };
 
