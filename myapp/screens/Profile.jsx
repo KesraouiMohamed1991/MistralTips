@@ -9,7 +9,7 @@ import { login } from '../reducers/user'; // Update with the correct path
 const Profile = () => {
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
-  console.log(user);
+  console.log('from the profile',user);
 
   return (
     <ScrollView style={styles.container}>
@@ -20,7 +20,7 @@ const Profile = () => {
       <View style={styles.profileSection}>
         <FontAwesome name="user-circle" size={80} color={colors.DeepBlue} />
         <Text style={styles.profileName}>{user.username}</Text>
-        <Text style={styles.profileEmail}>{user.email}</Text>
+        <Text style={styles.profileEmail}>{user.mail}</Text>
       </View>
 
       <View style={styles.infoSection}>
