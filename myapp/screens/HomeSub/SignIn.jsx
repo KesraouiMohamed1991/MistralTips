@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
+
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../reducers/user'
+
+
 const colors = {
   Midnight: '#0f0a0a',
   DeepBlue: '#191D88',
@@ -14,7 +19,7 @@ const SignIn = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [loading, setLoading]=useState(false)
   const [error, setError]=useState(false)
-
+  const dispatch = useDispatch();
   const handleSignIn = async () => {
 
 
@@ -34,10 +39,15 @@ const SignIn = ({ navigation }) => {
       setLoading(true)
 
       if (response.ok) {
-      setLoading(false)
+        setLoading(false)
 
         const result = await response.json();
         console.log('Server response:', result);
+
+
+
+           dispatch(login({username, token: result.token }))
+
 
         if (result.result) {
           navigation.navigate('MyTabs');

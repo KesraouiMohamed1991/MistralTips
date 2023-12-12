@@ -1,17 +1,15 @@
+// Profile.js
+
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
-
-
-
+import { login } from '../reducers/user'; // Update with the correct path
 
 const Profile = () => {
-
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
-
-
+  const dispatch = useDispatch();
+  console.log(user);
 
   return (
     <ScrollView style={styles.container}>
@@ -21,8 +19,8 @@ const Profile = () => {
 
       <View style={styles.profileSection}>
         <FontAwesome name="user-circle" size={80} color={colors.DeepBlue} />
-        <Text style={styles.profileName}>John Doe</Text>
-        <Text style={styles.profileEmail}>JohnDoe@google.com</Text>
+        <Text style={styles.profileName}>{user.username}</Text>
+        <Text style={styles.profileEmail}>{user.email}</Text>
       </View>
 
       <View style={styles.infoSection}>
@@ -73,17 +71,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-
-    // backgroundColor: colors.SkyBlue,
   },
   header: {
-    marginTop:18,
+    marginTop: 18,
     alignItems: 'center',
     padding: 20,
-    // backgroundColor: colors.RoyalBlue,
   },
   headerTitle: {
-    marginTop:11,
+    marginTop: 11,
     fontSize: 22,
     fontWeight: 'bold',
     color: 'black',
@@ -92,8 +87,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     backgroundColor: 'white',
-    // borderBottomWidth: 1,
-    // borderBottomColor: colors.NavyBlue,
   },
   profileName: {
     fontSize: 20,
@@ -115,14 +108,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: colors.NavyBlue,
-    
   },
   infoText: {
     fontSize: 18,
     color: colors.Midnight,
   },
   infoValue: {
-      fontSize: 16,
+    fontSize: 16,
     fontWeight: 'bold',
     color: colors.DeepBlue,
   },
@@ -150,7 +142,7 @@ const styles = StyleSheet.create({
   socialMediaText: {
     fontSize: 16,
     marginLeft: 15,
-      fontWeight: 'bold',
+    fontWeight: 'bold',
     color: colors.DeepBlue,
   },
   policySection: {

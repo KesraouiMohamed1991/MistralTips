@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { useDispatch, useSelector } from 'react-redux';
+import {login}from '../../reducers/user'
 
 const colors = {
   Midnight: '#0f0a0a',
@@ -10,8 +12,12 @@ const colors = {
 };
 
 const SignUp = ({ navigation }) => {
+
+
+  const dispatch = useDispatch();
+  
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  const [mail, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [loading, setLoading]=useState(false)
@@ -27,7 +33,7 @@ const SignUp = ({ navigation }) => {
     try {
       const response = await fetch('http://10.20.2.92:3000/bars/users/signup', {
         method: 'POST',
-        body: JSON.stringify({ username, password, mail: email, phoneNumber }),
+        body: JSON.stringify({ username, password, mail: mail, phoneNumber }),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -35,10 +41,16 @@ const SignUp = ({ navigation }) => {
       setLoading(true)
 
       if (response.ok) {
-      setLoading(false)
+        setLoading(false)
+    
+
 
         const result = await response.json();
         console.log('Server response:', result);
+
+
+    
+            dispatch(login({username, mail, token: result.token }))
 
         if (result.result) {
           navigation.navigate('MyTabs');
@@ -70,7 +82,7 @@ const SignUp = ({ navigation }) => {
       <TextInput
         style={styles.input}
         placeholder="Adresse e-mail"
-        value={email}
+        value={mail}
         onChangeText={setEmail}
         keyboardType="email-address"
         autoCapitalize="none"
