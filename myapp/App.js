@@ -26,7 +26,7 @@ const persistConfig = { key: 'myapp', storage: AsyncStorage };
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
- });
+});
 const persistor = persistStore(store);
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -47,7 +47,7 @@ const MyTabs = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
         tabBarHideOnKeyboard: false,
         style: {
           borderRadius: 15,
@@ -63,7 +63,8 @@ const MyTabs = () => {
           } else if (route.name === 'Events') {
             iconName = 'calendar';
           } else if (route.name === 'Articles') {
-            iconName = 'file-text-o';
+            // iconName = 'file-text-o';
+            iconName = 'list';
           }
 
           return <FontAwesome name={iconName} size={size} color={color} />;
@@ -76,7 +77,7 @@ const MyTabs = () => {
           // borderBlockColor: 'white',
           // borderTopWidth: 1,
           // borderBottomWidth: 1,
-          height: 50,
+          height: 60,
         },
       })}
 

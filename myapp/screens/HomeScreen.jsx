@@ -36,7 +36,7 @@ function HomeScreen({ navigation }) {
 
       <View style={styles.logo}>
         <Text style={{ fontFamily: 'BricolageGrotesque', fontSize: 36 }}> 🥂  MistralTip's 🍾</Text>
-        <Text style={{ fontFamily: 'BricolageGrotesque', fontSize: 16 }}>✻  Explorez, Connectez, Vivez✻</Text>
+        <Text style={{ fontFamily: 'BricolageGrotesque', fontSize: 16 }}>✻ Explorez, Connectez, Vivez ✻</Text>
       </View>
       </View>
 

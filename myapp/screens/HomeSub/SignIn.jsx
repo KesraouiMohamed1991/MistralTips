@@ -13,6 +13,7 @@ const SignIn = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading]=useState(false)
+  const [error, setError]=useState(false)
 
   const handleSignIn = async () => {
 
@@ -44,12 +45,28 @@ const SignIn = ({ navigation }) => {
           setPassword('')
         } else {
           console.error('Sign-in failed:', result.error);
+           { error&&  
+          <Text>Sign-in failed</Text>
+        
+          }
         }
       } else {
         console.error('Error uploading data to the server:', response.status, response.statusText);
+        setError(true)
+        { error&&  
+          <Text>Error uploading data to the server</Text>
+        
+          }
+
       }
     } catch (error) {
+        setError(true)
+
       console.error('Error during fetch:', error);
+
+
+      
+
     }
   };
 
@@ -86,7 +103,8 @@ const SignIn = ({ navigation }) => {
   <Text style={styles.btnText}>
     {loading ? 'Connexion en cours...' : 'Connexion'}
   </Text>
-</TouchableOpacity>
+      </TouchableOpacity>
+      
 
     </View>
   );
