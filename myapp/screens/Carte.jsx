@@ -1,13 +1,15 @@
 //import liraries
 import React, { Component, useEffect, useState, } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Text, View, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Drawer, Button, Text, View, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faGripDots } from '@fortawesome/free-solid-svg-icons'
+// import { SafeAreaView } from 'react-native-safe-area-context';
 
 
-const BACKEND_ADDRESS = 'http://BACKEND_IP:3000';
+const BACKEND_ADDRESS = 'exp://10.20.2.91:19000';
 
 const colors = {
   Midnight:     '#0f0a0a',
@@ -25,6 +27,7 @@ export default function Carte() {
 
     const [currentPosition, setCurrentPosition] = useState(null);
     const [tempCoordinates, setTempCoordinates] = useState(null);
+    const [drawerVisible, setDrawerVisible] = useState(false);
     const [newPlace, setNewPlace] = useState('');
 
     useEffect(() => {
@@ -39,15 +42,16 @@ export default function Carte() {
           }
         })();
     
-        fetch(`${BACKEND_ADDRESS}/all`)
-          .then((response) => response.json())
-          .then((data) => {
-            data.result && dispatch(importCoords(data.coords));
-          });
+        // fetch(`${BACKEND_ADDRESS}/all`)
+        //   .then((response) => response.json())
+        //   .then((data) => {
+        //     data.result && dispatch(importCoords(data.coords));
+        //   });
       }, []);
 // create a component
     return (
-      <SafeAreaProvider>
+      <View style={styles.container}>
+        
         <MapView
             initialRegion={{
             latitude: 43.300000,
@@ -56,12 +60,10 @@ export default function Carte() {
             longitudeDelta: 0.1,
             }}
             style={{ flex: 1 }}>
-       {/* <View style={styles.container}>
-            <Text>Carte</Text>
-        </View> */}
+            {currentPosition && <Marker coordinate={currentPosition} title="Voue êtes ici" pinColor={colors.Radiance} />}
         </MapView>
-       </SafeAreaProvider>
-    );
+      </View>
+      );
 
 
 
@@ -71,9 +73,13 @@ export default function Carte() {
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor:colors.Marseille,
+      flex: 1,
+      backgroundColor:colors.Marseille,
     },
+    centeredView: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    
 });
