@@ -11,16 +11,11 @@ const Login = ({ navigation }) => {
   });
 
   const handleSignUp = () => {
-
-
-
-
-
-
     navigation.navigate('SignUp'); 
   };
 
   const handleSignIn = () => {
+
     navigation.navigate('SignIn'); 
   };
 
@@ -33,7 +28,6 @@ const Login = ({ navigation }) => {
       <FontAwesome style={{ padding: 10 }} name="arrow-right" size={20} color={colors.DeepBlue} />
       <Text style={{ color: colors.DeepBlue, fontFamily: 'BricolageGrotesque', fontSize: 16 }}>
                 Sign In
-
       </Text>
     </TouchableOpacity>
   );
