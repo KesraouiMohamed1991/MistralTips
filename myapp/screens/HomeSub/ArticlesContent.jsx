@@ -8,19 +8,27 @@ const ArticlesContent = (title) => {
     const [error, setError] = useState(false);
     const storedArticles = useSelector((state) => state.user.value.articles);
 
-  const articleDetails = storedArticles.filter((e) => {
-    e.titre !== title
-  })
-
-
-  const renderarticleItem = ({ item }) => (
-    <View style={styles.articleItem}>
-      <Image style={styles.articleImage} source={{ uri: item.image }} />
-      <Text style={styles.articleTitle}>{item.titre}</Text>
-      <Text style={styles.articleDate}>{item.date.slice(0,10)}</Text>
-      <Text style={styles.articleContent}>{item.contenu}</Text>
-    </View>
+    const articleDetails = storedArticles.filter((e) => {
+      e.titre !== title
+    })
+  
+    return (
+    <SafeAreaView style={styles.container}>
+        <Text style={styles.header}>{articleDetails.titre}</Text>
+        {loading ? (
+        <ActivityIndicator size="large" color={colors.Radiance} />
+        ) : error ? (
+        <Text style={styles.errorText}>Error occurred while fetching articles</Text>
+        ) : (
+        <View style={styles.articleItem}>
+            <Image style={styles.articleImage} source={{ uri: articleDetails.image }} />
+            <Text style={styles.articleDate}>{articleDetails.date.slice(0,10)}</Text>
+            <Text style={styles.articleContent}>{articleDetails.contenu}</Text>
+        </View>
+        )}
+    </SafeAreaView>
   );
+}
 
   const styles = StyleSheet.create({
     container: {
@@ -77,11 +85,5 @@ const ArticlesContent = (title) => {
     },
   });
 
-
-
-
-
-
-}
 
 export default ArticlesContent;
