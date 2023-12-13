@@ -27,7 +27,8 @@ const SignIn = ({ navigation }) => {
 
       setLoading(true);
 
-      const response = await fetch('http://10.20.2.92:3000/bars/users/signin', {
+      // const response = await fetch('http://10.20.2.92:3000/bars/users/signin', {
+      const response = await fetch('http://192.168.0.103:3000/bars/users/signin', {
         method: 'POST',
         body: JSON.stringify({ username, password }),
         headers: {

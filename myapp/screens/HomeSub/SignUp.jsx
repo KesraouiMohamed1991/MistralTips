@@ -31,7 +31,8 @@ const SignUp = ({ navigation }) => {
 
 
     try {
-      const response = await fetch('http://10.20.2.92:3000/bars/users/signup', {
+      // const response = await fetch('http://10.20.2.92:3000/bars/users/signup', {
+      const response = await fetch('http://192.168.0.103:3000/bars/users/signup', {
         method: 'POST',
         body: JSON.stringify({
           username,

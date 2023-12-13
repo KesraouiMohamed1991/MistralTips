@@ -5,7 +5,7 @@ const initialState = {
     token: null,
     mail: null,
     username: null,
-  },
+  }
 };
 
 export const userSlice = createSlice({
@@ -22,9 +22,10 @@ export const userSlice = createSlice({
       state.value.username = null;
       state.value.mail = null;
     },
+
   },
 });
 
+export const { login, logout, } = userSlice.actions;
 
-export const { login, logout } = userSlice.actions;
 export default userSlice.reducer;
