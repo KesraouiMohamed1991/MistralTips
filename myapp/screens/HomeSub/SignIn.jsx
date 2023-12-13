@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
-
-import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../reducers/user'
-
+import { useDispatch } from 'react-redux';
+import { login } from '../../reducers/user';
 
 const colors = {
   Midnight: '#0f0a0a',
@@ -15,19 +12,21 @@ const colors = {
 };
 
 const SignIn = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading]=useState(false)
-  const [error, setError]=useState(false)
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
   const handleSignIn = async () => {
-
-
-  if (username.length ===0 || password.length ===0) {
-    return;
-  }
-
     try {
+      if (username.length === 0 || password.length === 0) {
+        setError('Veuillez remplir tous les champs.');
+        return;
+      }
+
+      setLoading(true);
+
       const response = await fetch('http://10.20.2.92:3000/bars/users/signin', {
         method: 'POST',
         body: JSON.stringify({ username, password }),
@@ -36,47 +35,38 @@ const SignIn = ({ navigation }) => {
         },
       });
 
-      setLoading(true)
-
       if (response.ok) {
-        setLoading(false)
+        setLoading(false);
 
         const result = await response.json();
-        console.log('Server response:', result);
-
-
-
-           dispatch(login({username, token: result.token }))
-
+  
 
         if (result.result) {
+
+          const { mail, token, username } = result.user;
+
+
+    //  console.log('show the result',result.user);
+          console.log(mail);
+          console.log(token);
+          console.log(username);
+          dispatch(login({username, mail, token}))
+
           navigation.navigate('MyTabs');
-          setUsername('')
-          setPassword('')
+          setUsername('');
+          setPassword('');
         } else {
-          console.error('Sign-in failed:', result.error);
-           { error&&  
-          <Text>Sign-in failed</Text>
-        
-          }
+          setError('Nom d\'utilisateur ou mot de passe incorrect.');
         }
       } else {
         console.error('Error uploading data to the server:', response.status, response.statusText);
-        setError(true)
-        { error&&  
-          <Text>Error uploading data to the server</Text>
-        
-          }
-
+        setError('Erreur lors de la connexion. Veuillez réessayer.');
       }
     } catch (error) {
-        setError(true)
-
       console.error('Error during fetch:', error);
-
-
-      
-
+      setError('Une erreur inattendue s\'est produite. Veuillez réessayer.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -97,25 +87,24 @@ const SignIn = ({ navigation }) => {
         onChangeText={setPassword}
         secureTextEntry
       />
-      
 
-   <TouchableOpacity
-  style={styles.btn}
-  onPress={handleSignIn}
-  disabled={loading}
->
-  <FontAwesome
-    style={{ padding: 10 }}
-    name="sign-in"
-    size={20}
-    color={colors.DeepBlue}
-  />
-  <Text style={styles.btnText}>
-    {loading ? 'Connexion en cours...' : 'Connexion'}
-  </Text>
+      {error && <Text style={styles.errorText}>{error}</Text>}
+
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={handleSignIn}
+        disabled={loading}
+      >
+        <FontAwesome
+          style={{ padding: 10 }}
+          name="sign-in"
+          size={20}
+          color={colors.DeepBlue}
+        />
+        <Text style={styles.btnText}>
+          {loading ? 'Connexion en cours...' : 'Connexion'}
+        </Text>
       </TouchableOpacity>
-      
-
     </View>
   );
 };
@@ -157,6 +146,10 @@ const styles = StyleSheet.create({
     fontFamily: 'BricolageGrotesque',
     fontSize: 16,
     marginLeft: 10,
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 10,
   },
 });
 

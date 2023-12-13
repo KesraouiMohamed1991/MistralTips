@@ -33,7 +33,12 @@ const SignUp = ({ navigation }) => {
     try {
       const response = await fetch('http://10.20.2.92:3000/bars/users/signup', {
         method: 'POST',
-        body: JSON.stringify({ username, password, mail: mail, phoneNumber }),
+        body: JSON.stringify({
+          username,
+          password,
+          mail: mail,
+          phoneNumber
+        }),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -47,6 +52,10 @@ const SignUp = ({ navigation }) => {
 
         const result = await response.json();
         console.log('Server response:', result);
+
+
+        console.log(result);
+          console.log('Server response:', result.mail);
 
 
     
