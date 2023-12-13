@@ -137,7 +137,7 @@ const Carte = ({navigation}) => {
                     coordinate={{ latitude: bar.longitude, longitude: bar.latitude }}
                     title={bar.name}
                     pinColor={colors.Radiance}
-                    onCalloutPress={() => handleMarkerPress({ latitude: 37.7749, longitude: -122.4194 })}
+                    onCalloutPress={() => handleMarkerPress({ latitude: bar.longitude, longitude:bar.latitude})}
 
                   >
                     <FontAwesome style={{ padding: 10 }} name="beer" size={22} color={colors.Radiance} />
