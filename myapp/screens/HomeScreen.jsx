@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated, Easing, Image } from 'react-native';
 import { useFonts } from 'expo-font';
+import { useDispatch, useSelector } from 'react-redux';
 
 function HomeScreen({ navigation }) {
   
+
+  const user = useSelector((state) => state.user.value);
+  const dispatch = useDispatch();
+
+
+
+
   const [fontsLoaded] = useFonts({
     'Poppins-Regular': require('../assets/Poppins-Regular.ttf'),
     'Voyage-Regular': require('../assets/Voyage-Regular.otf'),
@@ -21,9 +29,14 @@ function HomeScreen({ navigation }) {
     return null;
   }
 
-  const goToTabs = () => {
+const goToTabs = () => {
+  if (user.token && user.token.length > 0) {
+    navigation.navigate('MyTabs');
+  } else {
     navigation.navigate('Login');
-  };
+  }
+};
+
 
   return (
     <View style={styles.container}>

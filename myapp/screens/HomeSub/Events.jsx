@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator, Image, SafeAreaView } from 'react-native';
 
+
+
 const Events = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
+
+
+
 
   const fetchEvents = async () => {
     try {
@@ -87,9 +92,10 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginTop: 10,
+    marginTop: 15,
     marginBottom: 15,
     color: colors.Radiance,
+     fontFamily: 'BricolageGrotesque' ,
   },
   eventItem: {
     padding: 10,

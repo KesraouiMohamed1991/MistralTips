@@ -4,12 +4,21 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../reducers/user'; // Update with the correct path
+import { logout } from '../reducers/user'; 
 
-const Profile = () => {
+const Profile = ({navigation}) => {
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
-  console.log('from the profile',user);
+  // console.log('from the profile', user);
+  
+
+
+
+  function hundleLogOut() {
+    dispatch(logout())
+    navigation.navigate('Home');
+}
+
 
   return (
     <ScrollView style={styles.container}>
@@ -21,6 +30,10 @@ const Profile = () => {
         <FontAwesome name="user-circle" size={80} color={colors.DeepBlue} />
         <Text style={styles.profileName}>{user.username}</Text>
         <Text style={styles.profileEmail}>{user.mail}</Text>
+        <TouchableOpacity style={styles.logOut} onPress={hundleLogOut}>
+          <Text style={styles.logOutText}>Log Out</Text>
+        </TouchableOpacity>
+
       </View>
 
       <View style={styles.infoSection}>
@@ -156,6 +169,17 @@ const styles = StyleSheet.create({
     color: colors.Radiance,
     marginBottom: 10,
   },
+  logOut: {
+    marginVertical:10,
+    backgroundColor: colors.Radiance,
+    paddingHorizontal: 26,
+    paddingVertical: 12,
+    borderRadius:20,
+  }, 
+  logOutText: {
+    fontWeight: 'bold',
+    color:'white'
+  }
 });
 
 export default Profile;

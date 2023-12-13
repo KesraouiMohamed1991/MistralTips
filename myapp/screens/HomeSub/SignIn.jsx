@@ -43,9 +43,14 @@ const SignIn = ({ navigation }) => {
 
         if (result.result) {
 
-          const { mail, token, username } = result;
-            console.log(result);
-          
+          const { mail, token, username } = result.user;
+
+
+    //  console.log('show the result',result.user);
+          console.log(mail);
+          console.log(token);
+          console.log(username);
+          dispatch(login({username, mail, token}))
 
           navigation.navigate('MyTabs');
           setUsername('');
