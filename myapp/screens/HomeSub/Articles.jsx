@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator, Image, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, Image, SafeAreaView, TouchableOpacity } from 'react-native';
 
-const Articles = () => {
+const Articles = (navigation) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
@@ -38,11 +38,12 @@ const Articles = () => {
 
   const renderarticleItem = ({ item }) => (
     <View style={styles.articleItem}>
-      <Image style={styles.articleImage} source={{ uri: item.image }} />
-      <Text style={styles.articleTitle}>{item.titre}</Text>
-      <Text style={styles.articleDate}>{item.date.slice(0,10)}</Text>
-      <Text style={styles.articleDescription}>{item.description}</Text>
-      <Text style={styles.articleBar}>{item.bar}</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('ArticlesContent', {titre: item.titre})}>
+            <Image style={styles.articleImage} source={{ uri: item.image }} />
+            <Text style={styles.articleTitle}>{item.titre}</Text>
+            <Text style={styles.articleDate}>{item.date.slice(0,10)}</Text>
+            <Text style={styles.articleDescription}>{item.description}</Text>
+        </TouchableOpacity>
     </View>
   );
 
@@ -120,11 +121,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: colors.Midnight,
     textAlign: 'justify',
-  },
-  articleBar: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: colors.Midnight,
   },
   flatList: {
     marginTop: 10,
