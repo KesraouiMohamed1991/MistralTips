@@ -99,23 +99,21 @@ const styles = StyleSheet.create({
   },
   articleImage: {
     width: '100%',
-    height: 225,
+    height: 220,
     resizeMode: 'cover',
     marginBottom: 15,
     borderRadius:20,
   },
   articleTitle: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 5,
+    marginBottom: 10,
   },
   articleDate: {
     fontSize: 14,
     color: '#555',
     marginBottom: 5,
     color: colors.Midnight,
-
-
   },
   articleDescription: {
     fontSize: 16,

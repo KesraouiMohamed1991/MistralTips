@@ -40,9 +40,9 @@ const Events = () => {
     <View style={styles.eventItem}>
       <Image style={styles.eventImage} source={{ uri: item.image }} />
       <Text style={styles.eventTitle}>{item.titre}</Text>
+      <Text style={styles.eventBar}>Lieu : {item.bar}</Text>
       <Text style={styles.eventDate}>{item.date.slice(0,10)}</Text>
       <Text style={styles.eventDescription}>{item.description}</Text>
-      <Text style={styles.eventBar}>{item.bar}</Text>
     </View>
   );
 
@@ -92,40 +92,40 @@ const styles = StyleSheet.create({
     color: colors.Radiance,
   },
   eventItem: {
-    padding: 10,
+    padding: 5,
     borderBottomWidth: 1,
     borderBottomColor: colors.Midnight,
     marginBottom: 10,
   },
   eventImage: {
     width: '100%',
-    height: 200,
+    height: 220,
     resizeMode: 'cover',
-      marginBottom: 10,
+    marginBottom: 15,
     borderRadius:20,
   },
   eventTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 5,
+    marginBottom: 10,
   },
   eventDate: {
     fontSize: 14,
     color: '#555',
     marginBottom: 5,
     color: colors.Midnight,
-
-
   },
   eventDescription: {
     fontSize: 16,
     marginBottom: 10,
     color: colors.Midnight,
+    textAlign: 'justify',
   },
   eventBar: {
     fontSize: 16,
     fontWeight: 'bold',
     color: colors.Midnight,
+    marginBottom: 5,
   },
   flatList: {
     marginTop: 10,
