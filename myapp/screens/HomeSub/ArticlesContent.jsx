@@ -14,7 +14,6 @@ const ArticlesContent = ({ route }) => {
         const filteredData = await fetchArticlesData();
 
         const ArticleInfo = filteredData.filter((Article) => Article.title === title);
-        console.log(ArticleInfo);
 
         setData(ArticleInfo);
         setLoading(false);
@@ -50,12 +49,12 @@ const ArticlesContent = ({ route }) => {
         <Text style={styles.date}>{formatDate(article.date)}</Text>
 
         <View style={styles.contentSection}>
-          <Text style={styles.contentTitle}>Description:</Text>
+          <Text style={styles.contentTitle}>Description :</Text>
           <Text style={styles.contentText}>{article.description}</Text>
         </View>
 
         <View style={styles.contentSection}>
-          <Text style={styles.contentTitle}>Content:</Text>
+          <Text style={styles.contentTitle}>Content :</Text>
           <Text style={styles.contentText}>{article.content}</Text>
         </View>
       </SafeAreaView>
@@ -87,7 +86,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 22,
-    fontWeight: 'bold',
+    fontFamily: 'BricolageGrotesque',
     marginTop: 15,
     marginBottom: 10,
     color: colors.Radiance,
@@ -96,6 +95,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.Midnight,
     marginBottom: 10,
+    fontFamily: 'Poppins-Regular' ,
+
   },
   articleImage: {
     width: '100%',
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
   },
   contentTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily: 'BricolageGrotesque',
     marginBottom: 10,
     color: colors.Midnight,
   },
@@ -118,6 +119,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.Midnight,
     textAlign: 'justify',
+    fontFamily: 'Poppins-Regular' ,
+    
   },
   errorText: {
     color: 'red',

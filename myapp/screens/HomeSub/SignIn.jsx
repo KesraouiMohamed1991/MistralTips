@@ -26,9 +26,10 @@ const SignIn = ({ navigation }) => {
       }
 
       setLoading(true);
+const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
 
-      const response = await fetch('http://10.20.2.92:3000/bars/users/signin', {
-      // const response = await fetch('http://192.168.0.103:3000/bars/users/signin', {
+      // const response = await fetch('http://10.20.2.92:3000/bars/users/signin', {
+      const response = await fetch(`${BACKEND_ADDRESS}/bars/users/signin`, {
         method: 'POST',
         body: JSON.stringify({ username, password }),
         headers: {
@@ -48,9 +49,9 @@ const SignIn = ({ navigation }) => {
 
 
     //  console.log('show the result',result.user);
-          console.log(mail);
-          console.log(token);
-          console.log(username);
+          // console.log(mail);
+          // console.log(token);
+          // console.log(username);
           dispatch(login({username, mail, token}))
 
           navigation.navigate('MyTabs');

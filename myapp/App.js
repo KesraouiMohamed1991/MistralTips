@@ -3,8 +3,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-
-
 import { Provider } from 'react-redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -25,14 +23,12 @@ import SignIn from './screens/HomeSub/SignIn';
 import SignUp from './screens/HomeSub/SignUp';
 import Barpage from './screens/HomeSub/BarPage';
 import ArticlesContent from './screens/HomeSub/ArticlesContent';
+import EventsContent from './screens/HomeSub/EventsContent';
 
 
 const reducers = combineReducers({ user, bars });
 const persistConfig = { key: 'myapp', storage: AsyncStorage };
-// const store = configureStore({
-//   reducer: persistReducer(persistConfig, reducers),
-//   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
-// });
+
 
 
 const store = configureStore({
@@ -123,6 +119,7 @@ function App() {
             <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name="Barpage" component={Barpage} />
             <Stack.Screen name="ArticlesContent" component={ArticlesContent} />
+            <Stack.Screen name="EventsContent" component={EventsContent} />
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="MyTabs" component={MyTabs} />
           </Stack.Navigator>

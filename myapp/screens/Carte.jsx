@@ -7,7 +7,9 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { addData } from '../reducers/bars.js';
 
-const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
+const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
+// const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
+
 
 
 
@@ -48,21 +50,12 @@ const Carte = ({navigation}) => {
           latitude: e.lattitude,
         }));
       
-      
-      
       if (userData.length > 0) {
         return
       } else {
-        
         dispatch(addData(barsData));
         console.log(('we fetched'));
       }
-        
-
-
-      // console.log('before',barsData[0]);
-      // console.log('userData', userData[0]);
-      
 
     } catch (error) {
       console.error('Error fetching bar data:', error);
@@ -142,7 +135,7 @@ const Carte = ({navigation}) => {
 
             )}
 
-            {userData.slice(20,40).map((bar, index) => {
+            {userData.slice(20,100).map((bar, index) => {
               if (bar && bar.latitude !== null && bar.longitude !== null) {
                 return (
                   <Marker

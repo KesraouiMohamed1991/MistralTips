@@ -18,10 +18,11 @@ const EventsContent = ({route}) => {
                 const filteredData = await fetchEventsData();
     
                 const EventInfo = filteredData.filter((Event) => Event.title === title);
-                // console.log(EventInfo);
 
-                setData(EventInfo);   // Set the fetched data to the state
-                console.log(title);
+                setData(EventInfo); 
+
+
+
             } catch (error) {
             console.error('Error fetching data in EventsContent:', error);
         }
@@ -29,7 +30,7 @@ const EventsContent = ({route}) => {
     
     fetchData(); // Call the fetchData function immediately when the component mounts
     }, []);
-console.log(route);
+
 
     return (
     <View style={styles.container}>

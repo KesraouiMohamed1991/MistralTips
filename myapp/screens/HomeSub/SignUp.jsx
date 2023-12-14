@@ -27,9 +27,10 @@ const SignUp = ({ navigation }) => {
   if (username.length ===0 || password.length ===0) {
     return;
   }
+const BACKEND_ADDRESS = 'http://192.168.0.24:3000';
 
     try {
-      const response = await fetch('http://10.20.2.92:3000/bars/users/signup', {
+      const response = await fetch(`${BACKEND_ADDRESS}/bars/users/signup`, {
       // const response = await fetch('http://192.168.0.103:3000/bars/users/signup', {
         method: 'POST',
         body: JSON.stringify({
@@ -46,18 +47,7 @@ const SignUp = ({ navigation }) => {
 
       if (response.ok) {
         setLoading(false)
-    
-
-
         const result = await response.json();
-        console.log('Server response:', result);
-
-
-        console.log(result);
-          console.log('Server response:', result.mail);
-
-
-    
             dispatch(login({username, mail, token: result.token }))
 
         if (result.result) {

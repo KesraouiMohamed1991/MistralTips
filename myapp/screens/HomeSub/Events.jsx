@@ -9,12 +9,13 @@ const Events = ({navigation}) => {
   const [error, setError] = useState(false);
 
 
+const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
 
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch('http://10.20.2.92:3000/bars/events');
-      // const response = await fetch('http://192.168.0.103:3000/bars/events');
+      // const response = await fetch('http://10.20.2.92:3000/bars/events');
+      const response = await fetch('http://192.168.0.102:3000/bars/events');
 
       if (response.ok) {
         const result = await response.json();
@@ -44,8 +45,10 @@ const Events = ({navigation}) => {
 
   function handlePress(params) {
     navigation.navigate('EventsContent', {titre: params})
-    console.log(params);
   }
+
+
+
 
   const rendereventItem = ({ item }) => (
     <View style={styles.eventItem}>
@@ -98,11 +101,11 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily: 'BricolageGrotesque',
     marginTop: 30,
     marginBottom: 15,
     color: colors.Radiance,
-     fontFamily: 'BricolageGrotesque' ,
+    fontFamily: 'BricolageGrotesque' ,
   },
   eventItem: {
     padding: 5,
@@ -119,7 +122,7 @@ const styles = StyleSheet.create({
   },
   eventTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily: 'BricolageGrotesque' ,
     marginBottom: 10,
   },
   eventDate: {
@@ -127,12 +130,16 @@ const styles = StyleSheet.create({
     color: '#555',
     marginBottom: 5,
     color: colors.Midnight,
+    fontFamily: 'Poppins-Regular' ,
+
   },
   eventDescription: {
-    fontSize: 16,
+    fontSize: 12,
     marginBottom: 10,
     color: colors.Midnight,
     textAlign: 'justify',
+    fontFamily: 'Poppins-Regular' ,
+
   },
   eventBar: {
     fontSize: 16,
@@ -147,6 +154,8 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 16,
     marginTop: 20,
+    fontFamily: 'Poppins-Regular' ,
+
   },
 });
 

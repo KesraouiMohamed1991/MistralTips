@@ -10,8 +10,8 @@ const Articles = ({navigation}) => {
   const [error, setError] = useState(false);
   const fetcharticles = async () => {
     try {
-      const response = await fetch('http://10.20.2.92:3000/bars/blogs');
-      // const response = await fetch('http://192.168.0.103:3000/bars/blogs');
+      // const response = await fetch('http://10.20.2.92:3000/bars/blogs');
+      const response = await fetch('http://192.168.0.102:3000/bars/blogs');
 
       if (response.ok) {
         const result = await response.json();
@@ -92,8 +92,9 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   header: {
+    fontFamily: 'BricolageGrotesque',
     fontSize: 20,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     marginTop: 30,
     marginBottom: 15,
     color: colors.Radiance,
@@ -113,20 +114,26 @@ const styles = StyleSheet.create({
   },
   articleTitle: {
     fontSize: 22,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     marginBottom: 10,
+    fontFamily: 'BricolageGrotesque' ,
+
   },
   articleDate: {
     fontSize: 14,
     color: '#555',
     marginBottom: 5,
     color: colors.Midnight,
+    fontFamily: 'Poppins-Regular' ,
+
   },
   articleDescription: {
     fontSize: 16,
     marginBottom: 10,
     color: colors.Midnight,
     textAlign: 'justify',
+    fontFamily: 'Poppins-Regular' ,
+
   },
   flatList: {
     marginTop: 10,
@@ -135,6 +142,8 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 16,
     marginTop: 20,
+    fontFamily: 'BricolageGrotesque' ,
+
   },
 });
 

@@ -28,30 +28,24 @@ const { markerData } = route.params;
     if (!data || Object.keys(data).length === 0) {
         return (
             <View style={styles.loadingContainer}>
+            <Text style={{fontFamily: 'BricolageGrotesque', fontSize: 20,}}>Hi, Please wait...</Text>
                <ActivityIndicator size="large" color={colors.Radiance} />
             </View>
         );
     }
 
     const {
-        activitesEtEquipements,
         adresse,
-        caracteristiquesEtServices,
-        gps,
         horaires,
         image,
         name,
         note,
         numero,
         presentation,
-        prix,
-        site,
         type,
-        map
     
     } = data[0];
 
-    console.log(horaires);
 
     function goToBars() {
         navigation.navigate('Carte')
@@ -74,7 +68,7 @@ return (
         </View>
 
         <TouchableOpacity style={styles.icon} onPress={goToBars}>
-            <FontAwesome style={{ padding: 10 }} name="arrow-left" size={22} color={colors.Midnight} />
+            <FontAwesome style={{ padding: 10 }} name="arrow-left" size={22} color={colors.GoldenYellow} />
         </TouchableOpacity>
 
         <View style={styles.textContainer}>
@@ -101,13 +95,13 @@ return (
             <TouchableOpacity
             style={styles.showBtn}
                 onPress={hundleDetails}>
-                    <Text>Voir Horraires</Text>
+                    <Text>Voir Horaires</Text>
             </TouchableOpacity>
                 
             {Show&&<View style={styles.horaires}>
 
             {Object.entries(horaires).map(([day, hours]) => (
-            <Text key={day}>{`${day.charAt(0).toUpperCase() + day.slice(1)}: ${hours}`}</Text>
+            <Text key={day}>{`${day.charAt(0).toUpperCase() +  day.slice(1)}: ${ hours}`}</Text>
             ))}
             </View>}
 
@@ -128,12 +122,8 @@ return (
                 Favoris
                 </Text>
             </TouchableOpacity>
-                
             </View>
-
-
         </View>
-
     </ScrollView>
 );
 
@@ -178,57 +168,67 @@ const styles = StyleSheet.create({
     },
     barName: {
         fontSize: 20,
-        fontWeight:'bold',
+        fontFamily: 'BricolageGrotesque',
         marginVertical: 10,
         
     },
     baradresse: {
-        fontSize: 14,
+        fontSize: 12,
         marginVertical: 10,
-        color:'gray',
+        color: 'gray',
+        fontFamily: 'Poppins-Regular' ,
+        
         
 
-    }, barsNum: {
-        
+    },
+    barsNum: {
         fontSize: 15,
-        marginVertical:10,
+        marginVertical: 10,
+        fontFamily: 'Poppins-Regular' ,
 
-    }, barspresent: {
+    },
+    barspresent: {
         marginVertical:10,
         fontSize:15,
-        textAlign: 'justify'
+        textAlign: 'justify',
+        fontFamily: 'Poppins-Regular' ,
+
         
-        
-    }, barsType: {
+    },
+    barsType: {
         fontSize: 16,
         // color: colors.GoldenYellow,
-        // fontWeight:'bold',
-    
+        fontFamily: 'Poppins-Regular' ,
+
         
     }, icon: {
         top: 50, 
         left:10,
-        backgroundColor:colors.GoldenYellow,
+        backgroundColor:colors.Midnight,
         position: 'absolute',
         height: 50,
         width: 50,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 25,
+        fontFamily: 'Poppins-Regular' ,
+
     },
     
     btn: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingHorizontal: 28,
-    paddingVertical: 10,
-    backgroundColor: colors.GoldenYellow,
-    borderRadius: 30,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingHorizontal: 28,
+        paddingVertical: 10,
+        backgroundColor: colors.GoldenYellow,
+        borderRadius: 30,
         width: 260,
-    alignItems: 'center',
-    marginTop: 40,
-    }, btnText:{
-    fontWeight:'bold',
+        alignItems: 'center',
+        marginTop: 40,
+    },
+    btnText: {
+        fontFamily: 'BricolageGrotesque',
+        fontSize:18,
 
 
     }, horaires: {
@@ -236,19 +236,20 @@ const styles = StyleSheet.create({
         height:130,
         justifyContent: 'center',
         alignItems: 'center',
-        // backgroundColor: ,
-        borderRadius:20,
+        borderRadius: 20,
+        fontFamily: 'Poppins-Regular' ,
+        
     },
     showBtn: {
-            flexDirection: 'row',
-    justifyContent: 'center',
-    paddingHorizontal: 28,
-    paddingVertical: 10,
-    backgroundColor: colors.GoldenYellow,
-    borderRadius: 30,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingHorizontal: 28,
+        paddingVertical: 10,
+        backgroundColor: colors.GoldenYellow,
+        borderRadius: 30,
         width: 160,
-    alignItems: 'center',
-    marginTop: 40,
+        alignItems: 'center',
+        marginTop: 40,
     }
 });
 
