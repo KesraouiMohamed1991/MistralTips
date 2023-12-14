@@ -15,7 +15,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { addData } from '../reducers/bars.js';
 
-const BACKEND_ADDRESS = 'http://192.168.0.103:3000';
+const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
 
 
 
@@ -47,9 +47,9 @@ const Carte = ({navigation}) => {
           latitude: e.lattitude,
         }));
       
-      console.log('before',barsData[0]);
+      // console.log('before',barsData[0]);
       dispatch(addData(barsData));
-      console.log('userData', userData[0]);
+      // console.log('userData', userData[0]);
       
 
     } catch (error) {
@@ -129,7 +129,7 @@ const Carte = ({navigation}) => {
               </Marker>
             )}
 
-            {userData.map((bar, index) => {
+            {userData.slice(0,20).map((bar, index) => {
               if (bar && bar.latitude !== null && bar.longitude !== null) {
                 return (
                   <Marker
@@ -137,10 +137,12 @@ const Carte = ({navigation}) => {
                     coordinate={{ latitude: bar.longitude, longitude: bar.latitude }}
                     title={bar.name}
                     pinColor={colors.Radiance}
-                    onCalloutPress={() => handleMarkerPress({ latitude: bar.longitude, longitude:bar.latitude})}
+                    onCalloutPress={() => handleMarkerPress({ latitude: bar.longitude, longitude:bar.latitude, title:bar.name})}
 
                   >
-                    <FontAwesome style={{ padding: 10 }} name="beer" size={22} color={colors.Radiance} />
+
+                  
+                    <FontAwesome style={{ padding: 10 }} name="glass" size={22} color={colors.Radiance} />
                   </Marker>
                 );
               } else {

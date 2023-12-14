@@ -1,5 +1,5 @@
 // api.js
-const BACKEND_ADDRESS = 'http://192.168.0.103:3000';
+const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
 
 export const fetchBarsData = async () => {
     try {
@@ -12,6 +12,8 @@ export const fetchBarsData = async () => {
                 name: e.name,
                 longitude: e.longitude,
                 latitude: e.latitude,
+                name: e.name,
+                adress: e.adress
             }));
 
     } catch (error) {
