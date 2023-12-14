@@ -152,6 +152,8 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
     marginTop: 10,
+    fontFamily: 'Poppins-Regular' ,
+
   },
 });
 
