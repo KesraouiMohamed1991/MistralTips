@@ -10,7 +10,10 @@ import { fetchBarsData } from '../../design_utils/api';
 console.log('the log from the api',fetchBarsData());
 
 const Barpage = ({ route }) => {
+
     const { markerData } = route.params;
+
+    
         const starSize = 30;
   return (
     <ScrollView style={styles.container}>

@@ -1,34 +1,67 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator, Image, SafeAreaView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchArticlesData } from "../../design_utils/api";
 
-const ArticlesContent = (title) => {
+
+
+const ArticlesContent = ({route}) => {
+    const  title  = route.params.titre;
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [error, setError] = useState(false);
     const storedArticles = useSelector((state) => state.user.value.articles);
 
-    const articleDetails = storedArticles.filter((e) => {
-      e.titre !== title
-    })
-  
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const filteredData = await fetchArticlesData();
+    
+                const ArticleInfo = filteredData.filter((Article) => Article.title === title);
+                console.log(ArticleInfo);
+
+                setData(ArticleInfo);   // Set the fetched data to the state
+                console.log(data);
+            } catch (error) {
+            console.error('Error fetching data in ArticleContent:', error);
+        }
+    };
+    
+    fetchData(); // Call the fetchData function immediately when the component mounts
+    }, []);
+
+    
     return (
-    <SafeAreaView style={styles.container}>
-        <Text style={styles.header}>{articleDetails.titre}</Text>
+    <View style={styles.container}>
+        <Text>{title}</Text>
+        <Text>{data.date}</Text>
+        <Text>{data.contenu}</Text>
+
+        {/* <Text style={styles.header}>{data.titre}</Text>
         {loading ? (
         <ActivityIndicator size="large" color={colors.Radiance} />
         ) : error ? (
         <Text style={styles.errorText}>Error occurred while fetching articles</Text>
         ) : (
         <View style={styles.articleItem}>
-            <Image style={styles.articleImage} source={{ uri: articleDetails.image }} />
-            <Text style={styles.articleDate}>{articleDetails.date.slice(0,10)}</Text>
-            <Text style={styles.articleContent}>{articleDetails.contenu}</Text>
+            <Image style={styles.articleImage} source={{ uri: data.image }} />
+            <Text style={styles.articleDate}>{data.date.slice(0,10)}</Text>
+            <Text style={styles.articleContent}>{data.contenu}</Text>
         </View>
-        )}
-    </SafeAreaView>
+        )} */}
+    </View>
   );
 }
+
+const colors = {
+    Midnight: '#0f0a0a',
+    DeepBlue: '#191D88',
+    NavyBlue: '#1450A3',
+    RoyalBlue: '#337CCF',
+    Marseille: '#30AADD',
+    GoldenYellow: '#FFC436',
+    Radiance: '#ff6600',
+  };
 
   const styles = StyleSheet.create({
     container: {

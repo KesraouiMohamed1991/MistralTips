@@ -58,22 +58,6 @@ const Carte = ({navigation}) => {
   };
 
 
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
   useEffect(() => {
     const getLocationPermission = async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -95,6 +79,8 @@ const Carte = ({navigation}) => {
       <Text>yes</Text>
     </View>
   );
+
+  
 
   const handleMarkerPress = (marker) => {
     navigation.navigate('Barpage', { markerData: marker });

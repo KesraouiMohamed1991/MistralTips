@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator, Image, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, Image, SafeAreaView, Pressable, TouchableOpacity } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
-const Articles = (navigation) => {
+
+const Articles = ({navigation}) => {
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
-
-
   const fetcharticles = async () => {
     try {
       const response = await fetch('http://10.20.2.92:3000/bars/blogs');
@@ -38,9 +38,13 @@ const Articles = (navigation) => {
     fetcharticles();
   }, []);
 
+  function handlePress(params) {
+    navigation.navigate('ArticlesContent', {titre: params})
+  }
+
   const renderarticleItem = ({ item }) => (
     <View style={styles.articleItem}>
-        <TouchableOpacity onPress={() => navigation.navigate('ArticlesContent', {titre: item.titre})}>
+        <TouchableOpacity  onPress={() => handlePress(item.titre)}>
             <Image style={styles.articleImage} source={{ uri: item.image }} />
             <Text style={styles.articleTitle}>{item.titre}</Text>
             <Text style={styles.articleDate}>{item.date.slice(0,10)}</Text>

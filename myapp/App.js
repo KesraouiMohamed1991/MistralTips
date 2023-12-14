@@ -24,6 +24,7 @@ import Login from './screens/Login';
 import SignIn from './screens/HomeSub/SignIn';
 import SignUp from './screens/HomeSub/SignUp';
 import Barpage from './screens/HomeSub/BarPage';
+import ArticlesContent from './screens/HomeSub/ArticlesContent';
 
 
 const reducers = combineReducers({ user, bars });
@@ -121,7 +122,7 @@ function App() {
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name="Barpage" component={Barpage} />
-
+            <Stack.Screen name="ArticlesContent" component={ArticlesContent} />
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="MyTabs" component={MyTabs} />
           </Stack.Navigator>
