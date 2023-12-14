@@ -5,17 +5,8 @@ export const fetchBarsData = async () => {
     try {
         const response = await fetch(`${BACKEND_ADDRESS}/bars/all`);
         const data = await response.json();
-
-        return data
-            .filter((e) => e.latitude !== null && e.longitude !== null)
-            .map((e) => ({
-                name: e.name,
-                longitude: e.longitude,
-                latitude: e.latitude,
-                name: e.name,
-                adress: e.adress
-            }));
-
+        const filteredData = data.filter((e) => e.latitude !== null && e.longitude !== null);
+        return filteredData;
     } catch (error) {
         console.error('Error fetching bar data:', error);
         throw error;

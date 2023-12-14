@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     marginTop: 11,
     fontSize: 22,
     fontWeight: 'bold',
-    color: 'black',
+    color: colors.Radiance,
   },
   profileSection: {
     alignItems: 'center',
