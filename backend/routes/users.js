@@ -89,13 +89,7 @@ router.post('/users/signin', async (req, res) => {
       });
 
       console.log(user);
-
-
-
-
-
-
-
+      
     } else {
       res.json({ result: false, error: 'User not found or wrong password' });
     }

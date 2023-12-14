@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from 'react';
 import { View, StyleSheet, DrawerLayoutAndroid, Text, Button, Pressable, ActivityIndicator } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
@@ -63,22 +62,6 @@ const Carte = ({navigation}) => {
   };
 
 
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
   useEffect(() => {
     const getLocationPermission = async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -100,6 +83,8 @@ const Carte = ({navigation}) => {
       <Text>yes</Text>
     </View>
   );
+
+  
 
   const handleMarkerPress = (marker) => {
     navigation.navigate('Barpage', { markerData: marker });
