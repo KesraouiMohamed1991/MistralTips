@@ -12,9 +12,12 @@ export const barSlice = createSlice({
         addData: (state, action) => {
             state.value = action.payload; // Update to replace the array with the new data
         },
+        removeData: (state, action) => {
+            state.value = [];
+        },
     },
 });
 
-export const { addData } = barSlice.actions;
+export const { addData, removeData } = barSlice.actions;
 
 export default barSlice.reducer;

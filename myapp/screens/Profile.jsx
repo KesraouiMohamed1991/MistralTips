@@ -5,6 +5,8 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../reducers/user'; 
+import { removeData } from '../reducers/bars'; 
+
 
 const Profile = ({navigation}) => {
   const user = useSelector((state) => state.user.value);
@@ -16,6 +18,9 @@ const Profile = ({navigation}) => {
 
   function hundleLogOut() {
     dispatch(logout())
+    dispatch(removeData())
+
+
     navigation.navigate('Home');
 }
 

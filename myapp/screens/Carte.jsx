@@ -33,6 +33,7 @@ const Carte = ({navigation}) => {
   const dispatch = useDispatch();
 
   const getBarsData = async () => {
+
     try {
       setLoading(true);
       const response = await fetch(`${BACKEND_ADDRESS}/bars/all`);
@@ -48,10 +49,17 @@ const Carte = ({navigation}) => {
         }));
       
       
-      if (!userData) {
-      dispatch(addData(barsData));
+      
+      if (userData.length > 0) {
+        return
+      } else {
         
+        dispatch(addData(barsData));
+        console.log(('we fetched'));
       }
+        
+
+
       // console.log('before',barsData[0]);
       // console.log('userData', userData[0]);
       
@@ -134,7 +142,7 @@ const Carte = ({navigation}) => {
 
             )}
 
-            {userData.slice(20,100).map((bar, index) => {
+            {userData.slice(20,40).map((bar, index) => {
               if (bar && bar.latitude !== null && bar.longitude !== null) {
                 return (
                   <Marker
@@ -155,6 +163,7 @@ const Carte = ({navigation}) => {
           </MapView>
         )}
 
+        {/* <FontAwesomeIcon icon="fa-solid fa-hand-middle-finger" /> */}
 
         <Pressable style={styles.btnDrawer} onPress={() => drawer.current.openDrawer()}>
           <FontAwesome style={{ padding: 10 }} name="bars" size={40} color={colors.Radiance} />
