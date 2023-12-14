@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { View, StyleSheet, DrawerLayoutAndroid, Text, Button, Pressable, ActivityIndicator } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { addData } from '../reducers/bars.js';
 
 const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
-
 
 
 
@@ -19,7 +18,7 @@ const colors = {
   Marseille: '#30AADD',
   GoldenYellow: '#FFC436',
   Radiance: '#ff6600',
-}
+};
 
 
 
@@ -33,6 +32,7 @@ const Carte = ({navigation}) => {
   const dispatch = useDispatch();
 
   const getBarsData = async () => {
+
     try {
       setLoading(true);
       const response = await fetch(`${BACKEND_ADDRESS}/bars/all`);
@@ -47,8 +47,19 @@ const Carte = ({navigation}) => {
           latitude: e.lattitude,
         }));
       
+      
+      
+      if (userData.length > 0) {
+        return
+      } else {
+        
+        dispatch(addData(barsData));
+        console.log(('we fetched'));
+      }
+        
+
+
       // console.log('before',barsData[0]);
-      dispatch(addData(barsData));
       // console.log('userData', userData[0]);
       
 
@@ -93,7 +104,7 @@ const Carte = ({navigation}) => {
         {loading ? (
           <View style={styles.loaderContainer}>
             
-            <Text style={{fontFamily: 'BricolageGrotesque', fontSize: 26,}}>Hi, Please wait...</Text>
+            <Text style={{fontFamily: 'BricolageGrotesque', fontSize: 20,}}>Hi, Please wait...</Text>
       <ActivityIndicator size="large" color={colors.Radiance} />
     </View>        ) : (
           <MapView
@@ -106,16 +117,17 @@ const Carte = ({navigation}) => {
             style={styles.map} // Updated map style
           >
             {currentPosition && (
-              <Marker
-                coordinate={currentPosition}
-                title="Vous êtes ici"
-                pinColor={colors.Radiance}
-              >
-                <FontAwesome style={{ padding: 10 }} name="user" size={30} color={colors.DeepBlue} />
-              </Marker>
+            <Marker
+            coordinate={currentPosition}
+            title="Vous êtes ici"
+            pinColor={colors.NavyBlue}
+            >
+
+            </Marker>
+
             )}
 
-            {userData.slice(0,20).map((bar, index) => {
+            {userData.slice(20,40).map((bar, index) => {
               if (bar && bar.latitude !== null && bar.longitude !== null) {
                 return (
                   <Marker
@@ -123,11 +135,8 @@ const Carte = ({navigation}) => {
                     coordinate={{ latitude: bar.longitude, longitude: bar.latitude }}
                     title={bar.name}
                     pinColor={colors.Radiance}
-                    onCalloutPress={() => handleMarkerPress({ latitude: bar.longitude, longitude:bar.latitude, title:bar.name})}
-
+                    onCalloutPress={() => handleMarkerPress({title:bar.name})}
                   >
-
-                  
                     <FontAwesome style={{ padding: 10 }} name="glass" size={22} color={colors.Radiance} />
                   </Marker>
                 );
@@ -138,6 +147,8 @@ const Carte = ({navigation}) => {
             })}
           </MapView>
         )}
+
+        {/* <FontAwesomeIcon icon="fa-solid fa-hand-middle-finger" /> */}
 
         <Pressable style={styles.btnDrawer} onPress={() => drawer.current.openDrawer()}>
           <FontAwesome style={{ padding: 10 }} name="bars" size={40} color={colors.Radiance} />

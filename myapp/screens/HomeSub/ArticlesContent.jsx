@@ -119,4 +119,4 @@ const styles = StyleSheet.create({
   });
 
 
-export default ArticlesContent;
+  export default ArticlesContent;
