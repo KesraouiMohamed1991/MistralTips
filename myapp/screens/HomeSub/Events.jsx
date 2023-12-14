@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator, Image, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, Image, SafeAreaView, TouchableOpacity } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 
-
-const Events = () => {
+const Events = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
@@ -42,13 +42,19 @@ const Events = () => {
     fetchEvents();
   }, []);
 
-  const renderEventItem = ({ item }) => (
+  function handlePress(params) {
+    navigation.navigate('EventsContent', {titre: params})
+    console.log(params);
+  }
+
+  const rendereventItem = ({ item }) => (
     <View style={styles.eventItem}>
-      <Image style={styles.eventImage} source={{ uri: item.image }} />
-      <Text style={styles.eventTitle}>{item.titre}</Text>
-      <Text style={styles.eventBar}>Lieu : {item.bar}</Text>
-      <Text style={styles.eventDate}>{item.date.slice(0,10)}</Text>
-      <Text style={styles.eventDescription}>{item.description}</Text>
+        <TouchableOpacity  onPress={() => handlePress(item.titre)}>
+            <Image style={styles.eventImage} source={{ uri: item.image }} />
+            <Text style={styles.eventTitle}>{item.titre}</Text>
+            <Text style={styles.eventDate}>{item.date.slice(0,10)}</Text>
+            <Text style={styles.eventDescription}>{item.description}</Text>
+        </TouchableOpacity>
     </View>
   );
 
@@ -58,12 +64,12 @@ const Events = () => {
       {loading ? (
         <ActivityIndicator size="large" color={colors.Radiance} />
       ) : error ? (
-        <Text style={styles.errorText}>Error occurred while fetching events</Text>
+        <Text style={styles.errorText}>Error occurred while fetching articles</Text>
       ) : (
         <FlatList
           data={data}
           keyExtractor={(item) => item.date}
-          renderItem={renderEventItem}
+          renderItem={rendereventItem}
           style={styles.flatList}
           
         />

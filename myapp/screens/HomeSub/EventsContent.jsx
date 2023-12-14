@@ -1,36 +1,68 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator, Image, SafeAreaView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchEventsData } from "../../design_utils/api";
 
-const EventsContent = (title) => {
+
+
+const EventsContent = ({route}) => {
+    const  title  = route.params.titre;
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [error, setError] = useState(false);
     const storedEvents = useSelector((state) => state.user.value.events);
     
-    const eventDetails = storedEvents.filter((e) => {
-        e.titre !== title
-    })
-  
-  return (
-    <SafeAreaView style={styles.container}>
-        <Text style={styles.header}>{eventDetails.titre}</Text>
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const filteredData = await fetchEventsData();
+    
+                const EventInfo = filteredData.filter((Event) => Event.title === title);
+                // console.log(EventInfo);
+
+                setData(EventInfo);   // Set the fetched data to the state
+                console.log(title);
+            } catch (error) {
+            console.error('Error fetching data in EventsContent:', error);
+        }
+    };
+    
+    fetchData(); // Call the fetchData function immediately when the component mounts
+    }, []);
+console.log(route);
+
+    return (
+    <View style={styles.container}>
+        <Text>{title}</Text>
+        {/* <Text>{data.date}</Text>
+        <Text>{data.content}</Text> */}
+
+        {/* <Text style={styles.header}>{data.titre}</Text>
         {loading ? (
         <ActivityIndicator size="large" color={colors.Radiance} />
         ) : error ? (
-        <Text style={styles.errorText}>Error occurred while fetching articles</Text>
+        <Text style={styles.errorText}>Error occurred while fetching events</Text>
         ) : (
         <View style={styles.eventItem}>
-            <Image style={styles.eventImage} source={{ uri: eventDetails.image }} />
-            <Text style={styles.eventDate}>{eventDetails.date.slice(0,10)}</Text>
-            <Text style={styles.eventContent}>{eventDetails.contenu}</Text>
+            <Image style={styles.eventImage} source={{ uri: data.image }} />
+            <Text style={styles.eventDate}>{data.date.slice(0,10)}</Text>
+            <Text style={styles.eventContent}>{data.contenu}</Text>
         </View>
-        )}
-    </SafeAreaView>
-  );
-}
+        )} */}
+    </View>
+      );
+    }
 
-  const styles = StyleSheet.create({
+const colors = {
+    Midnight: '#0f0a0a',
+    DeepBlue: '#191D88',
+    NavyBlue: '#1450A3',
+    RoyalBlue: '#337CCF',
+    Marseille: '#30AADD',
+    GoldenYellow: '#FFC436',
+    Radiance: '#ff6600',
+};
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
@@ -83,7 +115,7 @@ const EventsContent = (title) => {
         fontSize: 16,
         marginTop: 20,
     },
-  });
+    });
 
 
 
