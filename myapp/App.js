@@ -2,12 +2,18 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+
+
 import { Provider } from 'react-redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import user from './reducers/user';
+import bars from './reducers/bars';
+
+
 
 import Carte from './screens/Carte';
 import Profile from './screens/Profile';
@@ -15,18 +21,31 @@ import HomeScreen from './screens/HomeScreen';
 import Events from './screens/HomeSub/Events';
 import Articles from './screens/HomeSub/Articles';
 import Login from './screens/Login';
-
 import SignIn from './screens/HomeSub/SignIn';
-
 import SignUp from './screens/HomeSub/SignUp';
+import Barpage from './screens/HomeSub/BarPage';
 
 
-const reducers = combineReducers({ user });
+const reducers = combineReducers({ user, bars });
 const persistConfig = { key: 'myapp', storage: AsyncStorage };
+// const store = configureStore({
+//   reducer: persistReducer(persistConfig, reducers),
+//   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
+// });
+
+
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false, // Disable the middleware causing the warning
+      immutableCheck: false, // Disable immutable state checks
+    }),
 });
+
+
+
+
 const persistor = persistStore(store);
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -92,13 +111,7 @@ const MyTabs = () => {
 
 function App() {
   return (
-    // <NavigationContainer>
-    //   <Stack.Navigator screenOptions={{ headerShown: false }}>
-    //     <Stack.Screen name="Home" component={HomeScreen} />
-    //     <Stack.Screen name="Login" component={Login} />
-    //     <Stack.Screen name="MyTabs" component={MyTabs} />
-    //   </Stack.Navigator>
-    // </NavigationContainer>
+
 
     <Provider store={store}>
       <PersistGate persistor={persistor}>
@@ -107,6 +120,8 @@ function App() {
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="Barpage" component={Barpage} />
+
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="MyTabs" component={MyTabs} />
           </Stack.Navigator>

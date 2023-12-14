@@ -14,6 +14,7 @@ const Events = () => {
   const fetchEvents = async () => {
     try {
       const response = await fetch('http://10.20.2.92:3000/bars/events');
+      // const response = await fetch('http://192.168.0.103:3000/bars/events');
 
       if (response.ok) {
         const result = await response.json();

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Animated, Easing, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useFonts } from 'expo-font';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -8,7 +8,6 @@ function HomeScreen({ navigation }) {
 
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
-
 
 
 
@@ -42,13 +41,10 @@ const goToTabs = () => {
     <View style={styles.container}>
 
       <View style={styles.logoHolder}>
-
             <Image source={require('../assets/bg.png')} style={styles.logoImage} />
 
-
-
       <View style={styles.logo}>
-        <Text style={{ fontFamily: 'BricolageGrotesque', fontSize: 36 }}> 🥂  MistralTip's 🍾</Text>
+        <Text style={{ fontFamily: 'BricolageGrotesque', fontSize: 36, width:'100%' }}> 🥂  MistralTip's 🍾</Text>
         <Text style={{ fontFamily: 'BricolageGrotesque', fontSize: 16 }}>✻ Explorez, Connectez, Vivez ✻</Text>
       </View>
       </View>

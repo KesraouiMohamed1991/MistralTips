@@ -1,12 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, StyleSheet, DrawerLayoutAndroid, Text, Button, Pressable } from 'react-native';
-
+import { View, StyleSheet, DrawerLayoutAndroid, Text, Button, Pressable, ActivityIndicator } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { useDispatch, useSelector } from 'react-redux';
+import { addData } from '../reducers/bars.js';
+
+const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
 
 
-const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
+
 
 const colors = {
   Midnight: '#0f0a0a',
@@ -16,17 +19,25 @@ const colors = {
   Marseille: '#30AADD',
   GoldenYellow: '#FFC436',
   Radiance: '#ff6600',
-};
+}
 
-export default function Carte() {
+
+
+
+const Carte = ({navigation}) => {
   const [currentPosition, setCurrentPosition] = useState(null);
-  const [barsLoc, setBarsLoc] = useState([]);
   const drawer = useRef(null);
+  const [loading, setLoading] = useState(true);
+
+  const userData = useSelector((state) => state.bars.value);
+  const dispatch = useDispatch();
 
   const getBarsData = async () => {
     try {
+      setLoading(true);
       const response = await fetch(`${BACKEND_ADDRESS}/bars/all`);
       const data = await response.json();
+      setLoading(false);
 
       const barsData = data
         .filter((e) => e.lattitude !== null && e.longitude !== null)
@@ -35,25 +46,47 @@ export default function Carte() {
           longitude: e.longitude,
           latitude: e.lattitude,
         }));
+      
+      // console.log('before',barsData[0]);
+      dispatch(addData(barsData));
+      // console.log('userData', userData[0]);
+      
 
-      setBarsLoc(barsData);
     } catch (error) {
       console.error('Error fetching bar data:', error);
     }
   };
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
 
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+  useEffect(() => {
+    const getLocationPermission = async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
       if (status === 'granted') {
         Location.watchPositionAsync({ distanceInterval: 10 }, (location) => {
           setCurrentPosition(location.coords);
           getBarsData();
         });
       }
-    })();
-  }, [drawer]);
+    };
+
+    getLocationPermission();
+  }, []);
 
   const navigationView = () => (
     <View style={[styles.container, styles.navigationContainer]}>
@@ -63,70 +96,70 @@ export default function Carte() {
     </View>
   );
 
+  const handleMarkerPress = (marker) => {
+    navigation.navigate('Barpage', { markerData: marker });
+  };
+
 
   return (
-    <DrawerLayoutAndroid
-      ref={drawer}
-      drawerWidth={300}
-      renderNavigationView={navigationView}>
-      
+    <DrawerLayoutAndroid ref={drawer} drawerWidth={300} renderNavigationView={navigationView}>
       <View style={styles.container}>
-        {/* <MapView
-          initialRegion={{
-            latitude: 43.300000,
-            longitude: 5.4,
-            latitudeDelta: 0.1,
-            longitudeDelta: 0.0421,
-          }}
-          style={{ flex: 1 }}
-        >
-          {currentPosition && (
-            <Marker
-              coordinate={currentPosition}
-              title="Vous êtes ici"
-              pinColor={colors.Radiance}
-            />
-          )}
+        {loading ? (
+          <View style={styles.loaderContainer}>
+            
+            <Text style={{fontFamily: 'BricolageGrotesque', fontSize: 26,}}>Hi, Please wait...</Text>
+      <ActivityIndicator size="large" color={colors.Radiance} />
+    </View>        ) : (
+          <MapView
+            initialRegion={{
+              latitude: currentPosition ? currentPosition.latitude : 43.300000,
+              longitude: currentPosition ? currentPosition.longitude : 5.4,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.0121,
+            }}
+            style={styles.map} // Updated map style
+          >
+            {currentPosition && (
+              <Marker
+                coordinate={currentPosition}
+                title="Vous êtes ici"
+                pinColor={colors.Radiance}
+              >
+                <FontAwesome style={{ padding: 10 }} name="user" size={30} color={colors.DeepBlue} />
+              </Marker>
+            )}
 
-          {barsLoc.map((bar, index) => {
-            if (bar.latitude !== null && bar.longitude !== null) {
-              return (
-                <Marker
-                  key={index}
-                  coordinate={{ latitude: bar.longitude, longitude: bar.latitude }}
-                  title={bar.name}
-                  pinColor={colors.Radiance}
-                >
-                  <FontAwesome
-                    style={{ padding: 10 }}
-                    name="beer"
-                    size={20}
-                    color={colors.Radiance}
-                  />
-                </Marker>
-              );
-            } else {
-              console.error(`Invalid coordinates for marker with index ${index}:`, bar);
-              return null;
-            }
-          })}
-        </MapView> */}
+            {userData.slice(0,20).map((bar, index) => {
+              if (bar && bar.latitude !== null && bar.longitude !== null) {
+                return (
+                  <Marker
+                    key={index}
+                    coordinate={{ latitude: bar.longitude, longitude: bar.latitude }}
+                    title={bar.name}
+                    pinColor={colors.Radiance}
+                    onCalloutPress={() => handleMarkerPress({ latitude: bar.longitude, longitude:bar.latitude, title:bar.name})}
 
-        <Pressable
-          style={styles.btnDrawer}
-          onPress={() => drawer.current.openDrawer()}
-        >
-                <FontAwesome
-          style={{ padding: 10 }}
-          name="bars"
-          size={40}
-          color={colors.Radiance}
-        />
+                  >
+
+                  
+                    <FontAwesome style={{ padding: 10 }} name="glass" size={22} color={colors.Radiance} />
+                  </Marker>
+                );
+              } else {
+                console.error(`Invalid coordinates for marker with index ${index}:`, bar);
+                return null;
+              }
+            })}
+          </MapView>
+        )}
+
+        <Pressable style={styles.btnDrawer} onPress={() => drawer.current.openDrawer()}>
+          <FontAwesome style={{ padding: 10 }} name="bars" size={40} color={colors.Radiance} />
         </Pressable>
       </View>
     </DrawerLayoutAndroid>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -143,8 +176,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 50,
     left: 30,
+  },  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  textDrawerBtn: {
-    backgroundColor:colors.Radiance
-  }
+  map: {
+    flex: 1,
+  }, // Added map style
 });
+
+export default Carte;
+Carte.js
