@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, StyleSheet, DrawerLayoutAndroid, Text, Button, Pressable, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Modal, Text, Button, Pressable, ActivityIndicator, Alert } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { addData } from '../reducers/bars.js';
 
-const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
-// const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
+// const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
+const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
 
 
 
@@ -27,8 +27,9 @@ const colors = {
 
 const Carte = ({navigation}) => {
   const [currentPosition, setCurrentPosition] = useState(null);
-  const drawer = useRef(null);
+  const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [buttonSwitch, setButtonSwitch] = useState(false);
 
   const userData = useSelector((state) => state.bars.value);
   const dispatch = useDispatch();
@@ -75,24 +76,18 @@ const Carte = ({navigation}) => {
 
     getLocationPermission();
   }, []);
-
-  const navigationView = () => (
-    <View style={[styles.container, styles.navigationContainer]}>
-      <Text style={styles.paragraph}>I'm in the Drawer!</Text>
-      <Button title="Close drawer" onPress={() => drawer.current.closeDrawer()} />
-      <Text>yes</Text>
-    </View>
-  );
-
   
 
   const handleMarkerPress = (marker) => {
     navigation.navigate('Barpage', { markerData: marker });
   };
 
+  const handleModalVisibility = ()=> {
+    setModalVisible(!modalVisible);
+    setButtonSwitch(!buttonSwitch)
+  }
 
   return (
-    <DrawerLayoutAndroid ref={drawer} drawerWidth={300} renderNavigationView={navigationView}>
       <View style={styles.container}>
         {loading ? (
           <View style={styles.loaderContainer}>
@@ -100,6 +95,32 @@ const Carte = ({navigation}) => {
             <Text style={{fontFamily: 'BricolageGrotesque', fontSize: 20,}}>Hi, Please wait...</Text>
       <ActivityIndicator size="large" color={colors.Radiance} />
     </View>        ) : (
+           
+           <>
+           <View 
+          //  style={{backgroundColor: 'lime', flex: 1, height: 200, width: '100%'}}
+          >
+           <Modal 
+          //  style={{backgroundColor: 'pink'}}
+           animationType="slide"
+           transparent={true}
+           visible={modalVisible}
+           onRequestClose={() => {
+             Alert.alert('Modal has been closed.');
+             setModalVisible(!modalVisible);
+           }}
+          >
+               <Pressable style={styles.buttonClose}
+                 onPress={() => setModalVisible(!modalVisible)}>
+                 <FontAwesome style={{ padding: 10 }} name="sliders" size={40} color={colors.Midnight} />
+               </Pressable>
+           <View style={styles.modalContainer}>
+             <View style={styles.modalView}>
+               <Text style={styles.modalText}>Make your choice!</Text>
+             </View>
+           </View>
+          </Modal>
+          </View>
           <MapView
             initialRegion={{
               latitude: currentPosition ? currentPosition.latitude : 43.300000,
@@ -139,34 +160,65 @@ const Carte = ({navigation}) => {
               }
             })}
           </MapView>
+          </>
         )}
 
         {/* <FontAwesomeIcon icon="fa-solid fa-hand-middle-finger" /> */}
 
-        <Pressable style={styles.btnDrawer} onPress={() => drawer.current.openDrawer()}>
-          <FontAwesome style={{ padding: 10 }} name="bars" size={40} color={colors.Radiance} />
+        <Pressable style={styles.btnModal} onPress={()=> { handleModalVisibility() }}>
+          <FontAwesome style={{ padding: 10 }} name="sliders" size={40} color={colors.Radiance} />
         </Pressable>
       </View>
-    </DrawerLayoutAndroid>
   );
 };
 
 const styles = StyleSheet.create({
+  centeredView: {
+
+  },
   container: {
     flex: 1,
     backgroundColor: colors.Marseille,
   },
-  navigationContainer: {
-    backgroundColor: '#ecf0f1',
-    padding: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  btnDrawer: {
+  btnModal: {
     position: 'absolute',
     top: 50,
-    left: 30,
-  },  loaderContainer: {
+    right: 25,
+  },  
+  buttonClose: {
+    position: 'absolute',
+    top: 16,
+    right: 25,
+  },  
+  modalContainer: {
+    height : 500,
+    width: 290,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // marginTop: 200,
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+      },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 10,
+    },
+    // modalView: {
+    //   height: 250,
+    // },
+    modalText: {
+      fontSize: 18,
+      textAlign: 'center',
+      marginVertical: 10,
+    },
+  loaderContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

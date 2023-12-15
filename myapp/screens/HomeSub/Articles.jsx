@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator, Image, SafeAreaView, Pressable, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-
 const Articles = ({navigation}) => {
+
+  // const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
+const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -11,7 +13,7 @@ const Articles = ({navigation}) => {
   const fetcharticles = async () => {
     try {
       // const response = await fetch('http://10.20.2.92:3000/bars/blogs');
-      const response = await fetch('http://192.168.0.102:3000/bars/blogs');
+      const response = await fetch(`${BACKEND_ADDRESS}/bars/blogs`);
 
       if (response.ok) {
         const result = await response.json();

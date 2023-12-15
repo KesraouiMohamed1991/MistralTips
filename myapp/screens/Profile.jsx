@@ -5,6 +5,10 @@
   import { useDispatch, useSelector } from 'react-redux';
   import { logout } from '../reducers/user'; 
   import { removeData } from '../reducers/bars'; 
+  import { fetchUserAccount } from '../../design_utils/api';
+
+// const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
+const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
 
 
   const Profile = ({ navigation }) => {
@@ -39,6 +43,69 @@
       );
   }
 
+  
+  useEffect(() => {
+    
+    // Show an alert to confirm the user's intention
+    Alert.alert(
+        'Suppression du compte',
+        'Etes-vous sûr de vouloir supprimer votre compte?',
+        [
+            {
+                text: 'Cancel',
+                style: 'cancel',
+            },
+            {
+                text: 'Supprimer',
+                // Suppression du compte dans la DB
+                onPress: () => {
+                  const deleteAccount = async () => {
+                  try {
+                      const response = await fetchUserAccount()
+              
+                      
+                    } catch (error) {
+                      console.error('Error fetching data in ArticleContent:', error);
+                      setError(true);
+                      setLoading(false);
+                    }
+                  
+              
+                  
+                 
+                    // Dispatch logout and removeData actions
+                    dispatch(logout());
+                    dispatch(removeData());
+                    
+                    // Navigate to the Home screen
+                    navigation.navigate('Home');
+                }
+            },
+            }
+        ],
+        { cancelable: false }
+    );
+  } , []);
+
+
+//   const fetchUserAccount = async () => {
+//     try {
+//         const response = await fetch(`${BACKEND_ADDRESS}/bars/users/deleteOne`, {
+//             method: 'DELETE',
+//             headers: { 'Content-Type': 'application/json' },
+//             body: JSON.stringify(user.username),
+//           }).then(response => response.json())
+//             .then(data => {
+//               data.result;
+//               console.log(data.result);
+//             });
+//             console.log(user.username);
+//     } catch (error) {
+//         console.error('Error fetching bar data:', error);
+//         throw error;
+//     }
+// };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
@@ -53,6 +120,7 @@
         <TouchableOpacity style={styles.logOut} onPress={hundleLogOut}>
           <Text style={styles.logOutText}>Log Out</Text>
         </TouchableOpacity>
+        <Text style={styles.deleteAccount} onPress={() => deleteAccount()}>Supprimer mon compte</Text>
 
       </View>
 
@@ -207,6 +275,13 @@
       fontFamily: 'BricolageGrotesque',
       color: 'white',
       
+    },
+    deleteAccount: {
+      fontFamily: 'BricolageGrotesque',
+      color: 'red',
+      fontSize: 12,
+      padding: 10,
+      textDecorationLine: 'underline',
     }
   });
 
