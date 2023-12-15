@@ -61,6 +61,7 @@ const articleSchema = {
     date: Date,
     image: String,
     adresse: String,
+    content: String,
 };
 
 
@@ -71,7 +72,7 @@ const eventSchema = {
     date: Date,
     image: String,
     adresse: String,
-   // bar: {type: mongoose.Schema.Types.ObjectId, ref: 'bars'},
+    // bar: {type: mongoose.Schema.Types.ObjectId, ref: 'bars'},
 };
 
 const Bar = mongoose.model('bars', barSchema);

@@ -52,7 +52,7 @@ const goToTabs = () => {
 
       <TouchableOpacity style={styles.btn} onPress={goToTabs}>
 
-      <Text style={{fontFamily: 'BricolageGrotesque'} }>Explorer →</Text>
+      <Text style={styles.btnText }>Explorer →</Text>
       </TouchableOpacity>
     </View>
   );
@@ -99,10 +99,10 @@ const styles = StyleSheet.create({
     fontFamily: 'OverusedGrotesk',
   },
   btnText: {
-    color: colors.DeepBlue,
-    fontWeight: '900',
+        color:colors.DeepBlue,
+    
     fontFamily: 'BricolageGrotesque',
-    fontSize: 20,
+    fontSize: 22,
   },
   logoImage: {
     height: 100,

@@ -13,7 +13,7 @@ import bars from './reducers/bars';
 
 
 
-import Carte from './screens/Carte';
+import Carte from '../myapp/screens/Carte';
 import Profile from './screens/Profile';
 import HomeScreen from './screens/HomeScreen';
 import Events from './screens/HomeSub/Events';
@@ -39,11 +39,11 @@ const store = configureStore({
       immutableCheck: false, // Disable immutable state checks
     }),
 });
-
-
-
-
 const persistor = persistStore(store);
+
+
+
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const colors = {

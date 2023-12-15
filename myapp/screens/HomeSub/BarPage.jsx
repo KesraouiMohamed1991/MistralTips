@@ -55,8 +55,6 @@ const { markerData } = route.params;
 function hundleDetails() {
 setShow(!Show)
 }
-    
-    
 
 return (
     <ScrollView style={styles.container}>
@@ -115,13 +113,14 @@ return (
                 style={{ padding: 10 }}
                 name="heart"
                 size={20}
-                color={colors.Midnight}
+                color={colors.Radiance}
                 /> 
 
                 <Text style={styles.btnText}>
                 Favoris
                 </Text>
-            </TouchableOpacity>
+                </TouchableOpacity>
+                
             </View>
         </View>
     </ScrollView>
@@ -228,7 +227,8 @@ const styles = StyleSheet.create({
     },
     btnText: {
         fontFamily: 'BricolageGrotesque',
-        fontSize:18,
+        fontSize: 18,
+        color:colors.DeepBlue
 
 
     }, horaires: {
