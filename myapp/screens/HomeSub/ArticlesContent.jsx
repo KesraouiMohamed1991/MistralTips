@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, ActivityIndicator, SafeAreaView } from 'react-native';
 import { fetchArticlesData } from '../../design_utils/api';
 
 const ArticlesContent = ({ route }) => {
@@ -28,11 +28,18 @@ const ArticlesContent = ({ route }) => {
 
   const renderContentSection = () => {
     if (loading) {
-      return <ActivityIndicator size="large" color={colors.Radiance} />;
+      return        <View style={{marginVertical:400}} >
+          <ActivityIndicator size="large" color={colors.Radiance} />
+        </View>
+    
     }
 
     if (error) {
-      return <Text style={styles.errorText}>Error occurred while fetching articles</Text>;
+      return<>
+        <Text style={styles.errorText}>Error occurred while fetching articles</Text>;
+      
+      </>
+    
     }
 
     if (!data || data.length === 0) {
@@ -42,26 +49,28 @@ const ArticlesContent = ({ route }) => {
     const article = data[0];
 
     return (
-      <View style={styles.section}>
+      <SafeAreaView style={styles.section}>
             <Text style={styles.header}>Articles Page </Text>
         <Image style={styles.articleImage} source={{ uri: article.img }} />
         <Text style={styles.title}>{article.title}</Text>
         <Text style={styles.date}>{formatDate(article.date)}</Text>
 
         <View style={styles.contentSection}>
-          <Text style={styles.contentTitle}>Description:</Text>
+          <Text style={styles.contentTitle}>Description :</Text>
           <Text style={styles.contentText}>{article.description}</Text>
         </View>
 
         <View style={styles.contentSection}>
-          <Text style={styles.contentTitle}>Content:</Text>
+          <Text style={styles.contentTitle}>Content :</Text>
           <Text style={styles.contentText}>{article.content}</Text>
         </View>
-      </View>
+      </SafeAreaView>
     );
   };
 
-  return <ScrollView style={styles.container}>{renderContentSection()}</ScrollView>;
+  return   <SafeAreaView style={{ flex: 1 }}>
+    <ScrollView style={styles.container}>{renderContentSection()}</ScrollView>
+  </SafeAreaView>
 };
 
 const formatDate = (dateString) => {
@@ -77,6 +86,7 @@ const colors = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+ 
     backgroundColor: 'white',
     padding: 15,
   },

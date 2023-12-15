@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator, SafeAreaView } from 'react-native';
 import { fetchEventsData } from "../../design_utils/api";
 import { FontAwesome } from '@expo/vector-icons'; 
 
@@ -28,15 +28,16 @@ const EventsContent = ({ route }) => {
     }, [title]); 
 
     const formatDateToFrench = (dateString) => {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const options = {  day: 'numeric', month: 'long',year: 'numeric' };
         return new Date(dateString).toLocaleDateString('fr-FR', options);
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+
             {loading ? (
-            <View style={styles.loaderContainer}>
-                    <ActivityIndicator size="large" color={colors.Radiance} />
+                <View style={styles.loaderContainer}>
+          <ActivityIndicator size="large" color={colors.Radiance} />
                 </View>
             ) : data.length > 0 ? (
                 <>
@@ -52,7 +53,7 @@ const EventsContent = ({ route }) => {
 
                     <View style={styles.btnContainer}>
                         <TouchableOpacity style={styles.btn}>
-                            <Text style={styles.btnText}>Interessé</Text>
+                            <Text style={styles.btnText}>Intéressé</Text>
                             <FontAwesome
                                 style={{ padding: 10 }}
                                 name="thumbs-up"
@@ -65,7 +66,7 @@ const EventsContent = ({ route }) => {
             ) : (
                 <Text>No data available</Text>
             )}
-        </View>
+        </SafeAreaView>
     );
 }
 
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
         fontFamily: 'BricolageGrotesque',
     },
     eventDate: {
-        fontSize: 18,
+        fontSize: 16,
         color: colors.Midnight,
         marginBottom: 10,
         marginLeft: 20,
@@ -154,11 +155,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-        loaderContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+    loaderContainer: {
+        marginVertical: 400,
+        marginHorizontal:130,
+     
     },
+
+
+ 
 });
 
 export default EventsContent;

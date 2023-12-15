@@ -1,8 +1,8 @@
 // api.js
-const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
+//const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
 
 
-// const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
+const BACKEND_ADDRESS = 'http://192.168.0.101:3000';
 
 
 export const fetchBarsData = async () => {
@@ -10,7 +10,6 @@ export const fetchBarsData = async () => {
         const response = await fetch(`${BACKEND_ADDRESS}/bars/all`);
         const data = await response.json();
         const filtreddata = data.filter((e) => e.latitude !== null && e.longitude !== null);
-        console.log(filtreddata);
         return filtreddata
 
     } catch (error) {

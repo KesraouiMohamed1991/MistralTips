@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Modal, Text, Pressable, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Modal, Text, Pressable, ActivityIndicator,Callout } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -9,8 +9,8 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 
 
-// const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
-const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
+const BACKEND_ADDRESS = 'http://192.168.0.101:3000';
+// const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
 
 const colors = {
   Midnight: '#0f0a0a',
@@ -115,7 +115,6 @@ const Carte = ({ navigation }) => {
     <View style={styles.container}>
       {loading ? (
         <View style={styles.loaderContainer}>
-          <Text style={{ fontFamily: 'BricolageGrotesque', fontSize: 20 }}>Hi, Please wait...</Text>
           <ActivityIndicator size="large" color={colors.Radiance} />
         </View>
       ) : (
@@ -131,14 +130,14 @@ const Carte = ({ navigation }) => {
         <View style={styles.modalView}>
           <Text style={styles.modalText}>Filtres</Text>
           <Pressable style={styles.buttonClose} onPress={closeModal}>
-            <FontAwesome style={{ padding: 10 }} name="close" size={40} color={colors.Radiance} />
+            <FontAwesome style={{ paddingTop: 17 }} name="close" size={30} color={colors.Radiance} />
           </Pressable>
           
                   <Text style={{fontSize:20,padding:10,fontFamily: 'BricolageGrotesque',color:colors.Radiance}}>Equipements</Text>    
                     
                     <View> 
                 <FilterCheckbox label="Wifi" isChecked={isWifiChecked} onToggle={() => setWifiChecked(!isWifiChecked)} />
-                <FilterCheckbox label="Flechette" isChecked={isFletchetteChecked} onToggle={() => setFletchetteChecked(!isFletchetteChecked)} />
+                <FilterCheckbox label="Fléchette" isChecked={isFletchetteChecked} onToggle={() => setFletchetteChecked(!isFletchetteChecked)} />
                 <FilterCheckbox label="Billiard" isChecked={isBilliardChecked} onToggle={() => setBilliardChecked(!isBilliardChecked)} />
                 <FilterCheckbox label="Babyfoot" isChecked={isBabyfootChecked} onToggle={() => setBabyfootChecked(!isBabyfootChecked)} />
                 </View>       
@@ -163,7 +162,8 @@ const Carte = ({ navigation }) => {
               latitude: currentPosition ? currentPosition.latitude : 43.300000,
               longitude: currentPosition ? currentPosition.longitude : 5.4,
               latitudeDelta: 0.01,
-              longitudeDelta: 0.0121,
+                longitudeDelta: 0.0121,
+              
             }}
             style={styles.map}
           >
@@ -172,7 +172,9 @@ const Carte = ({ navigation }) => {
                 coordinate={currentPosition}
                 title="Vous êtes ici"
                 pinColor={colors.NavyBlue}
-              ></Marker>
+                >
+                  
+              </Marker>
             )}
 
             {userData.slice(20, 100).map((bar, index) => {
@@ -181,10 +183,11 @@ const Carte = ({ navigation }) => {
                   <Marker
                     key={index}
                     coordinate={{ latitude: bar.longitude, longitude: bar.latitude }}
-                    title={bar.name}
+                     title={bar.name}
                     pinColor={colors.Radiance}
                     onCalloutPress={() => handleMarkerPress({ title: bar.name })}
                   >
+            
                     <FontAwesome style={{ padding: 10 }} name="glass" size={22} color={colors.Radiance} />
                   </Marker>
                 );
@@ -194,10 +197,15 @@ const Carte = ({ navigation }) => {
               }
             })}
           </MapView>
+            
+
+
+
+
         </>
       )}
       <Pressable style={styles.btnModal} onPress={handleModalVisibility}>
-        <FontAwesome style={{padding:10}} name="sliders" size={40} color={colors.Midnight} />
+        <FontAwesome style={{padding:10}} name="bars" size={40} color={colors.Radiance} />
       </Pressable>
       </View>
   );

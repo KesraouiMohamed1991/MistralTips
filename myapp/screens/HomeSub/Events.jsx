@@ -9,13 +9,13 @@ const Events = ({navigation}) => {
   const [error, setError] = useState(false);
 
 
-const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
+// const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
 
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch('http://10.20.2.92:3000/bars/events');
-      // const response = await fetch('http://192.168.0.102:3000/bars/events');
+      // const response = await fetch('http://10.20.2.92:3000/bars/events');
+      const response = await fetch('http://192.168.0.101:3000/bars/events');
 
       if (response.ok) {
         const result = await response.json();
@@ -47,7 +47,10 @@ const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
     navigation.navigate('EventsContent', {titre: params})
   }
 
-
+    const formatDateToFrench = (dateString) => {
+        const options = {  day: 'numeric', month: 'long',year: 'numeric' };
+        return new Date(dateString).toLocaleDateString('fr-FR', options);
+    };
 
 
   const rendereventItem = ({ item }) => (
@@ -55,7 +58,10 @@ const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
         <TouchableOpacity  onPress={() => handlePress(item.titre)}>
             <Image style={styles.eventImage} source={{ uri: item.image }} />
             <Text style={styles.eventTitle}>{item.titre}</Text>
-            <Text style={styles.eventDate}>{item.date.slice(0,10)}</Text>
+        <Text style={styles.eventDate}>{formatDateToFrench(item.date)}</Text>
+        
+
+        
             <Text style={styles.eventDescription}>{item.description}</Text>
         </TouchableOpacity>
     </View>
@@ -63,19 +69,26 @@ const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Events</Text>
       {loading ? (
-        <ActivityIndicator size="large" color={colors.Radiance} />
+     <View style={styles.loaderContainer}>
+          <ActivityIndicator size="large" color={colors.Radiance} />
+        </View>
       ) : error ? (
-        <Text style={styles.errorText}>Error occurred while fetching articles</Text>
-      ) : (
+        <Text style={styles.errorText}>Error occurred while fetching Events</Text>
+        ) : (
+            
+            <>
+              <Text style={styles.header}>Events</Text>
+            
         <FlatList
           data={data}
           keyExtractor={(item) => item.date}
           renderItem={rendereventItem}
           style={styles.flatList}
           
-        />
+              />
+            
+            </>
       )}
     </SafeAreaView>
   );
@@ -151,10 +164,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   errorText: {
-    color: 'red',
+   color: 'red',
     fontSize: 16,
     marginTop: 20,
-    fontFamily: 'Poppins-Regular' ,
+    fontFamily: 'BricolageGrotesque' ,
 
   },
 });

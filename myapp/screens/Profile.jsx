@@ -38,6 +38,9 @@
           { cancelable: false }
       );
   }
+    
+    
+
 
   return (
     <ScrollView style={styles.container}>
@@ -51,7 +54,7 @@
         <Text style={styles.profileName}>{user.username}</Text>
         <Text style={styles.profileEmail}>{user.mail}</Text>
         <TouchableOpacity style={styles.logOut} onPress={hundleLogOut}>
-          <Text style={styles.logOutText}>Log Out</Text>
+          <Text style={styles.logOutText}>Se Déconnecter</Text>
         </TouchableOpacity>
 
       </View>
@@ -115,7 +118,11 @@
       fontFamily: 'BricolageGrotesque',
             marginTop: 11,
             fontSize: 20,
-            color: colors.Radiance,
+      color: colors.Radiance,
+            
+
+
+
     },
     profileSection: {
       alignItems: 'center',
@@ -191,14 +198,14 @@
 
     },
     policyText: {
-          fontFamily: 'BricolageGrotesque',
+      fontFamily: 'BricolageGrotesque',
       textAlign: 'center',
       color: colors.Radiance,
       marginBottom: 10,
     },
     logOut: {
       marginVertical:10,
-      backgroundColor: colors.Radiance,
+      backgroundColor: colors.GoldenYellow,
       paddingHorizontal: 26,
       paddingVertical: 12,
       borderRadius:20,
@@ -206,6 +213,11 @@
     logOutText: {
       fontFamily: 'BricolageGrotesque',
       color: 'white',
+
+
+    color: colors.DeepBlue,
+    fontFamily: 'BricolageGrotesque',
+    fontSize: 16,
       
     }
   });

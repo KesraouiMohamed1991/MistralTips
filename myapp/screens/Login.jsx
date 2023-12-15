@@ -27,7 +27,7 @@ const Login = ({ navigation }) => {
     <TouchableOpacity style={styles.btn} onPress={handleSignIn}>
       <FontAwesome style={{ padding: 10 }} name="arrow-right" size={20} color={colors.DeepBlue} />
       <Text style={{ color: colors.DeepBlue, fontFamily: 'BricolageGrotesque', fontSize: 16 }}>
-                Sign In
+               Se Connecter
       </Text>
     </TouchableOpacity>
   );
@@ -35,7 +35,7 @@ const Login = ({ navigation }) => {
     <TouchableOpacity style={styles.btn} onPress={handleSignUp}>
       <FontAwesome style={{ padding: 10 }} name="user-plus" size={20} color={colors.DeepBlue} />
       <Text style={{ color: colors.DeepBlue, fontFamily: 'BricolageGrotesque', fontSize: 16 }}>
-        Sign Up
+        S'inscrire
       </Text>
     </TouchableOpacity>
   );

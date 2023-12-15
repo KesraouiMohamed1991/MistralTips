@@ -28,7 +28,7 @@ const SignUp = ({ navigation }) => {
     return;
   }
     
-const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
+const BACKEND_ADDRESS = 'http://192.168.0.101:3000';
 
     try {
       const response = await fetch(`${BACKEND_ADDRESS}/bars/users/signup`, {
@@ -110,12 +110,12 @@ const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
   disabled={loading}
 >
   <FontAwesome
-    style={{ padding: 10 }}
+    style={{ paddingVertical: 10 }}
     name="user-plus"
     size={20}
     color={colors.DeepBlue}
   />
-  <Text style={styles.btnText}>
+  <Text style={[styles.btnText, { marginRight: 20 }]}>
     {loading ? 'Connexion en cours...' : 'Connexion'}
   </Text>
 </TouchableOpacity>

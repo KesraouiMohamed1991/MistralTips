@@ -26,7 +26,7 @@ const SignIn = ({ navigation }) => {
       }
 
       setLoading(true);
-const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
+const BACKEND_ADDRESS = 'http://192.168.0.101:3000';
 
       // const response = await fetch('http://10.20.2.92:3000/bars/users/signin', {
       const response = await fetch(`${BACKEND_ADDRESS}/bars/users/signin`, {
@@ -92,21 +92,22 @@ const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
 
       {error && <Text style={styles.errorText}>{error}</Text>}
 
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={handleSignIn}
-        disabled={loading}
-      >
-        <FontAwesome
-          style={{ padding: 10 }}
-          name="sign-in"
-          size={20}
-          color={colors.DeepBlue}
-        />
-        <Text style={styles.btnText}>
-          {loading ? 'Connexion en cours...' : 'Connexion'}
-        </Text>
-      </TouchableOpacity>
+<TouchableOpacity
+  style={styles.btn}
+  onPress={handleSignIn}
+  disabled={loading}
+>
+  <FontAwesome
+    style={{  paddingVertical:10, }}
+    name="sign-in"
+    size={20}
+    color={colors.DeepBlue}
+  />
+  <Text style={[styles.btnText, { marginLeft: 5 }]}>
+    {loading ? 'Connexion en cours...' : 'Connexion'}
+  </Text>
+</TouchableOpacity>
+
     </View>
   );
 };

@@ -65,6 +65,8 @@ const MyTabs = () => {
         style: {
           borderRadius: 15,
           height: 70,
+          fontFamily: 'Poppins-Regular',
+
         },
         tabBarIcon: ({ color, size }) => {
           let iconName = '';
@@ -91,6 +93,7 @@ const MyTabs = () => {
           // borderTopWidth: 1,
           // borderBottomWidth: 1,
           height: 60,
+
         },
       })}
 
