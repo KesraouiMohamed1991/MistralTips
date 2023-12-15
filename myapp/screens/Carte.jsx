@@ -1,16 +1,16 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { View, StyleSheet, DrawerLayoutAndroid, Text, Button, Pressable, ActivityIndicator } from 'react-native';
-import MapView, { Marker, Callout } from 'react-native-maps';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Modal, Text, Pressable, ActivityIndicator } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { addData } from '../reducers/bars.js';
-
-const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
-// const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 
 
+// const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
+const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
 
 const colors = {
   Midnight: '#0f0a0a',
@@ -24,17 +24,44 @@ const colors = {
 
 
 
+const FilterCheckbox = ({ label, isChecked, onToggle }) => {
+  return (
+    <View style={styles.checkboxContainer}>
+      <BouncyCheckbox
+        size={25}
+        fillColor="black"
+        unfillColor="#FFFFFF"
+        text={label}
+        innerIconStyle={{ borderWidth: 2 }}
+        textStyle={[{ color: !isChecked ? 'gray' : 'black' }, { textDecorationLine: 'none' }, {fontFamily: 'BricolageGrotesque', }]}
+        isChecked={isChecked}
+        onPress={onToggle}
+      />
+    </View>
+  );
+};
 
-const Carte = ({navigation}) => {
-  const [currentPosition, setCurrentPosition] = useState(null);
-  const drawer = useRef(null);
-  const [loading, setLoading] = useState(true);
 
-  const userData = useSelector((state) => state.bars.value);
-  const dispatch = useDispatch();
+const Carte = ({ navigation }) => {
+
+      const [isBilliardChecked, setBilliardChecked] = useState(false);
+      const [isFletchetteChecked, setFletchetteChecked] = useState(false);
+      const [isBabyfootChecked, setBabyfootChecked] = useState(false);
+      const [isWifiChecked, setWifiChecked] = useState(false);
+      const [isRoofChecked, setRoofChecked] = useState(false);
+      const [isTapasChecked, setTapasChecked] = useState(false);
+      const [isCocktailChecked, setCocktailChecked] = useState(false);
+      const [isFamilialChecked, setFamilialChecked] = useState(false);
+  
+  
+      const [currentPosition, setCurrentPosition] = useState(null);
+      const [modalVisible, setModalVisible] = useState(false);
+      const [loading, setLoading] = useState(true);
+
+      const userData = useSelector((state) => state.bars.value);
+      const dispatch = useDispatch();
 
   const getBarsData = async () => {
-
     try {
       setLoading(true);
       const response = await fetch(`${BACKEND_ADDRESS}/bars/all`);
@@ -48,19 +75,15 @@ const Carte = ({navigation}) => {
           longitude: e.longitude,
           latitude: e.lattitude,
         }));
-      
-      if (userData.length > 0) {
-        return
-      } else {
-        dispatch(addData(barsData));
-        console.log(('we fetched'));
-      }
 
+      if (userData.length === 0) {
+        dispatch(addData(barsData));
+        console.log('Bars data fetched successfully');
+      }
     } catch (error) {
       console.error('Error fetching bar data:', error);
     }
   };
-
 
   useEffect(() => {
     const getLocationPermission = async () => {
@@ -76,30 +99,65 @@ const Carte = ({navigation}) => {
     getLocationPermission();
   }, []);
 
-  const navigationView = () => (
-    <View style={[styles.container, styles.navigationContainer]}>
-      <Text style={styles.paragraph}>I'm in the Drawer!</Text>
-      <Button title="Close drawer" onPress={() => drawer.current.closeDrawer()} />
-      <Text>yes</Text>
-    </View>
-  );
-
-  
-
   const handleMarkerPress = (marker) => {
     navigation.navigate('Barpage', { markerData: marker });
   };
 
+  const handleModalVisibility = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
 
   return (
-    <DrawerLayoutAndroid ref={drawer} drawerWidth={300} renderNavigationView={navigationView}>
-      <View style={styles.container}>
-        {loading ? (
-          <View style={styles.loaderContainer}>
-            
-            <Text style={{fontFamily: 'BricolageGrotesque', fontSize: 20,}}>Hi, Please wait...</Text>
-      <ActivityIndicator size="large" color={colors.Radiance} />
-    </View>        ) : (
+    <View style={styles.container}>
+      {loading ? (
+        <View style={styles.loaderContainer}>
+          <Text style={{ fontFamily: 'BricolageGrotesque', fontSize: 20 }}>Hi, Please wait...</Text>
+          <ActivityIndicator size="large" color={colors.Radiance} />
+        </View>
+      ) : (
+        <>
+          {/* <View style={styles.modalContainer}> */}
+           <Modal
+      animationType="slide"
+      transparent={false}
+      visible={modalVisible}
+      onRequestClose={closeModal}
+    >
+      <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>Filtres</Text>
+          <Pressable style={styles.buttonClose} onPress={closeModal}>
+            <FontAwesome style={{ padding: 10 }} name="close" size={40} color={colors.Radiance} />
+          </Pressable>
+          
+                  <Text style={{fontSize:20,padding:10,fontFamily: 'BricolageGrotesque',color:colors.Radiance}}>Equipements</Text>    
+                    
+                    <View> 
+                <FilterCheckbox label="Wifi" isChecked={isWifiChecked} onToggle={() => setWifiChecked(!isWifiChecked)} />
+                <FilterCheckbox label="Flechette" isChecked={isFletchetteChecked} onToggle={() => setFletchetteChecked(!isFletchetteChecked)} />
+                <FilterCheckbox label="Billiard" isChecked={isBilliardChecked} onToggle={() => setBilliardChecked(!isBilliardChecked)} />
+                <FilterCheckbox label="Babyfoot" isChecked={isBabyfootChecked} onToggle={() => setBabyfootChecked(!isBabyfootChecked)} />
+                </View>       
+
+                  <Text style={{fontSize:20,padding:10,fontFamily: 'BricolageGrotesque', color:colors.Radiance}}>Types</Text>    
+     
+                    <View> 
+                <FilterCheckbox label="Roof-top" isChecked={isRoofChecked} onToggle={() => setRoofChecked(!isRoofChecked)} />
+                <FilterCheckbox label="Tapas" isChecked={isTapasChecked} onToggle={() => setTapasChecked(!isTapasChecked)} />
+                <FilterCheckbox label="Cocktail" isChecked={isCocktailChecked} onToggle={() => setCocktailChecked(!isCocktailChecked)} />
+                <FilterCheckbox label="Familial" isChecked={isFamilialChecked} onToggle={() => setFamilialChecked(!isFamilialChecked)} />
+                </View>   
+
+
+
+        </View>
+      </View>
+    </Modal>
+          {/* </View> */}
           <MapView
             initialRegion={{
               latitude: currentPosition ? currentPosition.latitude : 43.300000,
@@ -107,20 +165,17 @@ const Carte = ({navigation}) => {
               latitudeDelta: 0.01,
               longitudeDelta: 0.0121,
             }}
-            style={styles.map} // Updated map style
+            style={styles.map}
           >
             {currentPosition && (
-            <Marker
-            coordinate={currentPosition}
-            title="Vous êtes ici"
-            pinColor={colors.NavyBlue}
-            >
-
-            </Marker>
-
+              <Marker
+                coordinate={currentPosition}
+                title="Vous êtes ici"
+                pinColor={colors.NavyBlue}
+              ></Marker>
             )}
 
-            {userData.slice(20,100).map((bar, index) => {
+            {userData.slice(20, 100).map((bar, index) => {
               if (bar && bar.latitude !== null && bar.longitude !== null) {
                 return (
                   <Marker
@@ -128,7 +183,7 @@ const Carte = ({navigation}) => {
                     coordinate={{ latitude: bar.longitude, longitude: bar.latitude }}
                     title={bar.name}
                     pinColor={colors.Radiance}
-                    onCalloutPress={() => handleMarkerPress({title:bar.name})}
+                    onCalloutPress={() => handleMarkerPress({ title: bar.name })}
                   >
                     <FontAwesome style={{ padding: 10 }} name="glass" size={22} color={colors.Radiance} />
                   </Marker>
@@ -139,15 +194,12 @@ const Carte = ({navigation}) => {
               }
             })}
           </MapView>
-        )}
-
-        {/* <FontAwesomeIcon icon="fa-solid fa-hand-middle-finger" /> */}
-
-        <Pressable style={styles.btnDrawer} onPress={() => drawer.current.openDrawer()}>
-          <FontAwesome style={{ padding: 10 }} name="bars" size={40} color={colors.Radiance} />
-        </Pressable>
+        </>
+      )}
+      <Pressable style={styles.btnModal} onPress={handleModalVisibility}>
+        <FontAwesome style={{padding:10}} name="sliders" size={40} color={colors.Midnight} />
+      </Pressable>
       </View>
-    </DrawerLayoutAndroid>
   );
 };
 
@@ -156,25 +208,44 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.Marseille,
   },
-  navigationContainer: {
-    backgroundColor: '#ecf0f1',
-    padding: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  btnDrawer: {
+
+    btnModal: {
     position: 'absolute',
     top: 50,
-    left: 30,
-  },  loaderContainer: {
+    right: 25,
+  },
+  buttonClose: {
+    position: 'absolute',
+    top: 16,
+    right: 25,
+  },
+
+  modalView: {
+    height: 250,
+  },
+    modalText: {
+    paddingTop:20,
+    fontSize: 20,
+    textAlign: 'center',
+    marginVertical: 10,
+    fontFamily: 'BricolageGrotesque'
+    
+  },
+  loaderContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   map: {
     flex: 1,
-  }, // Added map style
+    },
+    checkboxContainer: {
+      padding:10,
+  },
+  centeredView: {
+    backgroundColor: 'white',
+    height:'100%'
+    }
 });
 
 export default Carte;
-Carte.js

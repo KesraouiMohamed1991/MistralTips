@@ -1,58 +1,73 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator, Image, SafeAreaView } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { fetchEventsData } from "../../design_utils/api";
+import { FontAwesome } from '@expo/vector-icons'; 
 
+const EventsContent = ({ route }) => {
+    const title = route.params.titre;
 
-
-const EventsContent = ({route}) => {
-    const  title  = route.params.titre;
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-    const [error, setError] = useState(false);
-    const storedEvents = useSelector((state) => state.user.value.events);
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const filteredData = await fetchEventsData();
-    
-                const EventInfo = filteredData.filter((Event) => Event.title === title);
+                const eventInfo = filteredData.filter((event) => event.title === title);
+                setLoading(false);
+                setData(eventInfo);
 
-                setData(EventInfo); 
-
-
-
+                console.log('events data ', eventInfo[0]);
             } catch (error) {
-            console.error('Error fetching data in EventsContent:', error);
-        }
-    };
-    
-    fetchData(); // Call the fetchData function immediately when the component mounts
-    }, []);
+                console.error('Error fetching data in EventsContent:', error);
+                setLoading(false); 
+            }
+        };
 
+        fetchData();
+    }, [title]); 
+
+    const formatDateToFrench = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString('fr-FR', options);
+    };
 
     return (
-    <View style={styles.container}>
-        <Text>{title}</Text>
-        {/* <Text>{data.date}</Text>
-        <Text>{data.content}</Text> */}
+        <View style={styles.container}>
+            {loading ? (
+            <View style={styles.loaderContainer}>
+                    <ActivityIndicator size="large" color={colors.Radiance} />
+                </View>
+            ) : data.length > 0 ? (
+                <>
+                    <Text style={styles.header}>Events Page </Text>
 
-        {/* <Text style={styles.header}>{data.titre}</Text>
-        {loading ? (
-        <ActivityIndicator size="large" color={colors.Radiance} />
-        ) : error ? (
-        <Text style={styles.errorText}>Error occurred while fetching events</Text>
-        ) : (
-        <View style={styles.eventItem}>
-            <Image style={styles.eventImage} source={{ uri: data.image }} />
-            <Text style={styles.eventDate}>{data.date.slice(0,10)}</Text>
-            <Text style={styles.eventContent}>{data.contenu}</Text>
+                    <Image
+                        source={{ uri: data[0].img }}
+                        style={styles.eventImage}
+                    />
+                    <Text style={styles.eventTitle}>{data[0].bar}</Text>
+                    <Text style={styles.eventDate}>{formatDateToFrench(data[0].date)}</Text>
+                    <Text style={styles.eventContent}>{data[0].description}</Text>
+
+                    <View style={styles.btnContainer}>
+                        <TouchableOpacity style={styles.btn}>
+                            <Text style={styles.btnText}>Interessé</Text>
+                            <FontAwesome
+                                style={{ padding: 10 }}
+                                name="thumbs-up"
+                                size={20}
+                                color={colors.Radiance}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </>
+            ) : (
+                <Text>No data available</Text>
+            )}
         </View>
-        )} */}
-    </View>
-      );
-    }
+    );
+}
 
 const colors = {
     Midnight: '#0f0a0a',
@@ -63,61 +78,87 @@ const colors = {
     GoldenYellow: '#FFC436',
     Radiance: '#ff6600',
 };
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: 'white',
         padding: 15,
-    },
-    header: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginTop: 30,
-        marginBottom: 15,
-        color: colors.Radiance,
-    },
-    eventItem: {
-        padding: 5,
-        borderBottomWidth: 1,
-        borderBottomColor: colors.Midnight,
-        marginBottom: 10, 
+        alignItems: 'flex-start',
     },
     eventImage: {
         width: '100%',
-        height: 220,
+        height: 300,
         resizeMode: 'cover',
         marginBottom: 15,
         borderRadius:20,
     },
     eventTitle: {
         fontSize: 22,
-        fontWeight: 'bold',
         marginBottom: 10,
+        color: colors.Radiance,
+        marginLeft: 20,
+        fontFamily: 'BricolageGrotesque',
     },
     eventDate: {
-        fontSize: 14,
-        color: '#555',
-        marginBottom: 5,
+        fontSize: 18,
         color: colors.Midnight,
+        marginBottom: 10,
+        marginLeft: 20,
+        fontFamily: 'Poppins-Regular',
     },
     eventContent: {
         fontSize: 16,
         marginBottom: 10,
         color: colors.Midnight,
         textAlign: 'justify',
+        margin: 20,
+        fontFamily: 'Poppins-Regular',
     },
-    flatList: {
-        marginTop: 10,
+    iconRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
-    errorText: {
-        color: 'red',
-        fontSize: 16,
-        marginTop: 20,
+    icon: {
+        marginHorizontal: 10,
     },
-    });
+    header: {
+        fontSize: 20,
+        fontFamily: 'BricolageGrotesque',
+        marginTop: 30,
+        marginBottom: 15,
+        color: colors.Radiance,
+        fontFamily: 'BricolageGrotesque',
+        textAlign: 'center',
+        width: '100%',
+    },
+    btn: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingHorizontal: 28,
+        paddingVertical: 10,
+        backgroundColor: colors.GoldenYellow,
+        borderRadius: 30,
+        width: 260,
+        alignItems: 'center',
+        marginTop: 40,
+    },
+    btnText: {
+        fontFamily: 'BricolageGrotesque',
+        fontSize: 18,
+        color:colors.DeepBlue,
+    },
+    btnContainer: {
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 
-
+        loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+});
 
 export default EventsContent;

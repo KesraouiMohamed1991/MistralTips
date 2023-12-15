@@ -9,13 +9,13 @@ const Events = ({navigation}) => {
   const [error, setError] = useState(false);
 
 
-const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
+const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
 
 
   const fetchEvents = async () => {
     try {
-      // const response = await fetch('http://10.20.2.92:3000/bars/events');
-      const response = await fetch('http://192.168.0.102:3000/bars/events');
+      const response = await fetch('http://10.20.2.92:3000/bars/events');
+      // const response = await fetch('http://192.168.0.102:3000/bars/events');
 
       if (response.ok) {
         const result = await response.json();

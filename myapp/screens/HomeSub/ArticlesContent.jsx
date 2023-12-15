@@ -12,9 +12,7 @@ const ArticlesContent = ({ route }) => {
     const fetchData = async () => {
       try {
         const filteredData = await fetchArticlesData();
-
         const ArticleInfo = filteredData.filter((Article) => Article.title === title);
-        console.log(ArticleInfo);
 
         setData(ArticleInfo);
         setLoading(false);
@@ -45,8 +43,9 @@ const ArticlesContent = ({ route }) => {
 
     return (
       <View style={styles.section}>
+            <Text style={styles.header}>Articles Page </Text>
         <Image style={styles.articleImage} source={{ uri: article.img }} />
-        <Text style={styles.header}>{article.title}</Text>
+        <Text style={styles.title}>{article.title}</Text>
         <Text style={styles.date}>{formatDate(article.date)}</Text>
 
         <View style={styles.contentSection}>
@@ -95,8 +94,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.Midnight,
     marginBottom: 10,
-    fontFamily: 'Poppins-Regular' ,
-
+    fontFamily: 'Poppins-Regular',
   },
   articleImage: {
     width: '100%',
@@ -118,14 +116,30 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.Midnight,
     textAlign: 'justify',
-    fontFamily: 'Poppins-Regular' ,
-
+    fontFamily: 'Poppins-Regular',
   },
   errorText: {
     color: 'red',
     fontSize: 16,
     marginTop: 20,
   },
+      header: {
+        fontSize: 20,
+        fontFamily: 'BricolageGrotesque',
+        marginTop: 30,
+        marginBottom: 15,
+        color: colors.Radiance,
+        textAlign: 'center',
+        width: '100%',
+  },
+  title: {
+        textAlign: 'left',
+        fontSize: 22,
+        marginBottom: 15,
+        fontFamily: 'BricolageGrotesque',
+        
+
+      }
 });
 
 export default ArticlesContent;
