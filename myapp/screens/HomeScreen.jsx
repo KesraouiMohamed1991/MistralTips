@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useFonts } from 'expo-font';
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
+import {colors} from '../utile/colors'
 
 function HomeScreen({ navigation }) {
   
 
   const user = useSelector((state) => state.user.value);
-  const dispatch = useDispatch();
 
 
 
@@ -51,23 +51,13 @@ const goToTabs = () => {
 
 
       <TouchableOpacity style={styles.btn} onPress={goToTabs}>
-
       <Text style={[styles.btnText, { marginRight: -10 }] }>Explorer →</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
-const colors = {
-  DeepBlue: '#191D88',
-  NavyBlue: '#1450A3',
-  RoyalBlue: '#337CCF',
-  Marseille: '#30AADD',
-  GoldenYellow: '#FFC436',
-  Radiance: '#ff6600',
-  massilia:'#5A96E3',
 
-};
 
 const styles = StyleSheet.create({
   container: {

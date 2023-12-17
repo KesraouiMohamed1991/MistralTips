@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator, SafeAreaView } from 'react-native';
-import { fetchEventsData } from "../../design_utils/api";
+import { fetchEventsData } from '../../utile/api';
+import {colors} from '../../utile/colors'
+
 import { FontAwesome } from '@expo/vector-icons'; 
 
 const EventsContent = ({ route }) => {
@@ -70,15 +72,7 @@ const EventsContent = ({ route }) => {
     );
 }
 
-const colors = {
-    Midnight: '#0f0a0a',
-    DeepBlue: '#191D88',
-    NavyBlue: '#1450A3',
-    RoyalBlue: '#337CCF',
-    Marseille: '#30AADD',
-    GoldenYellow: '#FFC436',
-    Radiance: '#ff6600',
-};
+
 
 const styles = StyleSheet.create({
     container: {

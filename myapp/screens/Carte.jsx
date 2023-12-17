@@ -6,19 +6,14 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { addData } from '../reducers/bars.js';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import {colors} from '../utile/colors'
+
+
 
 const BACKEND_ADDRESS = 'http://192.168.0.101:3000';
 // const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
 
-const colors = {
-  Midnight: '#0f0a0a',
-  DeepBlue: '#191D88',
-  NavyBlue: '#1450A3',
-  RoyalBlue: '#337CCF',
-  Marseille: '#30AADD',
-  GoldenYellow: '#FFC436',
-  Radiance: '#ff6600',
-};
+
 
 const FilterCheckbox = ({ label, isChecked, onToggle }) => {
   return (
@@ -60,13 +55,13 @@ const Carte = ({ navigation }) => {
       .filter((e) =>
         e.lattitude !== null &&
         e.longitude !== null &&
-//filtrer les activites Et Equipements 
+              //filtrer les activites Et Equipements 
         (
       (!isBabyfootChecked || checkFilter(e.activitesEtEquipements?.Babyfoot, isBabyfootChecked)) &&
       (!isFletchetteChecked || checkFilter(e.activitesEtEquipements?.Fletchette, isFletchetteChecked)) &&
       (!isBilliardChecked || checkFilter(e.activitesEtEquipements?.Billard, isBilliardChecked)) &&
       (!isWifiChecked || checkFilter(e.activitesEtEquipements?.Wifi, isWifiChecked))&&
-//filtrer les caracteristiques Et Services
+      //filtrer les caracteristiques Et Services
       (!isRoofChecked || checkFilter(e.caracteristiquesEtServices?.RoofTop, isRoofChecked
       )) &&
       (!isTapasChecked || checkFilter(e.caracteristiquesEtServices?.Tapas, isTapasChecked)) &&

@@ -3,13 +3,9 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch } from 'react-redux';
 import { login } from '../../reducers/user';
+import {colors} from '../../utile/colors'
 
-const colors = {
-  Midnight: '#0f0a0a',
-  DeepBlue: '#191D88',
-  GoldenYellow: '#FFC436',
-  Marseille: '#30AADD',
-};
+
 
 const SignIn = ({ navigation }) => {
   const dispatch = useDispatch();

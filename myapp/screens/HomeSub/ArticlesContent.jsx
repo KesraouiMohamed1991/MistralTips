@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, ActivityIndicator, SafeAreaView } from 'react-native';
-import { fetchArticlesData } from '../../design_utils/api';
+import { fetchArticlesData } from '../../utile/api';
+import {colors} from '../../utile/colors'
 
 const ArticlesContent = ({ route }) => {
   const title = route.params.titre;
@@ -78,10 +79,7 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-const colors = {
-  Midnight: '#0f0a0a',
-  Radiance: '#ff6600',
-};
+
 
 const styles = StyleSheet.create({
   container: {

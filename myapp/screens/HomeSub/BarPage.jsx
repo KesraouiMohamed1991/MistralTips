@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, ActivityIndicator, Linking } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { fetchBarsData } from '../../design_utils/api';
+import { fetchBarsData } from '../../utile/api'
+   import { colors } from '../../utile/colors';
+
 
 const Barpage = ({ route, navigation }) => {
 
@@ -135,15 +137,7 @@ return (
 
 };
 
-const colors = {
-    Midnight: '#0f0a0a',
-    DeepBlue: '#191D88',
-    NavyBlue: '#1450A3',
-    RoyalBlue: '#337CCF',
-    Marseille: '#30AADD',
-    GoldenYellow: '#FFC436',
-    Radiance: '#ff6600',
-};
+
 
 const styles = StyleSheet.create({
     container: {
@@ -210,7 +204,7 @@ const styles = StyleSheet.create({
     }, icon: {
         top: 50, 
         left:10,
-        backgroundColor:colors.GoldenYellow,
+        backgroundColor: colors.GoldenYellow,
         position: 'absolute',
         height: 50,
         width: 50,

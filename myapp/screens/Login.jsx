@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
+import {colors} from '../utile/colors'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const Login = ({ navigation }) => {
@@ -42,10 +43,9 @@ const Login = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 26, marginBottom: 50, fontFamily: 'BricolageGrotesque', textAlign:'center' }}>
+      <Text style={{ fontSize: 22, marginBottom: 50, fontFamily: 'BricolageGrotesque', textAlign:'center' }}>
         Choisissez parmi tous les etablissements de votre ville
       </Text>
-      {/* <Text style={{ fontFamily: 'BricolageGrotesque' }}>Trouve ton bar parfait</Text> */}
 
       {renderGoogleButton()}
       {renderEmailButton()}
@@ -53,15 +53,7 @@ const Login = ({ navigation }) => {
   );
 };
 
-let colors = {
-  Midnight: '#0f0a0a',
-  DeepBlue: '#191D88',
-  NavyBlue: '#1450A3',
-  RoyalBlue: '#337CCF',
-  Marseille: '#30AADD',
-  GoldenYellow: '#FFC436',
-  Radiance: '#ff6600',
-};
+
 
 const styles = StyleSheet.create({
   container: {

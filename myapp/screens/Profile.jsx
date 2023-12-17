@@ -5,7 +5,8 @@
   import { useDispatch, useSelector } from 'react-redux';
   import { logout } from '../reducers/user'; 
   import { removeData } from '../reducers/bars'; 
-import { fetchUserAccount } from '../design_utils/api';
+import { fetchUserAccount } from '../utile/api';
+   import { colors } from '../utile/colors';
 
   const Profile = ({ navigation }) => {
 
@@ -125,15 +126,7 @@ import { fetchUserAccount } from '../design_utils/api';
     </TouchableOpacity>
   );
 
-  const colors = {
-    Midnight: '#0f0a0a',
-    DeepBlue: '#191D88',
-    NavyBlue: '#1450A3',
-    RoyalBlue: '#337CCF',
-    SkyBlue: '#87C4FF',
-    GoldenYellow: '#FFC436',
-    Radiance: '#ff6600',
-  };
+
 
   const styles = StyleSheet.create({
     container: {
