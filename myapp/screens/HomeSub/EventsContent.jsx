@@ -41,7 +41,7 @@ const EventsContent = ({ route }) => {
                 </View>
             ) : data.length > 0 ? (
                 <>
-                    <Text style={styles.header}>Events Page </Text>
+                    <Text style={styles.header}>Evénements </Text>
 
                     <Image
                         source={{ uri: data[0].img }}
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
 
     loaderContainer: {
         marginVertical: 400,
-        marginHorizontal:130,
+        marginHorizontal:150,
      
     },
 

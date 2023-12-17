@@ -65,7 +65,7 @@ return (
         </View>
 
         <TouchableOpacity style={styles.icon} onPress={goToBars}>
-            <FontAwesome style={{ padding: 10 }} name="arrow-left" size={25} color={colors.Radiance} />
+            <FontAwesome style={{ padding: 10 }} name="arrow-left" size={25} color={colors.DeepBlue} />
         </TouchableOpacity>
 
         <View style={styles.textContainer}>
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     }, icon: {
         top: 50, 
         left:10,
-        backgroundColor:colors.Midnight,
+        backgroundColor:colors.GoldenYellow,
         position: 'absolute',
         height: 50,
         width: 50,

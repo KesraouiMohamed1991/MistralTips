@@ -50,7 +50,7 @@ const ArticlesContent = ({ route }) => {
 
     return (
       <SafeAreaView style={styles.section}>
-            <Text style={styles.header}>Articles Page </Text>
+            <Text style={styles.header}>Articles </Text>
         <Image style={styles.articleImage} source={{ uri: article.img }} />
         <Text style={styles.title}>{article.title}</Text>
         <Text style={styles.date}>{formatDate(article.date)}</Text>

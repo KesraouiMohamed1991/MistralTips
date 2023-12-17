@@ -5,7 +5,7 @@
   import { useDispatch, useSelector } from 'react-redux';
   import { logout } from '../reducers/user'; 
   import { removeData } from '../reducers/bars'; 
-
+import { fetchUserAccount } from '../design_utils/api';
 
   const Profile = ({ navigation }) => {
 
@@ -16,16 +16,16 @@
   function hundleLogOut() {
       // Show an alert to confirm the user's intention
       Alert.alert(
-          'Logout',
-          'Are you sure you want to logout?',
+          'Se Deconnecter',
+          'Êtes-vous sûr de vouloir vous déconnecter?',
           [
               {
-                  text: 'Cancel',
+                  text: 'Annuler',
                   style: 'cancel',
               },
               {
-                  text: 'Logout',
-                  onPress: () => {
+                  text: 'Se déconnecter',
+                  onPress:  () => {
                       // Dispatch logout and removeData actions
                       dispatch(logout());
                       dispatch(removeData());
@@ -39,8 +39,34 @@
       );
   }
     
-    
+ async function handleDeleteAccount() {
+    try {
+      Alert.alert(
+        'Supprimer mon compte',
+        'Êtes-vous sûr de vouloir supprimer votre compte ?',
+        [
+          {
+            text: 'Annuler',
+            style: 'cancel',
+          },
+          {
+            text: 'Supprimer',
+            onPress: async () => {
+              await fetchUserAccount(user.username);  
 
+              dispatch(logout());
+              dispatch(removeData());
+
+              navigation.navigate('Home');
+            },
+          },
+        ],
+        { cancelable: false }
+      );
+    } catch (error) {
+      console.error('Error deleting user account:', error);
+    }
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -53,9 +79,14 @@
         <FontAwesome name="user-circle" size={80} color={colors.DeepBlue} />
         <Text style={styles.profileName}>{user.username}</Text>
         <Text style={styles.profileEmail}>{user.mail}</Text>
-        <TouchableOpacity style={styles.logOut} onPress={hundleLogOut}>
+        <TouchableOpacity style={styles.logOut} onPress={()=>hundleLogOut(user.username)}>
           <Text style={styles.logOutText}>Se Déconnecter</Text>
         </TouchableOpacity>
+        <Text
+          onPress={handleDeleteAccount}
+          style={styles.deleteAccount}
+        >Supprimer mon compte</Text>
+
 
       </View>
 
@@ -219,6 +250,13 @@
     fontFamily: 'BricolageGrotesque',
     fontSize: 16,
       
+    },
+    
+    deleteAccount: {
+      fontFamily: 'BricolageGrotesque',
+      color: 'red',
+      fontSize: 12,
+      padding: 10,
     }
   });
 

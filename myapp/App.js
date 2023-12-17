@@ -75,7 +75,7 @@ const MyTabs = () => {
             iconName = 'map';
           } else if (route.name === 'Profile') {
             iconName = 'user';
-          } else if (route.name === 'Events') {
+          } else if (route.name === 'Evénement') {
             iconName = 'calendar';
           } else if (route.name === 'Articles') {
             // iconName = 'file-text-o';
@@ -99,7 +99,7 @@ const MyTabs = () => {
 
     >
       <Tab.Screen name="Carte" component={Carte} />
-      <Tab.Screen name="Events" component={Events} />
+      <Tab.Screen name="Evénement" component={Events} />
       <Tab.Screen name="Articles" component={Articles} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>

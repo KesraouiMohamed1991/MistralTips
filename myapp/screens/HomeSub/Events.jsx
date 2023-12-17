@@ -78,7 +78,7 @@ const Events = ({navigation}) => {
         ) : (
             
             <>
-              <Text style={styles.header}>Events</Text>
+              <Text style={styles.header}>Evénements</Text>
             
         <FlatList
           data={data}
