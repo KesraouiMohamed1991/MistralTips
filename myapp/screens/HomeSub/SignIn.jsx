@@ -22,7 +22,8 @@ const SignIn = ({ navigation }) => {
       }
 
       setLoading(true);
-const BACKEND_ADDRESS = 'http://192.168.0.101:3000';
+// const BACKEND_ADDRESS = 'http://192.168.0.101:3000';
+const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
 
       const response = await fetch(`${BACKEND_ADDRESS}/bars/users/signin`, {
         method: 'POST',
