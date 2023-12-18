@@ -87,7 +87,6 @@ const eventSchema = new mongoose.Schema({
     date: Date,
     image: String,
     adresse: String,
-    // bar: {type: mongoose.Schema.Types.ObjectId, ref: 'bars'},
 });
 
 // Modèle pour un événement

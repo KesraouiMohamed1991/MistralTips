@@ -10,8 +10,8 @@ const Articles = ({navigation}) => {
   const [error, setError] = useState(false);
   const fetcharticles = async () => {
     try {
-      // const response = await fetch('http://10.20.2.92:3000/bars/blogs');
-      const response = await fetch('http://192.168.0.101:3000/bars/blogs');
+      const response = await fetch('http://10.20.2.92:3000/bars/blogs');
+      // const response = await fetch('http://192.168.0.101:3000/bars/blogs');
 
       if (response.ok) {
         const result = await response.json();

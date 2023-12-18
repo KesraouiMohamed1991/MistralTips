@@ -12,6 +12,7 @@ import { fetchUserAccount } from '../utile/api';
 
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
+  const favBars = useSelector((state) => state.favoris.value);
 
 
   function hundleLogOut() {
@@ -67,7 +68,12 @@ import { fetchUserAccount } from '../utile/api';
     } catch (error) {
       console.error('Error deleting user account:', error);
     }
-  }
+ }
+    
+    
+    function hundlefavoris() {
+    navigation.navigate('BarsFavoris');
+   }
 
   return (
     <ScrollView style={styles.container}>
@@ -80,9 +86,18 @@ import { fetchUserAccount } from '../utile/api';
         <FontAwesome name="user-circle" size={80} color={colors.DeepBlue} />
         <Text style={styles.profileName}>{user.username}</Text>
         <Text style={styles.profileEmail}>{user.mail}</Text>
+
+        <View style={{marginTop:10, width: '100%',flexDirection:'row', justifyContent: 'space-between', alignItems: 'center', }}>
+          
         <TouchableOpacity style={styles.logOut} onPress={()=>hundleLogOut(user.username)}>
-          <Text style={styles.logOutText}>Se Déconnecter</Text>
+          <Text style={styles.logOutText}>Déconnexion</Text>
         </TouchableOpacity>
+          <TouchableOpacity style={styles.gofav} onPress={hundlefavoris}>
+            <Text style={{ fontSize: 8, position: 'absolute', right: 28, top: 10, fontWeight: 'bold' }}>{favBars.length>0?favBars.length:null }</Text>
+        <Text style={styles.logOutText}>Mes favoris</Text>
+        </TouchableOpacity>
+      </View>
+
         <Text
           onPress={handleDeleteAccount}
           style={styles.deleteAccount}
@@ -95,6 +110,8 @@ import { fetchUserAccount } from '../utile/api';
         <InfoItem title="Ville" value="Marseille" />
         <InfoItem title="Langue" value="Français" />
       </View>
+
+
 
       <View style={styles.contactSection}>
         <Text style={styles.contactTitle}>Nos Réseaux Sociaux</Text>
@@ -139,10 +156,10 @@ import { fetchUserAccount } from '../utile/api';
       padding: 20,
     },
     headerTitle: {
-      fontFamily: 'BricolageGrotesque',
-            marginTop: 11,
-            fontSize: 20,
-      color: colors.Radiance,
+    fontFamily: 'BricolageGrotesque',
+    marginTop: 11,
+    fontSize: 20,
+    color: colors.Radiance,
             
 
 
@@ -161,8 +178,9 @@ import { fetchUserAccount } from '../utile/api';
     },
     profileEmail: {
       fontSize: 16,
-      color: colors.Midnight,
-      fontFamily: 'Poppins-Regular' ,
+      color: colors.NavyBlue,
+      fontFamily: 'Poppins-Regular',
+      
 
     },
     infoSection: {
@@ -230,15 +248,17 @@ import { fetchUserAccount } from '../utile/api';
     logOut: {
       marginVertical:10,
       backgroundColor: colors.GoldenYellow,
-      paddingHorizontal: 26,
+      paddingHorizontal: 20,
       paddingVertical: 12,
-      borderRadius:20,
+      borderRadius: 20,
+        width: '45%',
     }, 
     logOutText: {
-      fontFamily: 'BricolageGrotesque',
-      color: 'white',
 
-
+    fontFamily: 'BricolageGrotesque',
+    color: 'white',
+    textAlign: 'center',
+    fontSize:18,
     color: colors.DeepBlue,
     fontFamily: 'BricolageGrotesque',
     fontSize: 16,
@@ -250,6 +270,15 @@ import { fetchUserAccount } from '../utile/api';
       color: 'red',
       fontSize: 12,
       padding: 10,
+
+    }, gofav: {
+      marginVertical:10,
+      backgroundColor: colors.GoldenYellow,
+      paddingHorizontal: 26,
+      paddingVertical: 12,
+      borderRadius: 20,
+      width: '45%',
+
     }
   });
 

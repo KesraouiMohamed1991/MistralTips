@@ -15,6 +15,7 @@ export const barSlice = createSlice({
         removeData: (state, action) => {
             state.value = [];
         },
+
     },
 });
 
