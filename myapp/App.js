@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import user from './reducers/user';
 import bars from './reducers/bars';
+import favoris from './reducers/favoris';
 
 
 
@@ -24,9 +25,10 @@ import SignUp from './screens/HomeSub/SignUp';
 import Barpage from './screens/HomeSub/BarPage';
 import ArticlesContent from './screens/HomeSub/ArticlesContent';
 import EventsContent from './screens/HomeSub/EventsContent';
+import BarsFavoris from './screens/HomeSub/BarsFavoris';
 
 
-const reducers = combineReducers({ user, bars });
+const reducers = combineReducers({ user, bars, favoris });
 const persistConfig = { key: 'myapp', storage: AsyncStorage };
 
 
@@ -123,6 +125,7 @@ function App() {
             <Stack.Screen name="Barpage" component={Barpage} />
             <Stack.Screen name="ArticlesContent" component={ArticlesContent} />
             <Stack.Screen name="EventsContent" component={EventsContent} />
+            <Stack.Screen name="BarsFavoris" component={BarsFavoris} />
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="MyTabs" component={MyTabs} />
           </Stack.Navigator>
