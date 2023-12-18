@@ -6,6 +6,21 @@ const { checkBody } = require('../modules/checkBody');
 const uid2 = require('uid2');
 const bcrypt = require('bcrypt');
 
+
+const cloudinary = require('cloudinary').v2;
+const uniqid = require('uniqid');
+const fs = require('fs');
+
+cloudinary.config({
+  cloud_name: 'dsttg3p2z',
+  api_key: '651845119925515',
+  api_secret: 'zVP5tTdsSxRratzwitKT81B-ZNE'
+});
+
+
+
+
+
 router.get('/all', async (req, res) => {
   try {
     const bars = await Bar.find();
@@ -89,7 +104,7 @@ router.post('/users/signin', async (req, res) => {
       });
 
       console.log(user);
-      
+
     } else {
       res.json({ result: false, error: 'User not found or wrong password' });
     }
@@ -118,5 +133,35 @@ router.delete('/users/deleteOne', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+router.post('/upload', async (req, res) => {
+  try {
+    if (!req.files || !req.files.photoFromFront) {
+      return res.status(400).json({ result: false, error: 'No file uploaded' });
+    }
+
+    const photoPath = `./tmp/${uniqid()}.jpg`;
+
+    await req.files.photoFromFront.mv(photoPath);
+
+    const resultCloudinary = await cloudinary.uploader.upload(photoPath);
+
+    res.json({ result: true, url: resultCloudinary.secure_url });
+
+    fs.unlinkSync(photoPath);
+  } catch (error) {
+    console.error('Error during file upload:', error);
+
+    // Log more details about the error
+    console.error('Error details:', error.message, error.stack);
+
+    res.status(500).json({ result: false, error: 'Internal Server Error' });
+  }
+});
+
+
+
+
 
 module.exports = router;

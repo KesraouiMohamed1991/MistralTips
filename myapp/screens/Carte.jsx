@@ -7,11 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addData } from '../reducers/bars.js';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import {colors} from '../utile/colors'
+import { BACKEND_ADDRESS } from '../utile/address.js';
 
 
 
-// const BACKEND_ADDRESS = 'http://192.168.0.101:3000';
-const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
 
 
 

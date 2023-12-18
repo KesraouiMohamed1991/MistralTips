@@ -11,6 +11,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import user from './reducers/user';
 import bars from './reducers/bars';
 import favoris from './reducers/favoris';
+import photo from './reducers/photo';
 
 
 
@@ -28,16 +29,18 @@ import EventsContent from './screens/HomeSub/EventsContent';
 import BarsFavoris from './screens/HomeSub/BarsFavoris';
 
 
-const reducers = combineReducers({ user, bars, favoris });
+const reducers = combineReducers({ user, bars, favoris, photo });
 const persistConfig = { key: 'myapp', storage: AsyncStorage };
+
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // Disable the middleware causing the warning
-      immutableCheck: false, // Disable immutable state checks
+      serializableCheck: false,
+      immutableCheck: false,
     }),
 });
+
 const persistor = persistStore(store);
 
 

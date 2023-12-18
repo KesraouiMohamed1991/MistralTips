@@ -13,12 +13,13 @@ var app = express();
 
 const cors = require('cors');
 app.use(cors());
-
+const fileUpload = require('express-fileupload');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(fileUpload());
 
 app.use('/users', indexRouter);
 app.use('/bars', usersRouter);

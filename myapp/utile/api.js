@@ -1,9 +1,8 @@
 // api.js
-const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
+
+import { BACKEND_ADDRESS } from './address.js';
 
 
-
-// const BACKEND_ADDRESS = 'http://192.168.0.101:3000';
 
 
 export const fetchBarsData = async () => {
