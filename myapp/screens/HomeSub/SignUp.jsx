@@ -28,8 +28,8 @@ const SignUp = ({ navigation }) => {
     return;
   }
 
-// const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
-const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
+  const BACKEND_ADDRESS = 'http://192.168.1.24:3000';
+  // const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
 
     try {
       const response = await fetch(`${BACKEND_ADDRESS}/bars/users/signup`, {

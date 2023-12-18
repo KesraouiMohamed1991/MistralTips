@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const Articles = ({navigation}) => {
 
-  // const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
-const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
+  const BACKEND_ADDRESS = 'http://192.168.1.24:3000';
+  // const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);

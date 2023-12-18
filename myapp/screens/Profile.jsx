@@ -5,10 +5,10 @@
   import { useDispatch, useSelector } from 'react-redux';
   import { logout } from '../reducers/user'; 
   import { removeData } from '../reducers/bars'; 
-  import { fetchUserAccount } from '../../design_utils/api';
+  import { fetchUserAccount } from '../design_utils/api';
 
-// const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
-const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
+const BACKEND_ADDRESS = 'http://192.168.1.24:3000';
+// const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
 
 
   const Profile = ({ navigation }) => {
@@ -44,48 +44,48 @@ const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
   }
 
   
-  useEffect(() => {
+  // useEffect(() => {
     
-    // Show an alert to confirm the user's intention
-    Alert.alert(
-        'Suppression du compte',
-        'Etes-vous sûr de vouloir supprimer votre compte?',
-        [
-            {
-                text: 'Cancel',
-                style: 'cancel',
-            },
-            {
-                text: 'Supprimer',
-                // Suppression du compte dans la DB
-                onPress: () => {
-                  const deleteAccount = async () => {
-                  try {
-                      const response = await fetchUserAccount()
+  //   // Show an alert to confirm the user's intention
+  //   Alert.alert(
+  //       'Suppression du compte',
+  //       'Etes-vous sûr de vouloir supprimer votre compte?',
+  //       [
+  //           {
+  //               text: 'Cancel',
+  //               style: 'cancel',
+  //           },
+  //           {
+  //               text: 'Supprimer',
+  //               // Suppression du compte dans la DB
+  //               onPress: () => {
+  //                 const deleteAccount = async () => {
+  //                 try {
+  //                     const response = await fetchUserAccount()
               
                       
-                    } catch (error) {
-                      console.error('Error fetching data in ArticleContent:', error);
-                      setError(true);
-                      setLoading(false);
-                    }
+  //                   } catch (error) {
+  //                     console.error('Error fetching data in ArticleContent:', error);
+  //                     setError(true);
+  //                     setLoading(false);
+  //                   }
                   
               
                   
                  
-                    // Dispatch logout and removeData actions
-                    dispatch(logout());
-                    dispatch(removeData());
+  //                   // Dispatch logout and removeData actions
+  //                   dispatch(logout());
+  //                   dispatch(removeData());
                     
-                    // Navigate to the Home screen
-                    navigation.navigate('Home');
-                }
-            },
-            }
-        ],
-        { cancelable: false }
-    );
-  } , []);
+  //                   // Navigate to the Home screen
+  //                   navigation.navigate('Home');
+  //               }
+  //           },
+  //           }
+  //       ],
+  //       { cancelable: false }
+  //   );
+  // } , []);
 
 
 //   const fetchUserAccount = async () => {
@@ -120,7 +120,8 @@ const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
         <TouchableOpacity style={styles.logOut} onPress={hundleLogOut}>
           <Text style={styles.logOutText}>Log Out</Text>
         </TouchableOpacity>
-        <Text style={styles.deleteAccount} onPress={() => deleteAccount()}>Supprimer mon compte</Text>
+        {/* <Text style={styles.deleteAccount} onPress={() => deleteAccount()}>Supprimer mon compte</Text> */}
+        <Text style={styles.deleteAccount} >Supprimer mon compte</Text>
 
       </View>
 

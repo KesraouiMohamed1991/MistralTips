@@ -6,8 +6,8 @@
 // import { useDispatch, useSelector } from 'react-redux';
 // import { addData } from '../reducers/bars.js';
 
-// // const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
-// const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
+// const BACKEND_ADDRESS = 'http://192.168.1.24:3000';
+// // const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
 
 
 

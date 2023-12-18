@@ -9,7 +9,7 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 
 
-// const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
+// const BACKEND_ADDRESS = 'http://192.168.1.24:19000';
 const BACKEND_ADDRESS = 'http://10.20.2.92:3000';
 
 const colors = {
@@ -24,34 +24,34 @@ const colors = {
 
 
 
-const FilterCheckbox = ({ label, isChecked, onToggle }) => {
-  return (
-    <View style={styles.checkboxContainer}>
-      <BouncyCheckbox
-        size={25}
-        fillColor="black"
-        unfillColor="#FFFFFF"
-        text={label}
-        innerIconStyle={{ borderWidth: 2 }}
-        textStyle={[{ color: !isChecked ? 'gray' : 'black' }, { textDecorationLine: 'none' }, {fontFamily: 'BricolageGrotesque', }]}
-        isChecked={isChecked}
-        onPress={onToggle}
-      />
-    </View>
-  );
-};
+// const FilterCheckbox = ({ label, isChecked, onToggle }) => {
+//   return (
+//     <View style={styles.checkboxContainer}>
+//       <BouncyCheckbox
+//         size={25}
+//         fillColor="black"
+//         unfillColor="#FFFFFF"
+//         text={label}
+//         innerIconStyle={{ borderWidth: 2 }}
+//         textStyle={[{ color: !isChecked ? 'gray' : 'black' }, { textDecorationLine: 'none' }, {fontFamily: 'BricolageGrotesque', }]}
+//         isChecked={isChecked}
+//         onPress={onToggle}
+//       />
+//     </View>
+//   );
+// };
 
 
 const Carte = ({ navigation }) => {
 
-      const [isBilliardChecked, setBilliardChecked] = useState(false);
-      const [isFletchetteChecked, setFletchetteChecked] = useState(false);
-      const [isBabyfootChecked, setBabyfootChecked] = useState(false);
-      const [isWifiChecked, setWifiChecked] = useState(false);
-      const [isRoofChecked, setRoofChecked] = useState(false);
-      const [isTapasChecked, setTapasChecked] = useState(false);
-      const [isCocktailChecked, setCocktailChecked] = useState(false);
-      const [isFamilialChecked, setFamilialChecked] = useState(false);
+    //   const [isBilliardChecked, setBilliardChecked] = useState(false);
+    //   const [isFletchetteChecked, setFletchetteChecked] = useState(false);
+    //   const [isBabyfootChecked, setBabyfootChecked] = useState(false);
+    //   const [isWifiChecked, setWifiChecked] = useState(false);
+    //   const [isRoofChecked, setRoofChecked] = useState(false);
+    //   const [isTapasChecked, setTapasChecked] = useState(false);
+    //   const [isCocktailChecked, setCocktailChecked] = useState(false);
+    //   const [isFamilialChecked, setFamilialChecked] = useState(false);
   
   
       const [currentPosition, setCurrentPosition] = useState(null);
@@ -134,7 +134,7 @@ const Carte = ({ navigation }) => {
             <FontAwesome style={{ padding: 10 }} name="close" size={40} color={colors.Radiance} />
           </Pressable>
           
-                  <Text style={{fontSize:20,padding:10,fontFamily: 'BricolageGrotesque',color:colors.Radiance}}>Equipements</Text>    
+                  {/* <Text style={{fontSize:20,padding:10,fontFamily: 'BricolageGrotesque',color:colors.Radiance}}>Equipements</Text>    
                     
                     <View> 
                 <FilterCheckbox label="Wifi" isChecked={isWifiChecked} onToggle={() => setWifiChecked(!isWifiChecked)} />
@@ -150,7 +150,7 @@ const Carte = ({ navigation }) => {
                 <FilterCheckbox label="Tapas" isChecked={isTapasChecked} onToggle={() => setTapasChecked(!isTapasChecked)} />
                 <FilterCheckbox label="Cocktail" isChecked={isCocktailChecked} onToggle={() => setCocktailChecked(!isCocktailChecked)} />
                 <FilterCheckbox label="Familial" isChecked={isFamilialChecked} onToggle={() => setFamilialChecked(!isFamilialChecked)} />
-                </View>   
+                </View>    */}
 
 
 
