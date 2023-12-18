@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { fetchEventsData } from "../../design_utils/api";
+import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator, SafeAreaView } from 'react-native';
+import { fetchEventsData } from '../../utile/api';
+import {colors} from '../../utile/colors'
+
 import { FontAwesome } from '@expo/vector-icons'; 
 
 const EventsContent = ({ route }) => {
@@ -28,19 +30,20 @@ const EventsContent = ({ route }) => {
     }, [title]); 
 
     const formatDateToFrench = (dateString) => {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const options = {  day: 'numeric', month: 'long',year: 'numeric' };
         return new Date(dateString).toLocaleDateString('fr-FR', options);
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+
             {loading ? (
-            <View style={styles.loaderContainer}>
-                    <ActivityIndicator size="large" color={colors.Radiance} />
+                <View style={styles.loaderContainer}>
+          <ActivityIndicator size="large" color={colors.Radiance} />
                 </View>
             ) : data.length > 0 ? (
                 <>
-                    <Text style={styles.header}>Events Page </Text>
+                    <Text style={styles.header}>Evénements </Text>
 
                     <Image
                         source={{ uri: data[0].img }}
@@ -52,7 +55,7 @@ const EventsContent = ({ route }) => {
 
                     <View style={styles.btnContainer}>
                         <TouchableOpacity style={styles.btn}>
-                            <Text style={styles.btnText}>Interessé</Text>
+                            <Text style={styles.btnText}>Intéressé</Text>
                             <FontAwesome
                                 style={{ padding: 10 }}
                                 name="thumbs-up"
@@ -65,19 +68,11 @@ const EventsContent = ({ route }) => {
             ) : (
                 <Text>No data available</Text>
             )}
-        </View>
+        </SafeAreaView>
     );
 }
 
-const colors = {
-    Midnight: '#0f0a0a',
-    DeepBlue: '#191D88',
-    NavyBlue: '#1450A3',
-    RoyalBlue: '#337CCF',
-    Marseille: '#30AADD',
-    GoldenYellow: '#FFC436',
-    Radiance: '#ff6600',
-};
+
 
 const styles = StyleSheet.create({
     container: {
@@ -101,7 +96,7 @@ const styles = StyleSheet.create({
         fontFamily: 'BricolageGrotesque',
     },
     eventDate: {
-        fontSize: 18,
+        fontSize: 16,
         color: colors.Midnight,
         marginBottom: 10,
         marginLeft: 20,
@@ -154,11 +149,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-        loaderContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+    loaderContainer: {
+        marginVertical: 400,
+        marginHorizontal:150,
+     
     },
+
+
+ 
 });
 
 export default EventsContent;

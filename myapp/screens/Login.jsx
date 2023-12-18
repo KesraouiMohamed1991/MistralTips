@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
+import {colors} from '../utile/colors'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const Login = ({ navigation }) => {
@@ -27,7 +28,7 @@ const Login = ({ navigation }) => {
     <TouchableOpacity style={styles.btn} onPress={handleSignIn}>
       <FontAwesome style={{ padding: 10 }} name="arrow-right" size={20} color={colors.DeepBlue} />
       <Text style={{ color: colors.DeepBlue, fontFamily: 'BricolageGrotesque', fontSize: 16 }}>
-                Sign In
+               Se Connecter
       </Text>
     </TouchableOpacity>
   );
@@ -35,17 +36,16 @@ const Login = ({ navigation }) => {
     <TouchableOpacity style={styles.btn} onPress={handleSignUp}>
       <FontAwesome style={{ padding: 10 }} name="user-plus" size={20} color={colors.DeepBlue} />
       <Text style={{ color: colors.DeepBlue, fontFamily: 'BricolageGrotesque', fontSize: 16 }}>
-        Sign Up
+        S'inscrire
       </Text>
     </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 26, marginBottom: 50, fontFamily: 'BricolageGrotesque', textAlign:'center' }}>
+      <Text style={{ fontSize: 22, marginBottom: 50, fontFamily: 'BricolageGrotesque', textAlign:'center' }}>
         Choisissez parmi tous les etablissements de votre ville
       </Text>
-      {/* <Text style={{ fontFamily: 'BricolageGrotesque' }}>Trouve ton bar parfait</Text> */}
 
       {renderGoogleButton()}
       {renderEmailButton()}
@@ -53,15 +53,7 @@ const Login = ({ navigation }) => {
   );
 };
 
-let colors = {
-  Midnight: '#0f0a0a',
-  DeepBlue: '#191D88',
-  NavyBlue: '#1450A3',
-  RoyalBlue: '#337CCF',
-  Marseille: '#30AADD',
-  GoldenYellow: '#FFC436',
-  Radiance: '#ff6600',
-};
+
 
 const styles = StyleSheet.create({
   container: {

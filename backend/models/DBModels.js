@@ -1,7 +1,48 @@
 const mongoose = require('mongoose');
 
+// Schéma pour les horaires
+const horairesSchema = new mongoose.Schema({
+    lundi: String,
+    mardi: String,
+    mercredi: String,
+    jeudi: String,
+    vendredi: String,
+    samedi: String,
+    dimanche: String,
+});
 
-const barSchema = mongoose.Schema({
+// Schéma pour les activités et équipements
+const activitesEtEquipementsSchema = new mongoose.Schema({
+    Redifusion_des_matchs: Boolean,
+    Billard: Boolean,
+    Fletchette: Boolean,
+    Pétanque: Boolean,
+    eSport: Boolean,
+    Babyfoot: Boolean,
+    Jeux_de_société: Boolean,
+    Karaoke: Boolean,
+    Danse: Boolean,
+    Wifi: Boolean,
+});
+
+// Schéma pour les caractéristiques et services
+const caracteristiquesEtServicesSchema = new mongoose.Schema({
+    Dégustation: Boolean,
+    Familial: Boolean,
+    Lounge: Boolean,
+    Irlandais: Boolean,
+    Cocktail: Boolean,
+    Plage: Boolean,
+    Sportif: Boolean,
+    Bar_à_thème: Boolean,
+    Rooftop: Boolean,
+    Tapas: Boolean,
+    Thé: Boolean,
+    Afterwork: Boolean,
+});
+
+// Schéma pour un bar
+const barSchema = new mongoose.Schema({
     name: String,
     map: String,
     note: Number,
@@ -17,66 +58,39 @@ const barSchema = mongoose.Schema({
     longitude: Number,
     latitude: Number,
 
-    horaires: {
-        lundi: String,
-        mardi: String,
-        mercredi: String,
-        jeudi: String,
-        vendredi: String,
-        samedi: String,
-        dimanche: String,
-    },
-    activitesEtEquipements: {
-        Redifusion_des_matchs: Boolean,
-        Billard: Boolean,
-        Fletchette: Boolean,
-        Pétanque: Boolean,
-        eSport: Boolean,
-        Babyfoot: Boolean,
-        Jeux_de_société: Boolean,
-        Karaoke: Boolean,
-        Danse: Boolean,
-        Wifi: Boolean,
-    },
-    caracteristiquesEtServices: {
-        Dégustation: Boolean,
-        Familial: Boolean,
-        Lounge: Boolean,
-        Irlandais: Boolean,
-        Cocktail: Boolean,
-        Plage: Boolean,
-        Sportif: Boolean,
-        Bar_à_thème: Boolean,
-        Rooftop: Boolean,
-        Tapas: Boolean,
-        Thé: Boolean,
-        Afterwork: Boolean,
-    },
+    // Utilisation des schémas définis pour les sous-documents
+    horaires: horairesSchema,
+    activitesEtEquipements: activitesEtEquipementsSchema,
+    caracteristiquesEtServices: caracteristiquesEtServicesSchema,
 });
 
+// Modèle pour un bar
+const Bar = mongoose.model('bars', barSchema);
 
-const articleSchema = {
+// Schéma pour un article
+const articleSchema = new mongoose.Schema({
     name: String,
     description: String,
     date: Date,
     image: String,
     adresse: String,
     content: String,
-};
+});
 
+// Modèle pour un article
+const Blog = mongoose.model('blogs', articleSchema);
 
-
-const eventSchema = {
+// Schéma pour un événement
+const eventSchema = new mongoose.Schema({
     name: String,
     description: String,
     date: Date,
     image: String,
     adresse: String,
     // bar: {type: mongoose.Schema.Types.ObjectId, ref: 'bars'},
-};
+});
 
-const Bar = mongoose.model('bars', barSchema);
-const Blog = mongoose.model('blogs', articleSchema);
+// Modèle pour un événement
 const Event = mongoose.model('events', eventSchema);
 
 module.exports = { Bar, Blog, Event };

@@ -5,11 +5,8 @@
   import { useDispatch, useSelector } from 'react-redux';
   import { logout } from '../reducers/user'; 
   import { removeData } from '../reducers/bars'; 
-  import { fetchUserAccount } from '../design_utils/api';
-
-const BACKEND_ADDRESS = 'http://192.168.1.24:3000';
-// const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
-
+import { fetchUserAccount } from '../utile/api';
+   import { colors } from '../utile/colors';
 
   const Profile = ({ navigation }) => {
 
@@ -20,16 +17,16 @@ const BACKEND_ADDRESS = 'http://192.168.1.24:3000';
   function hundleLogOut() {
       // Show an alert to confirm the user's intention
       Alert.alert(
-          'Logout',
-          'Are you sure you want to logout?',
+          'Se Deconnecter',
+          'Êtes-vous sûr de vouloir vous déconnecter?',
           [
               {
-                  text: 'Cancel',
+                  text: 'Annuler',
                   style: 'cancel',
               },
               {
-                  text: 'Logout',
-                  onPress: () => {
+                  text: 'Se déconnecter',
+                  onPress:  () => {
                       // Dispatch logout and removeData actions
                       dispatch(logout());
                       dispatch(removeData());
@@ -42,69 +39,35 @@ const BACKEND_ADDRESS = 'http://192.168.1.24:3000';
           { cancelable: false }
       );
   }
-
-  
-  // useEffect(() => {
     
-  //   // Show an alert to confirm the user's intention
-  //   Alert.alert(
-  //       'Suppression du compte',
-  //       'Etes-vous sûr de vouloir supprimer votre compte?',
-  //       [
-  //           {
-  //               text: 'Cancel',
-  //               style: 'cancel',
-  //           },
-  //           {
-  //               text: 'Supprimer',
-  //               // Suppression du compte dans la DB
-  //               onPress: () => {
-  //                 const deleteAccount = async () => {
-  //                 try {
-  //                     const response = await fetchUserAccount()
-              
-                      
-  //                   } catch (error) {
-  //                     console.error('Error fetching data in ArticleContent:', error);
-  //                     setError(true);
-  //                     setLoading(false);
-  //                   }
-                  
-              
-                  
-                 
-  //                   // Dispatch logout and removeData actions
-  //                   dispatch(logout());
-  //                   dispatch(removeData());
-                    
-  //                   // Navigate to the Home screen
-  //                   navigation.navigate('Home');
-  //               }
-  //           },
-  //           }
-  //       ],
-  //       { cancelable: false }
-  //   );
-  // } , []);
+ async function handleDeleteAccount() {
+    try {
+      Alert.alert(
+        'Supprimer mon compte',
+        'Êtes-vous sûr de vouloir supprimer votre compte ?',
+        [
+          {
+            text: 'Annuler',
+            style: 'cancel',
+          },
+          {
+            text: 'Supprimer',
+            onPress: async () => {
+              await fetchUserAccount(user.username);  
 
+              dispatch(logout());
+              dispatch(removeData());
 
-//   const fetchUserAccount = async () => {
-//     try {
-//         const response = await fetch(`${BACKEND_ADDRESS}/bars/users/deleteOne`, {
-//             method: 'DELETE',
-//             headers: { 'Content-Type': 'application/json' },
-//             body: JSON.stringify(user.username),
-//           }).then(response => response.json())
-//             .then(data => {
-//               data.result;
-//               console.log(data.result);
-//             });
-//             console.log(user.username);
-//     } catch (error) {
-//         console.error('Error fetching bar data:', error);
-//         throw error;
-//     }
-// };
+              navigation.navigate('Home');
+            },
+          },
+        ],
+        { cancelable: false }
+      );
+    } catch (error) {
+      console.error('Error deleting user account:', error);
+    }
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -117,11 +80,14 @@ const BACKEND_ADDRESS = 'http://192.168.1.24:3000';
         <FontAwesome name="user-circle" size={80} color={colors.DeepBlue} />
         <Text style={styles.profileName}>{user.username}</Text>
         <Text style={styles.profileEmail}>{user.mail}</Text>
-        <TouchableOpacity style={styles.logOut} onPress={hundleLogOut}>
-          <Text style={styles.logOutText}>Log Out</Text>
+        <TouchableOpacity style={styles.logOut} onPress={()=>hundleLogOut(user.username)}>
+          <Text style={styles.logOutText}>Se Déconnecter</Text>
         </TouchableOpacity>
-        {/* <Text style={styles.deleteAccount} onPress={() => deleteAccount()}>Supprimer mon compte</Text> */}
-        <Text style={styles.deleteAccount} >Supprimer mon compte</Text>
+        <Text
+          onPress={handleDeleteAccount}
+          style={styles.deleteAccount}
+        >Supprimer mon compte</Text>
+
 
       </View>
 
@@ -160,15 +126,7 @@ const BACKEND_ADDRESS = 'http://192.168.1.24:3000';
     </TouchableOpacity>
   );
 
-  const colors = {
-    Midnight: '#0f0a0a',
-    DeepBlue: '#191D88',
-    NavyBlue: '#1450A3',
-    RoyalBlue: '#337CCF',
-    SkyBlue: '#87C4FF',
-    GoldenYellow: '#FFC436',
-    Radiance: '#ff6600',
-  };
+
 
   const styles = StyleSheet.create({
     container: {
@@ -184,7 +142,11 @@ const BACKEND_ADDRESS = 'http://192.168.1.24:3000';
       fontFamily: 'BricolageGrotesque',
             marginTop: 11,
             fontSize: 20,
-            color: colors.Radiance,
+      color: colors.Radiance,
+            
+
+
+
     },
     profileSection: {
       alignItems: 'center',
@@ -260,14 +222,14 @@ const BACKEND_ADDRESS = 'http://192.168.1.24:3000';
 
     },
     policyText: {
-          fontFamily: 'BricolageGrotesque',
+      fontFamily: 'BricolageGrotesque',
       textAlign: 'center',
       color: colors.Radiance,
       marginBottom: 10,
     },
     logOut: {
       marginVertical:10,
-      backgroundColor: colors.Radiance,
+      backgroundColor: colors.GoldenYellow,
       paddingHorizontal: 26,
       paddingVertical: 12,
       borderRadius:20,
@@ -275,14 +237,19 @@ const BACKEND_ADDRESS = 'http://192.168.1.24:3000';
     logOutText: {
       fontFamily: 'BricolageGrotesque',
       color: 'white',
+
+
+    color: colors.DeepBlue,
+    fontFamily: 'BricolageGrotesque',
+    fontSize: 16,
       
     },
+    
     deleteAccount: {
       fontFamily: 'BricolageGrotesque',
       color: 'red',
       fontSize: 12,
       padding: 10,
-      textDecorationLine: 'underline',
     }
   });
 

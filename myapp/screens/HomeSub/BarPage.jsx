@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, ActivityIndicator, Linking } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { fetchBarsData } from '../../design_utils/api';
+import { fetchBarsData } from '../../utile/api'
+   import { colors } from '../../utile/colors';
+
 
 const Barpage = ({ route, navigation }) => {
 
@@ -28,7 +30,6 @@ const { markerData } = route.params;
     if (!data || Object.keys(data).length === 0) {
         return (
             <View style={styles.loadingContainer}>
-            <Text style={{fontFamily: 'BricolageGrotesque', fontSize: 20,}}>Hi, Please wait...</Text>
                <ActivityIndicator size="large" color={colors.Radiance} />
             </View>
         );
@@ -66,7 +67,7 @@ return (
         </View>
 
         <TouchableOpacity style={styles.icon} onPress={goToBars}>
-            <FontAwesome style={{ padding: 10 }} name="arrow-left" size={22} color={colors.GoldenYellow} />
+            <FontAwesome style={{ padding: 10 }} name="arrow-left" size={25} color={colors.DeepBlue} />
         </TouchableOpacity>
 
         <View style={styles.textContainer}>
@@ -84,19 +85,19 @@ return (
             
             <Text style={styles.barName}>{name}</Text>
             <Text style={styles.baradresse}>{adresse}</Text>
-            <Text style={styles.barsNum}>{numero}</Text>
-            <Text style={styles.barsType}>Type: {type}</Text>
-            <Text style={styles.barspresent}>Présentation: {presentation}</Text>
+            <Text style={styles.barsNum}>
+            {numero === 'true' || numero === 'false' ? 'Pas de numéro' : numero}
+            </Text>
+            <Text style={styles.barsType}>Type : {type}</Text>
+            <Text style={styles.barspresent}>Présentation : {presentation}.</Text>
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
 
 
-            <TouchableOpacity
-            style={styles.showBtn}
-                onPress={hundleDetails}>
-                    <Text>Voir Horaires</Text>
-            </TouchableOpacity>
-                
-            {Show&&<View style={styles.horaires}>
+                <View style={{width:'100%', }}>
+
+                    <Text style={{paddingVertical:10, fontSize:16, fontWeight:'bold',fontSize: 16,}} onPress={hundleDetails}>Voir Horaires ↴</Text>
+                    
+ {Show&&<View style={styles.horaires}>
 
             {Object.entries(horaires).map(([day, hours]) => (
             <Text key={day}>{`${day.charAt(0).toUpperCase() +  day.slice(1)}: ${ hours}`}</Text>
@@ -104,10 +105,18 @@ return (
             </View>}
 
 
+
+                </View>
+
+
+         
+                
+           
+
+
             <TouchableOpacity
             style={styles.btn}
-            // onPress={handleSignIn}
-            // disabled={loading}
+         
             >
                 <FontAwesome
                 style={{ padding: 10 }}
@@ -128,15 +137,7 @@ return (
 
 };
 
-const colors = {
-    Midnight: '#0f0a0a',
-    DeepBlue: '#191D88',
-    NavyBlue: '#1450A3',
-    RoyalBlue: '#337CCF',
-    Marseille: '#30AADD',
-    GoldenYellow: '#FFC436',
-    Radiance: '#ff6600',
-};
+
 
 const styles = StyleSheet.create({
     container: {
@@ -195,7 +196,7 @@ const styles = StyleSheet.create({
         
     },
     barsType: {
-        fontSize: 16,
+        fontSize: 15,
         // color: colors.GoldenYellow,
         fontFamily: 'Poppins-Regular' ,
 
@@ -203,7 +204,7 @@ const styles = StyleSheet.create({
     }, icon: {
         top: 50, 
         left:10,
-        backgroundColor:colors.Midnight,
+        backgroundColor: colors.GoldenYellow,
         position: 'absolute',
         height: 50,
         width: 50,
@@ -218,36 +219,36 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         paddingHorizontal: 28,
-        paddingVertical: 10,
+        paddingVertical:8,
         backgroundColor: colors.GoldenYellow,
         borderRadius: 30,
-        width: 260,
+        width: 150,
         alignItems: 'center',
         marginTop: 40,
     },
     btnText: {
         fontFamily: 'BricolageGrotesque',
         fontSize: 18,
-        color:colors.DeepBlue
+        color: colors.DeepBlue,
+        marginRight:30,
 
 
     }, horaires: {
         width: '100%',
         height:130,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         borderRadius: 20,
-        fontFamily: 'Poppins-Regular' ,
+        fontFamily: 'Poppins-Regular',
+
         
     },
     showBtn: {
         flexDirection: 'row',
         justifyContent: 'center',
-        paddingHorizontal: 28,
-        paddingVertical: 10,
         backgroundColor: colors.GoldenYellow,
         borderRadius: 30,
-        width: 160,
+        width: 150,
         alignItems: 'center',
         marginTop: 40,
     }

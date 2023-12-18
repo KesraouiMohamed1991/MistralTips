@@ -3,13 +3,9 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch } from 'react-redux';
 import { login } from '../../reducers/user';
+import {colors} from '../../utile/colors'
 
-const colors = {
-  Midnight: '#0f0a0a',
-  DeepBlue: '#191D88',
-  GoldenYellow: '#FFC436',
-  Marseille: '#30AADD',
-};
+
 
 const SignIn = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -26,8 +22,7 @@ const SignIn = ({ navigation }) => {
       }
 
       setLoading(true);
-// const BACKEND_ADDRESS = 'http://192.168.0.102:3000';
-const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
+const BACKEND_ADDRESS = 'http://192.168.0.101:3000';
 
       const response = await fetch(`${BACKEND_ADDRESS}/bars/users/signin`, {
         method: 'POST',
@@ -92,21 +87,22 @@ const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
 
       {error && <Text style={styles.errorText}>{error}</Text>}
 
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={handleSignIn}
-        disabled={loading}
-      >
-        <FontAwesome
-          style={{ padding: 10 }}
-          name="sign-in"
-          size={20}
-          color={colors.DeepBlue}
-        />
-        <Text style={styles.btnText}>
-          {loading ? 'Connexion en cours...' : 'Connexion'}
-        </Text>
-      </TouchableOpacity>
+<TouchableOpacity
+  style={styles.btn}
+  onPress={handleSignIn}
+  disabled={loading}
+>
+  <FontAwesome
+    style={{  paddingVertical:10, }}
+    name="sign-in"
+    size={20}
+    color={colors.DeepBlue}
+  />
+  <Text style={[styles.btnText, { marginLeft: 5 }]}>
+    {loading ? 'Connexion en cours...' : 'Connexion'}
+  </Text>
+</TouchableOpacity>
+
     </View>
   );
 };

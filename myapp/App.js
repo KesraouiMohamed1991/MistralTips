@@ -68,6 +68,8 @@ const MyTabs = () => {
         style: {
           borderRadius: 15,
           height: 70,
+          fontFamily: 'Poppins-Regular',
+
         },
         tabBarIcon: ({ color, size }) => {
           let iconName = '';
@@ -76,7 +78,7 @@ const MyTabs = () => {
             iconName = 'map';
           } else if (route.name === 'Profile') {
             iconName = 'user';
-          } else if (route.name === 'Events') {
+          } else if (route.name === 'Evénement') {
             iconName = 'calendar';
           } else if (route.name === 'Articles') {
             // iconName = 'file-text-o';
@@ -94,12 +96,13 @@ const MyTabs = () => {
           // borderTopWidth: 1,
           // borderBottomWidth: 1,
           height: 60,
+
         },
       })}
 
     >
       <Tab.Screen name="Carte" component={Carte} />
-      <Tab.Screen name="Events" component={Events} />
+      <Tab.Screen name="Evénement" component={Events} />
       <Tab.Screen name="Articles" component={Articles} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>

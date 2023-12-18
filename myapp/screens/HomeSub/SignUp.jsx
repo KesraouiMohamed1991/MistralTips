@@ -1,15 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import {login}from '../../reducers/user'
+import {colors} from '../../utile/colors'
 
-const colors = {
-  Midnight: '#0f0a0a',
-  DeepBlue: '#191D88',
-  GoldenYellow: '#FFC436',
-  Marseille: '#30AADD',
-};
 
 const SignUp = ({ navigation }) => {
 
@@ -27,9 +22,8 @@ const SignUp = ({ navigation }) => {
   if (username.length ===0 || password.length ===0) {
     return;
   }
-
-  const BACKEND_ADDRESS = 'http://192.168.1.24:3000';
-  // const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
+    
+const BACKEND_ADDRESS = 'http://192.168.0.101:3000';
 
     try {
       const response = await fetch(`${BACKEND_ADDRESS}/bars/users/signup`, {
@@ -111,12 +105,12 @@ const SignUp = ({ navigation }) => {
   disabled={loading}
 >
   <FontAwesome
-    style={{ padding: 10 }}
+    style={{ paddingVertical: 10 }}
     name="user-plus"
     size={20}
     color={colors.DeepBlue}
   />
-  <Text style={styles.btnText}>
+  <Text style={[styles.btnText, { marginRight: 20 }]}>
     {loading ? 'Connexion en cours...' : 'Connexion'}
   </Text>
 </TouchableOpacity>

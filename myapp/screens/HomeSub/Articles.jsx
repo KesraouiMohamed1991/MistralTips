@@ -13,7 +13,7 @@ const Articles = ({navigation}) => {
   const fetcharticles = async () => {
     try {
       // const response = await fetch('http://10.20.2.92:3000/bars/blogs');
-      const response = await fetch(`${BACKEND_ADDRESS}/bars/blogs`);
+      const response = await fetch('http://192.168.0.101:3000/bars/blogs');
 
       if (response.ok) {
         const result = await response.json();
@@ -49,27 +49,35 @@ const Articles = ({navigation}) => {
         <TouchableOpacity  onPress={() => handlePress(item.titre)}>
             <Image style={styles.articleImage} source={{ uri: item.image }} />
             <Text style={styles.articleTitle}>{item.titre}</Text>
-            <Text style={styles.articleDate}>{item.date.slice(0,10)}</Text>
+            <Text style={styles.articleDate}>{formatDateToFrench(item.date)}</Text>
             <Text style={styles.articleDescription}>{item.description}</Text>
         </TouchableOpacity>
     </View>
   );
 
+    const formatDateToFrench = (dateString) => {
+        const options = {  day: 'numeric', month: 'long',year: 'numeric' };
+        return new Date(dateString).toLocaleDateString('fr-FR', options);
+    };
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Articles</Text>
       {loading ? (
         <ActivityIndicator size="large" color={colors.Radiance} />
       ) : error ? (
         <Text style={styles.errorText}>Error occurred while fetching articles</Text>
-      ) : (
+        ) : (
+            <>
+      <Text style={styles.header}>Articles</Text>
+            
         <FlatList
           data={data}
           keyExtractor={(item) => item.date}
           renderItem={renderarticleItem}
           style={styles.flatList}
           
-        />
+              />
+              </>
       )}
     </SafeAreaView>
   );
