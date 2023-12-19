@@ -4,6 +4,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch } from 'react-redux';
 import { login } from '../../reducers/user';
 import {colors} from '../../utile/colors'
+import { BACKEND_ADDRESS } from '../../utile/address.js';
 
 
 
@@ -22,8 +23,8 @@ const SignIn = ({ navigation }) => {
       }
 
       setLoading(true);
-// const BACKEND_ADDRESS = 'http://192.168.0.101:3000';
-const BACKEND_ADDRESS = 'http://10.20.2.91:3000';
+  // let BACKEND_ADDRESS = process.env.BACKEND_ADDRESS
+
 
       const response = await fetch(`${BACKEND_ADDRESS}/bars/users/signin`, {
         method: 'POST',

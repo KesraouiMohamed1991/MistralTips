@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator, Image, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { BACKEND_ADDRESS } from '../../utile/address.js';
 
+import { colors } from '../../utile/colors';
 
 const Events = ({navigation}) => {
   const [loading, setLoading] = useState(true);
@@ -14,8 +16,7 @@ const Events = ({navigation}) => {
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch('http://10.20.2.91:3000/bars/events');
-      // const response = await fetch('http://192.168.0.101:3000/bars/events');
+      const response = await fetch(`${BACKEND_ADDRESS}/bars/events`);
 
       if (response.ok) {
         const result = await response.json();
@@ -94,15 +95,7 @@ const Events = ({navigation}) => {
   );
 };
 
-const colors = {
-  Midnight: '#0f0a0a',
-  DeepBlue: '#191D88',
-  NavyBlue: '#1450A3',
-  RoyalBlue: '#337CCF',
-  Marseille: '#30AADD',
-  GoldenYellow: '#FFC436',
-  Radiance: '#ff6600',
-};
+
 
 const styles = StyleSheet.create({
   container: {

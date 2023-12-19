@@ -68,6 +68,7 @@ const barSchema = new mongoose.Schema({
 const Bar = mongoose.model('bars', barSchema);
 
 // Schéma pour un article
+
 const articleSchema = new mongoose.Schema({
     name: String,
     description: String,

@@ -9,4 +9,5 @@ export const colors = {
     GoldenYellow: '#FFC436',
     Radiance: '#ff6600',
 
+
 };
