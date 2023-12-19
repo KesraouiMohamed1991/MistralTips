@@ -160,7 +160,32 @@ router.post('/upload', async (req, res) => {
   }
 });
 
+router.put('/users/changePassword', async (req, res) => {
+  try {
+    if (!checkBody(req.body, ['username', 'password', 'newPassword'])) {
+      res.json({ result: false, error: 'informations manquantes' });
+      return;
+    }
 
+    const user = await User.findOne({ username: req.body.username });
+
+    if (user && bcrypt.compareSync(req.body.password, user.password)) {
+      user.password = bcrypt.hashSync(req.body.newPassword, 8);
+      const savedUser = await user.save();
+      res.json({
+        result: true,
+        password: savedUser.password,
+      });
+    } else {
+      console.log('COMPARAISON ECHOUEE');
+      console.log('USER: ', user);
+      res.json({ result: false, error: 'Mot de passe erroné' });
+    }
+  } catch (error) {
+    console.error('Error during signin:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+  })
 
 
 
