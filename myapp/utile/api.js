@@ -73,6 +73,38 @@ export const fetchUserAccount = async (username) => {
         const data = await response.json();
         console.log(data.result);
         console.log(username); // Log the username if needed
+
+    } catch (error) {
+        console.error('Error deleting user account:', error);
+        throw error;
+    }
+};
+
+
+export const fetchAccountInformations = async (password, username, newPassword) => {
+    try {
+        const response = await fetch(`${BACKEND_ADDRESS}/bars/users/changePassword`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+                newPassword: newPassword,
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to update user account. Status: ${response.status}`);
+
+        } else {
+            const data = await response.json();
+            console.log('log from api ', data);
+
+        }
+
+
+
+
     } catch (error) {
         console.error('Error deleting user account:', error);
         throw error;

@@ -21,11 +21,7 @@ const SignIn = ({ navigation }) => {
         setError('Veuillez remplir tous les champs.');
         return;
       }
-
       setLoading(true);
-  // let BACKEND_ADDRESS = process.env.BACKEND_ADDRESS
-
-
       const response = await fetch(`${BACKEND_ADDRESS}/bars/users/signin`, {
         method: 'POST',
         body: JSON.stringify({ username, password }),
@@ -36,21 +32,11 @@ const SignIn = ({ navigation }) => {
 
       if (response.ok) {
         setLoading(false);
-
         const result = await response.json();
-  
 
         if (result.result) {
-
           const { mail, token, username } = result.user;
-
-
-    //  console.log('show the result',result.user);
-          // console.log(mail);
-          // console.log(token);
-          // console.log(username);
-          dispatch(login({username, mail, token}))
-
+          dispatch(login({ username, mail, token }))
           navigation.navigate('MyTabs');
           setUsername('');
           setPassword('');
