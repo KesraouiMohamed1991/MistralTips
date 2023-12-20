@@ -8,8 +8,7 @@ import {
   Alert,
   Modal,
   Image,
-  TextInput,
-  Button
+  TextInput
 } from 'react-native';
 
 import { FontAwesome } from '@expo/vector-icons';
@@ -36,10 +35,16 @@ const Profile = ({ navigation }) => {
   const [type, setType] = useState(CameraType.back);
 
 
-  const [visible, setVisible] = useState(false);
+
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+
 
 const cameraRef = useRef(null);
 
+  
+  
   const handleLogout = () => {
     Alert.alert(
       'Se Deconnecter',
@@ -95,110 +100,60 @@ const cameraRef = useRef(null);
     navigation.navigate('BarsFavoris');
   };
 
-  
-
-  // Modal visibility switch
-  // const handleChangeInfo = () => {
-  //   try {
-  //     let modalVisible = true;
-  
-  //     const onCancel = () => {
-  //       modalVisible = false;
-  //     };
-
-  //     const onConfirm = async (password, username, newUsername, newMail, newPassword) => {
-  //       try {          
-  
-
-  //         if (response.ok) {
-  //           console.log('Informations mises à jour avec succès');
-  //         } else {
-  //           console.error('Erreur lors de la mise à jour des informations');
-  //         }
-  //       } catch (error) {
-  //         console.error('Erreur lors de la mise à jour des informations:', error);
-  //       } finally {
-  //       onCancel();
-  //       }
-  //     };
-
-  //     Alert.alert(
-  //       'Vous êtes sur le point de modifier les informations de votre compte.',
-  //       'Voulez-vous continuer ?',
-  //       [
-  //         {
-  //           text: 'Annuler',
-  //           style: 'cancel',
-  //         },
-  //         {
-  //           text: 'Modifier',
-  //           onPress: () => changeInfoModal(modalVisible , onCancel)
-  //         },
-  //       ],
-  //       { cancelable: false }
-  //     );
-  //   } catch (error) {
-  //     console.error('Error on informations update:', error);
-  //   }
-    
-  // };
-  
-
-
-const takePicture = async () => {
-  try {
-    const { status } = await Camera.requestCameraPermissionsAsync();
-    if (status !== 'granted') {
-      console.log('Camera permission not granted');
-      return;
-    }
-
-
-    if (cameraRef && cameraRef.current) {
-      // Capture photo
-      const photo = await cameraRef.current.takePictureAsync({ quality: 0.3 });
-
-      // Prepare and send photo to the server
-      const formData = new FormData();
-
-      formData.append('photoFromFront', {
-        uri: photo.uri,
-        type: 'image/jpg',
-        name: 'photo.jpg',
-      });
-
-      console.log('FormData:', formData);
-
-
-
-      const response = await fetch(`${BACKEND_ADDRESS}/bars/upload`, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Upload result:', result);
-        dispatch(addPhoto(result.url));
-        console.log('from redux',imageFromCloud);
-          setShowCamera(false)        
-      } else {
-        console.error(
-          'Error uploading photo to the server:',
-          response.status,
-          response.statusText
-        );
+  const takePicture = async () => {
+    try {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('Camera permission not granted');
+        return;
       }
-    } else {
-      console.error('Camera reference is invalid or not ready');
+
+
+      if (cameraRef && cameraRef.current) {
+        // Capture photo
+        const photo = await cameraRef.current.takePictureAsync({ quality: 0.3 });
+
+        // Prepare and send photo to the server
+        const formData = new FormData();
+
+        formData.append('photoFromFront', {
+          uri: photo.uri,
+          type: 'image/jpg',
+          name: 'photo.jpg',
+        });
+
+        console.log('FormData:', formData);
+
+
+
+        const response = await fetch(`${BACKEND_ADDRESS}/bars/upload`, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log('Upload result:', result);
+          dispatch(addPhoto(result.url));
+          console.log('from redux',imageFromCloud);
+            setShowCamera(false)        
+        } else {
+          console.error(
+            'Error uploading photo to the server:',
+            response.status,
+            response.statusText
+          );
+        }
+      } else {
+        console.error('Camera reference is invalid or not ready');
+      }
+    } catch (error) {
+      console.error('Error in takePicture:', error);
     }
-  } catch (error) {
-    console.error('Error in takePicture:', error);
-  }
-};
+  };
 
 
 
@@ -211,6 +166,36 @@ const takePicture = async () => {
   }, []);
 
 
+
+
+
+  
+
+
+  const HandlePasswordChange = async () => {
+    if (newPassword.length === 0 || currentPassword.length === 0) {
+     
+      return 
+   }
+
+
+    try {
+        await fetchAccountInformations(currentPassword, user.username, newPassword);
+      console.log('Password changed successfully.');
+       setIsVisible(false); 
+
+    } catch (error) {
+        console.error('Error handling password change:', error);
+    }
+};
+  
+  
+  
+
+
+
+    
+
   
   return (
     <ScrollView style={styles.container}>
@@ -219,41 +204,90 @@ const takePicture = async () => {
       ) : (
         <View>
           {/* Modal for Camera View */}
-          <Modal
-            animationType="slide"
-            transparent={false}
-            visible={showCamera}
-            onRequestClose={() => setShowCamera(false)}
-            >
-        <Camera  type={type}  ref={cameraRef} style={{ flex: 1 }}  />
-              
-        <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
+              <Modal
+              animationType="slide"
+              transparent={false}
+              visible={showCamera}
+              onRequestClose={() => setShowCamera(false)}
+              >
+              <Camera  type={type}  ref={cameraRef} style={{ flex: 1 }}  />
+
+              <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
 
 
-                <TouchableOpacity
-          
-          onPress={() => setType(type === CameraType.back ? CameraType.front : CameraType.back)}
->
-            <FontAwesome name="rotate-right" size={30} color={colors.Radiance}/>
-        </TouchableOpacity>
+              <TouchableOpacity
+
+              onPress={() => setType(type === CameraType.back ? CameraType.front : CameraType.back)}
+              >
+              <FontAwesome name="rotate-right" size={30} color={colors.Radiance}/>
+              </TouchableOpacity>
 
 
 
 
-        <TouchableOpacity onPress={takePicture}>
-            <FontAwesome name="circle-thin" size={80} color={colors.Radiance}/>
-        </TouchableOpacity>
-
-      
-
-        <TouchableOpacity onPress={() => setShowCamera(false)} style={styles.close} >
-        <FontAwesome name='close' size={30} color={colors.Radiance} />
-        </TouchableOpacity>
+              <TouchableOpacity onPress={takePicture}>
+              <FontAwesome name="circle-thin" size={80} color={colors.Radiance}/>
+              </TouchableOpacity>
 
 
-        </View>
 
-          </Modal>
+              <TouchableOpacity onPress={() => setShowCamera(false)} style={styles.close} >
+              <FontAwesome name='close' size={30} color={colors.Radiance} />
+              </TouchableOpacity>
+
+
+              </View>
+
+              </Modal>
+
+
+          {/* Modal for password */}
+
+              <Modal
+              transparent={true}
+              animationType="slide"
+              visible={isVisible}
+              // onRequestClose={onClose}
+              >
+              <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+
+              <Text style={styles.modalTitle}>Changer le mot de passe</Text>
+
+              <TextInput
+              style={styles.input}
+              placeholder="Mot de passe actuel"
+              secureTextEntry
+              value={currentPassword}
+              onChangeText={setCurrentPassword}
+              required
+              />
+
+              <TextInput
+              style={styles.input}
+              placeholder="Nouveau mot de passe"
+              secureTextEntry
+              value={newPassword}
+              onChangeText={setNewPassword}
+              required
+              />
+
+              <TouchableOpacity
+              style={styles.modalBtn}
+              onPress={HandlePasswordChange}
+              >
+              <Text style={styles.buttonText}>Changer le mot de passe</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.closeButton} onPress={()=>setIsVisible(false)} >
+              <Text style={styles.closeButtonText}>Fermer</Text>
+              </TouchableOpacity>
+              </View>
+              </View>
+              </Modal>
+
+
+
          
           <View style={styles.header}>
             <Text style={styles.headerTitle}>Mon Profil</Text>
@@ -279,30 +313,38 @@ const takePicture = async () => {
             </Text>
             <Text style={styles.profileEmail}>{user.mail}</Text>
 
-            <View style={styles.buttonsContainer}>
+              <View style={styles.buttonsContainer}>
+                
               <TouchableOpacity style={styles.logOut} onPress={handleLogout}>
                 <Text style={styles.logOutText}>Déconnexion</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.gofav} onPress={handleFavorites}>
-                <Text style={styles.buttonText}>
-                  Mes favoris
+                </TouchableOpacity>
                 
-
-                  </Text>
-                  <Text style={{ fontSize: 8, position: 'absolute', right: 28, top: 5, fontWeight: 'bold' }}>{favBars.length > 0 ? favBars.length : null}</Text>
-                  
+              <TouchableOpacity style={styles.gofav} onPress={handleFavorites}>
+                <Text style={styles.buttonText}>Mes favoris</Text>
+                <Text style={{ fontSize: 8, position: 'absolute', right: 28, top: 5, fontWeight: 'bold' }}>{favBars.length > 0 ? favBars.length : null}</Text>
               </TouchableOpacity>
             </View>
-
-            <Text onPress={handleDeleteAccount} style={styles.deleteAccount}>
-              Supprimer mon compte
-            </Text>
+            
+          <TouchableOpacity
+          style={styles.button}
+          onPress={() => setIsVisible(true)}>
+          <Text style={styles.changerbtn}>Modifier Mot de passe </Text>
+          </TouchableOpacity>
+        
           </View>
 
           <View style={styles.infoSection}>
             <InfoItem title="Ville" value="Marseille" />
-            <InfoItem title="Langue" value="Français" />
-            <TouchableOpacity onPress={() => setVisible(true)}><Text>Modifier mes informations</Text></TouchableOpacity>
+              <InfoItem title="Langue" value="Français" />
+
+
+
+        
+                  <Text onPress={handleDeleteAccount} style={styles.deleteAccount}>
+              Supprimer mon compte
+            </Text>
+
+
           </View>
           <ChangeInfoModal visible={visible} setVisible={setVisible}/>
 
@@ -500,12 +542,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     alignItems:'center'
   },
-  deleteAccount: {
-    fontFamily: 'BricolageGrotesque',
-    color: 'red',
-    fontSize: 12,
-    padding: 10,
-  },
+deleteAccount: {
+  fontFamily: 'BricolageGrotesque',
+  color: 'red',
+  fontSize: 12,
+  padding: 10,
+  marginTop:10,
+  textAlign: 'center',
+  borderStyle: 'dotted', // Set border style to dotted
+  borderColor: colors.DeepBlue,  // Set border color (change to your desired color)
+  borderWidth: 1,        // Set border width (adjust as needed)
+},
+
   gofav: {
     marginVertical: 10,
     backgroundColor: colors.GoldenYellow,
@@ -520,7 +568,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     width: "100%",
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-evenly'
     
   }, buttonText: {
     fontFamily: 'BricolageGrotesque',
@@ -537,17 +585,81 @@ const styles = StyleSheet.create({
     borderRadius:75
   },
 
-  modalContainer: {
+    modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    backgroundColor: colors.Marseille,
+    backgroundColor: 'white',
     padding: 20,
     borderRadius: 10,
-    elevation: 5,
+    width: 300,
   },
+  modalTitle: {
+    fontSize: 18,
+    fontFamily: 'BricolageGrotesque',
+    marginBottom: 10,
+    textAlign:'center'
+  },
+  input: {
+    height: 40,
+    borderColor: colors.Marseille,
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    fontFamily: 'Poppins-Regular',
+
+
+  },
+  button: {
+    backgroundColor: colors.GoldenYellow,
+    padding: 10,
+    borderRadius: 20,
+    alignItems: 'center',
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  buttonText: {
+    color: colors.DeepBlue,
+    fontFamily: 'BricolageGrotesque',
+  },
+  closeButton: {
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    borderColor: colors.Marseille,
+    borderWidth: 1,
+  },
+  closeButtonText: {
+    color: colors.DeepBlue,
+    fontFamily: 'BricolageGrotesque',
+  },
+
+
+  changerbtn: {
+    backgroundColor: colors.GoldenYellow,
+    borderRadius: 20,
+    alignItems: 'center',
+    fontFamily: 'BricolageGrotesque',
+    paddingHorizontal: 10,
+    color: colors.DeepBlue,
+    
+
+  }, modalBtn: {
+    borderRadius: 5,
+    color: colors.DeepBlue,
+    paddingHorizontal: 10,
+    backgroundColor: colors.GoldenYellow,
+    alignItems: 'center',
+    paddingVertical: 5,
+    marginBottom: 10,
+    paddingVertical:10,
+    
+  }
+
 });
 
 

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, ActivityIndicator, SafeAreaView, TouchableOpacity } from 'react-native';
 import { fetchArticlesData } from '../../utile/api';
 import {colors} from '../../utile/colors'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const ArticlesContent = ({ route }) => {
+const ArticlesContent = ({ route, navigation }) => {
   const title = route.params.titre;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -27,6 +28,13 @@ const ArticlesContent = ({ route }) => {
     fetchData();
   }, [title]);
 
+
+    const goArtcile = () => {
+    navigation.navigate('Articles');
+}
+
+
+
   const renderContentSection = () => {
     if (loading) {
       return        <View style={{marginVertical:400}} >
@@ -37,7 +45,7 @@ const ArticlesContent = ({ route }) => {
 
     if (error) {
       return<>
-        <Text style={styles.errorText}>Error occurred while fetching articles</Text>;
+        <Text style={styles.errorText}>Une erreur s'est produite lors de la récupération des articles</Text>;
       
       </>
     
@@ -51,7 +59,11 @@ const ArticlesContent = ({ route }) => {
 
     return (
       <SafeAreaView style={styles.section}>
-            <Text style={styles.header}>Articles </Text>
+        <Text style={styles.header}>Articles </Text>
+        
+                <TouchableOpacity style={styles.icon} onPress={goArtcile} >
+        <FontAwesome style={{ padding: 10 }} name="arrow-left" size={25} color={colors.Midnight} />
+        </TouchableOpacity>
         <Image style={styles.articleImage} source={{ uri: article.img }} />
         <Text style={styles.title}>{article.title}</Text>
         <Text style={styles.date}>{formatDate(article.date)}</Text>
@@ -147,7 +159,19 @@ const styles = StyleSheet.create({
         fontFamily: 'BricolageGrotesque',
         
 
-      }
+      },  icon: {
+            top: 22,
+            left: 5,
+            // backgroundColor: colors.GoldenYellow,
+            position: 'absolute',
+            zIndex:10,
+            height: 50,
+            width: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 25,
+            fontFamily: 'Poppins-Regular',
+        },
 });
 
 export default ArticlesContent;

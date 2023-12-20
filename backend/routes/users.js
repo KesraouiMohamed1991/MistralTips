@@ -161,126 +161,83 @@ router.post('/upload', async (req, res) => {
 });
 
 
-router.put('/users/changeInformations', async (req, res) => {
+router.put('/users/changePassword', async (req, res) => {
   try {
-    if (!checkBody(req.body, ['username', 'password'])) {
+    if (!checkBody(req.body, ['username', 'password', 'newPassword'])) {
       res.json({ result: false, error: 'informations manquantes' });
       return;
     }
 
     const user = await User.findOne({ username: req.body.username });
+    console.log('Password from database:', user ? user.password : 'User not found');
 
     if (user && bcrypt.compareSync(req.body.password, user.password)) {
+      const hash = bcrypt.hashSync(req.body.newPassword, 8);
 
-      req.body.newPassword ? user.password = bcrypt.hashSync(req.body.newPassword, 8) : null;
+      console.log('Password comparison succeeded');
+      console.log('user AVANT: ', user);
 
-      req.body.newUsername ? user.username = req.body.newUsername : null;
+      user.password = hash;
 
-      req.body.newMail ? user.mail = req.body.newMail : null;      
+      const savedUser = await user.save();
 
-      await user.save();
       res.json({
         result: true,
-        user: user,
+        password: savedUser.password,
       });
-      console.log('Changement effectué avec succès');
-      console.log(req.body);
     } else {
-      console.log('COMPARAISON ECHOUEE');
-      console.log('USER: ', user);
+      console.log('Password comparison failed');
+      console.log('user AVANT: ', user);
       res.json({ result: false, error: 'Mot de passe erroné' });
     }
   } catch (error) {
-    console.error('Error during signin:', error);
+    console.error('Error during password change:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-  })
+});
 
 
-// router.put('/users/changePassword', async (req, res) => {
-//   try {
-//     if (!checkBody(req.body, ['username', 'password', 'newPassword'])) {
-//       res.json({ result: false, error: 'informations manquantes' });
-//       return;
-//     }
 
-//     const user = await User.findOne({ username: req.body.username });
 
-//     if (user && bcrypt.compareSync(req.body.password, user.password)) {
-//       user.password = bcrypt.hashSync(req.body.newPassword, 8);
-//       const savedUser = await user.save();
-//       res.json({
-//         result: true,
-//         password: savedUser.password,
-//       });
-//       console.log('Changement effectué avec succès');
-//     } else {
-//       console.log('COMPARAISON ECHOUEE');
-//       console.log('USER: ', user);
-//       res.json({ result: false, error: 'Mot de passe erroné' });
-//     }
-//   } catch (error) {
-//     console.error('Error during signin:', error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-//   })
 
-// router.put('/users/changeUsername', async (req, res) => {
-//   try {
-//     if (!checkBody(req.body, ['username', 'password', 'newUsername'])) {
-//       res.json({ result: false, error: 'informations manquantes' });
-//       return;
-//     }
+router.put('/users/changePassword', async (req, res) => {
+  try {
+    if (!checkBody(req.body, ['username', 'password', 'newPassword'])) {
+      res.json({ result: false, error: 'informations manquantes' });
+      return;
+    }
 
-//     const user = await User.findOne({ username: req.body.username });
+    const user = await User.findOne({ username: req.body.username });
+    console.log('Password from database:', user ? user.password : 'User not found');
 
-//     if (user && bcrypt.compareSync(req.body.password, user.password)) {
-//       user.username = req.body.newUsername;
-//       const savedUser = await user.save();
-//       res.json({
-//         result: true,
-//         username: savedUser.username,
-//       });
-//       console.log('Changement effectué avec succès');
-//     } else {
-//       console.log('COMPARAISON ECHOUEE');
-//       console.log('USER: ', user);
-//       res.json({ result: false, error: 'Mot de passe erroné' });
-//     }
-//   } catch (error) {
-//     console.error('Error during signin:', error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-//   })
+    if (user && bcrypt.compareSync(req.body.password, user.password)) {
+      const hash = bcrypt.hashSync(req.body.newPassword, 8);
 
-// router.put('/users/changeEmail', async (req, res) => {
-//   try {
-//     if (!checkBody(req.body, ['username', 'password', 'newEmail'])) {
-//       res.json({ result: false, error: 'informations manquantes' });
-//       return;
-//     }
+      console.log('Password comparison succeeded');
+      console.log('user AVANT: ', user);
 
-//     const user = await User.findOne({ username: req.body.username });
+      user.password = hash;
 
-//     if (user && bcrypt.compareSync(req.body.password, user.password)) {
-//       user.mail = req.body.newEmail, 8;
-//       const savedUser = await user.save();
-//       res.json({
-//         result: true,
-//         mail: savedUser.mail,
-//       });
-//       console.log('Changement effectué avec succès');
-//     } else {
-//       console.log('COMPARAISON ECHOUEE');
-//       console.log('USER: ', user);
-//       res.json({ result: false, error: 'Mot de passe erroné' });
-//     }
-//   } catch (error) {
-//     console.error('Error during signin:', error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-//   })
-  
+      const savedUser = await user.save();
+
+      res.json({
+        result: true,
+        password: savedUser.password,
+      });
+    } else {
+      console.log('Password comparison failed');
+      console.log('user AVANT: ', user);
+      res.json({ result: false, error: 'Mot de passe erroné' });
+    }
+  } catch (error) {
+    console.error('Error during password change:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+
 
 
 module.exports = router;

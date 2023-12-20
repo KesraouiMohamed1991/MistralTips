@@ -75,7 +75,7 @@ const Events = ({navigation}) => {
           <ActivityIndicator size="large" color={colors.Radiance} />
         </View>
       ) : error ? (
-        <Text style={styles.errorText}>Error occurred while fetching Events</Text>
+        <Text style={styles.errorText}>Une erreur s'est produite lors de la récupération des événements</Text>
         ) : (
             
             <>
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
    color: 'red',
-    fontSize: 16,
+    fontSize: 14,
     marginTop: 20,
     fontFamily: 'BricolageGrotesque' ,
 

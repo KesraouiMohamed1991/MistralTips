@@ -5,7 +5,7 @@ import {colors} from '../../utile/colors'
 
 import { FontAwesome } from '@expo/vector-icons'; 
 
-const EventsContent = ({ route }) => {
+const EventsContent = ({ route, navigation }) => {
     const title = route.params.titre;
 
     const [loading, setLoading] = useState(true);
@@ -34,6 +34,14 @@ const EventsContent = ({ route }) => {
         return new Date(dateString).toLocaleDateString('fr-FR', options);
     };
 
+
+    const goEvent = () => {
+    
+    navigation.navigate('Evénement');
+
+}
+
+
     return (
         <SafeAreaView style={styles.container}>
 
@@ -44,7 +52,9 @@ const EventsContent = ({ route }) => {
             ) : data.length > 0 ? (
                 <>
                     <Text style={styles.header}>Evénements </Text>
-
+                <TouchableOpacity style={styles.icon} onPress={goEvent} >
+        <FontAwesome style={{ padding: 10 }} name="arrow-left" size={25} color={colors.Midnight} />
+        </TouchableOpacity>
                     <Image
                         source={{ uri: data[0].img }}
                         style={styles.eventImage}
@@ -66,7 +76,7 @@ const EventsContent = ({ route }) => {
                     </View>
                 </>
             ) : (
-                <Text>No data available</Text>
+                <Text>Pas de données disponibles</Text>
             )}
         </SafeAreaView>
     );
@@ -154,7 +164,19 @@ const styles = StyleSheet.create({
         marginHorizontal:150,
      
     },
-
+  icon: {
+            top: 36,
+            left: 5,
+            // backgroundColor: colors.GoldenYellow,
+            position: 'absolute',
+            zIndex:10,
+            height: 50,
+            width: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 25,
+            fontFamily: 'Poppins-Regular',
+        },
 
  
 });

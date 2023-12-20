@@ -69,7 +69,7 @@ const Articles = ({navigation}) => {
       {loading ? (
         <ActivityIndicator size="large" color={colors.Radiance} />
       ) : error ? (
-        <Text style={styles.errorText}>Error occurred while fetching articles</Text>
+        <Text style={styles.errorText}>Une erreur s'est produite lors de la récupération des articles</Text>
         ) : (
             <>
       <Text style={styles.header}>Articles</Text>
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: 'red',
-    fontSize: 16,
+    fontSize: 14,
     marginTop: 20,
     fontFamily: 'BricolageGrotesque' ,
 

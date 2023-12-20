@@ -17,51 +17,65 @@ const SignUp = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [loading, setLoading]=useState(false)
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{9,}$/;
 
-  const handleSignUp = async () => {
 
-  if (username.length ===0 || password.length ===0) {
+const handleSignUp = async () => {
+  if (username.length === 0 || password.length === 0) {
     return;
   }
-    
-  // let BACKEND_ADDRESS = process.env.BACKEND_ADDRESS
 
-    try {
-      const response = await fetch(`${BACKEND_ADDRESS}/bars/users/signup`, {
-        method: 'POST',
-        body: JSON.stringify({
-          username,
-          password,
-          mail: mail,
-          phoneNumber
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      setLoading(true)
+  if (!emailRegex.test(mail)) {
+    return;
+  }
 
-      if (response.ok) {
-        setLoading(false)
-        const result = await response.json();
-            dispatch(login({username, mail, token: result.token }))
+  if (!passwordRegex.test(password)) {
+    return;
+  }
 
-        if (result.result) {
-          navigation.navigate('MyTabs');
-          setEmail('')
-          setPhoneNumber('')
-          setUsername('')
-          setPassword('')
-        } else {
-          console.error('Sign-up failed:', result.error);
-        }
+  try {
+    const response = await fetch(`${BACKEND_ADDRESS}/bars/users/signup`, {
+      method: 'POST',
+      body: JSON.stringify({
+        username,
+        password,
+        mail,
+        phoneNumber,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    setLoading(true);
+
+    if (response.ok) {
+      setLoading(false);
+      const result = await response.json();
+      dispatch(login({ username, mail, token: result.token }));
+
+      if (result.result) {
+        navigation.navigate('MyTabs');
+        setEmail('');
+        setPhoneNumber('');
+        setUsername('');
+        setPassword('');
       } else {
-        console.error('Error uploading data to the server:', response.status, response.statusText);
+        console.error('Sign-up failed:', result.error);
       }
-    } catch (error) {
-      console.error('Error during fetch:', error);
+    } else {
+      console.error(
+        'Error uploading data to the server:',
+        response.status,
+        response.statusText
+      );
     }
-  };
+  } catch (error) {
+    console.error('Error during fetch:', error);
+  }
+};
+
 
   return (
     <View style={styles.container}>
