@@ -184,6 +184,7 @@ router.put('/users/changeInformations', async (req, res) => {
         user: user,
       });
       console.log('Changement effectué avec succès');
+      console.log(req.body);
     } else {
       console.log('COMPARAISON ECHOUEE');
       console.log('USER: ', user);
