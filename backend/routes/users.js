@@ -160,9 +160,10 @@ router.post('/upload', async (req, res) => {
   }
 });
 
-router.put('/users/changePassword', async (req, res) => {
+
+router.put('/users/changeInformations', async (req, res) => {
   try {
-    if (!checkBody(req.body, ['username', 'password', 'newPassword'])) {
+    if (!checkBody(req.body, ['username', 'password'])) {
       res.json({ result: false, error: 'informations manquantes' });
       return;
     }
@@ -170,12 +171,19 @@ router.put('/users/changePassword', async (req, res) => {
     const user = await User.findOne({ username: req.body.username });
 
     if (user && bcrypt.compareSync(req.body.password, user.password)) {
-      user.password = bcrypt.hashSync(req.body.newPassword, 8);
-      const savedUser = await user.save();
+
+      req.body.newPassword ? user.password = bcrypt.hashSync(req.body.newPassword, 8) : null;
+
+      req.body.newUsername ? user.username = req.body.newUsername : null;
+
+      req.body.newMail ? user.mail = req.body.newMail : null;      
+
+      await user.save();
       res.json({
         result: true,
-        password: savedUser.password,
+        user: user,
       });
+      console.log('Changement effectué avec succès');
     } else {
       console.log('COMPARAISON ECHOUEE');
       console.log('USER: ', user);
@@ -187,6 +195,91 @@ router.put('/users/changePassword', async (req, res) => {
   }
   })
 
+
+// router.put('/users/changePassword', async (req, res) => {
+//   try {
+//     if (!checkBody(req.body, ['username', 'password', 'newPassword'])) {
+//       res.json({ result: false, error: 'informations manquantes' });
+//       return;
+//     }
+
+//     const user = await User.findOne({ username: req.body.username });
+
+//     if (user && bcrypt.compareSync(req.body.password, user.password)) {
+//       user.password = bcrypt.hashSync(req.body.newPassword, 8);
+//       const savedUser = await user.save();
+//       res.json({
+//         result: true,
+//         password: savedUser.password,
+//       });
+//       console.log('Changement effectué avec succès');
+//     } else {
+//       console.log('COMPARAISON ECHOUEE');
+//       console.log('USER: ', user);
+//       res.json({ result: false, error: 'Mot de passe erroné' });
+//     }
+//   } catch (error) {
+//     console.error('Error during signin:', error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+//   })
+
+// router.put('/users/changeUsername', async (req, res) => {
+//   try {
+//     if (!checkBody(req.body, ['username', 'password', 'newUsername'])) {
+//       res.json({ result: false, error: 'informations manquantes' });
+//       return;
+//     }
+
+//     const user = await User.findOne({ username: req.body.username });
+
+//     if (user && bcrypt.compareSync(req.body.password, user.password)) {
+//       user.username = req.body.newUsername;
+//       const savedUser = await user.save();
+//       res.json({
+//         result: true,
+//         username: savedUser.username,
+//       });
+//       console.log('Changement effectué avec succès');
+//     } else {
+//       console.log('COMPARAISON ECHOUEE');
+//       console.log('USER: ', user);
+//       res.json({ result: false, error: 'Mot de passe erroné' });
+//     }
+//   } catch (error) {
+//     console.error('Error during signin:', error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+//   })
+
+// router.put('/users/changeEmail', async (req, res) => {
+//   try {
+//     if (!checkBody(req.body, ['username', 'password', 'newEmail'])) {
+//       res.json({ result: false, error: 'informations manquantes' });
+//       return;
+//     }
+
+//     const user = await User.findOne({ username: req.body.username });
+
+//     if (user && bcrypt.compareSync(req.body.password, user.password)) {
+//       user.mail = req.body.newEmail, 8;
+//       const savedUser = await user.save();
+//       res.json({
+//         result: true,
+//         mail: savedUser.mail,
+//       });
+//       console.log('Changement effectué avec succès');
+//     } else {
+//       console.log('COMPARAISON ECHOUEE');
+//       console.log('USER: ', user);
+//       res.json({ result: false, error: 'Mot de passe erroné' });
+//     }
+//   } catch (error) {
+//     console.error('Error during signin:', error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+//   })
+  
 
 
 module.exports = router;

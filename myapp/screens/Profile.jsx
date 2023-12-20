@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
   Alert,
   Modal,
-  Image
+  Image,
+  TextInput,
+  Button
 } from 'react-native';
 
 import { FontAwesome } from '@expo/vector-icons';
@@ -15,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../reducers/user';
 import { removeData } from '../reducers/bars';
 import { fetchUserAccount } from '../utile/api';
+import { fetchAccountInformations } from '../utile/api';
 import { colors } from '../utile/colors';
 import { Camera, CameraType } from 'expo-camera';
 import { useIsFocused } from '@react-navigation/native';
@@ -31,6 +34,9 @@ const Profile = ({ navigation }) => {
   const imageFromCloud = useSelector((state) => state.photo.value);
   const isFocused = useIsFocused();
   const [type, setType] = useState(CameraType.back);
+
+
+  const [visible, setVisible] = useState(false);
 
 const cameraRef = useRef(null);
 
@@ -88,6 +94,55 @@ const cameraRef = useRef(null);
   const handleFavorites = () => {
     navigation.navigate('BarsFavoris');
   };
+
+  
+
+  // Modal visibility switch
+  // const handleChangeInfo = () => {
+  //   try {
+  //     let modalVisible = true;
+  
+  //     const onCancel = () => {
+  //       modalVisible = false;
+  //     };
+
+  //     const onConfirm = async (password, username, newUsername, newMail, newPassword) => {
+  //       try {          
+  
+
+  //         if (response.ok) {
+  //           console.log('Informations mises à jour avec succès');
+  //         } else {
+  //           console.error('Erreur lors de la mise à jour des informations');
+  //         }
+  //       } catch (error) {
+  //         console.error('Erreur lors de la mise à jour des informations:', error);
+  //       } finally {
+  //       onCancel();
+  //       }
+  //     };
+
+  //     Alert.alert(
+  //       'Vous êtes sur le point de modifier les informations de votre compte.',
+  //       'Voulez-vous continuer ?',
+  //       [
+  //         {
+  //           text: 'Annuler',
+  //           style: 'cancel',
+  //         },
+  //         {
+  //           text: 'Modifier',
+  //           onPress: () => changeInfoModal(modalVisible , onCancel)
+  //         },
+  //       ],
+  //       { cancelable: false }
+  //     );
+  //   } catch (error) {
+  //     console.error('Error on informations update:', error);
+  //   }
+    
+  // };
+  
 
 
 const takePicture = async () => {
@@ -247,7 +302,9 @@ const takePicture = async () => {
           <View style={styles.infoSection}>
             <InfoItem title="Ville" value="Marseille" />
             <InfoItem title="Langue" value="Français" />
+            <TouchableOpacity onPress={() => setVisible(true)}><Text>Modifier mes informations</Text></TouchableOpacity>
           </View>
+          <ChangeInfoModal visible={visible} setVisible={setVisible}/>
 
           <View style={styles.contactSection}>
             <Text style={styles.contactTitle}>Nos Réseaux Sociaux</Text>
@@ -266,6 +323,51 @@ const takePicture = async () => {
     </ScrollView>
   );
 };
+
+const ChangeInfoModal = ({visible, setVisible}) => {
+  
+  const [password, setPassword] = useState('');
+  const [newMail, setMail] = useState(null);
+  const [newUsername, setUsername] = useState(null);
+  const [newPassword, setNewPassword] = useState(null);
+  
+
+  return(
+  <Modal
+    animationType="slide"
+    transparent={true}
+    visible={visible}
+    onRequestClose={setVisible(false)}>
+    <View style={styles.modalContainer}>
+      <View style={styles.modalContent}>
+        <Text>Saisissez votre mot de passe puis les informations à modifier :</Text>
+        <TextInput
+          secureTextEntry
+          placeholder="Mot de passe actuel"
+          value={password}
+          onChangeText={setPassword}
+        />
+        <TextInput
+          placeholder="Nouveau mot de passe"
+          value={newPassword}
+          onChangeText={setNewPassword}
+        />
+        <TextInput
+          placeholder="Nom d'utilisateur"
+          value={newUsername}
+          onChangeText={setUsername}
+        />
+        <TextInput
+          placeholder="Email"
+          value={newMail}
+          onChangeText={setMail}
+        />
+        <Button title="Annuler" onPress={setVisible(false)} />
+        <Button title="Confirmer" onPress={() => fetchAccountInformations(password, newUsername, newMail, newPassword)} />
+      </View>
+    </View>
+  </Modal>)
+  };
 
 const InfoItem = ({ title, value }) => (
   <View style={styles.infoItem}>
@@ -434,6 +536,19 @@ const styles = StyleSheet.create({
     width: 150,
     borderRadius:75
   },
+
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: colors.Marseille,
+    padding: 20,
+    borderRadius: 10,
+    elevation: 5,
+  },
 });
+
 
 export default Profile;
