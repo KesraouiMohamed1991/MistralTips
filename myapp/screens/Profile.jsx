@@ -346,7 +346,6 @@ const cameraRef = useRef(null);
 
 
           </View>
-          <ChangeInfoModal visible={visible} setVisible={setVisible}/>
 
           <View style={styles.contactSection}>
             <Text style={styles.contactTitle}>Nos Réseaux Sociaux</Text>
@@ -365,51 +364,6 @@ const cameraRef = useRef(null);
     </ScrollView>
   );
 };
-
-const ChangeInfoModal = ({visible, setVisible}) => {
-  
-  const [password, setPassword] = useState('');
-  const [newMail, setMail] = useState(null);
-  const [newUsername, setUsername] = useState(null);
-  const [newPassword, setNewPassword] = useState(null);
-  
-
-  return(
-  <Modal
-    animationType="slide"
-    transparent={true}
-    visible={visible}
-    onRequestClose={setVisible(false)}>
-    <View style={styles.modalContainer}>
-      <View style={styles.modalContent}>
-        <Text>Saisissez votre mot de passe puis les informations à modifier :</Text>
-        <TextInput
-          secureTextEntry
-          placeholder="Mot de passe actuel"
-          value={password}
-          onChangeText={setPassword}
-        />
-        <TextInput
-          placeholder="Nouveau mot de passe"
-          value={newPassword}
-          onChangeText={setNewPassword}
-        />
-        <TextInput
-          placeholder="Nom d'utilisateur"
-          value={newUsername}
-          onChangeText={setUsername}
-        />
-        <TextInput
-          placeholder="Email"
-          value={newMail}
-          onChangeText={setMail}
-        />
-        <Button title="Annuler" onPress={setVisible(false)} />
-        <Button title="Confirmer" onPress={() => fetchAccountInformations(password, newUsername, newMail, newPassword)} />
-      </View>
-    </View>
-  </Modal>)
-  };
 
 const InfoItem = ({ title, value }) => (
   <View style={styles.infoItem}>
@@ -661,6 +615,5 @@ deleteAccount: {
   }
 
 });
-
 
 export default Profile;
