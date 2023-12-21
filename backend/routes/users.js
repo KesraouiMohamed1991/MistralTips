@@ -5,21 +5,16 @@ const { Bar, Blog, Event } = require('../models/DBModels');
 const { checkBody } = require('../modules/checkBody');
 const uid2 = require('uid2');
 const bcrypt = require('bcrypt');
-
-
 const cloudinary = require('cloudinary').v2;
 const uniqid = require('uniqid');
 const fs = require('fs');
+require('dotenv').config();
 
 cloudinary.config({
   cloud_name: 'dsttg3p2z',
   api_key: '651845119925515',
   api_secret: 'zVP5tTdsSxRratzwitKT81B-ZNE'
 });
-
-
-
-
 
 router.get('/all', async (req, res) => {
   try {
@@ -134,7 +129,6 @@ router.delete('/users/deleteOne', async (req, res) => {
   }
 });
 
-
 router.post('/upload', async (req, res) => {
   try {
     if (!req.files || !req.files.photoFromFront) {
@@ -159,7 +153,6 @@ router.post('/upload', async (req, res) => {
     res.status(500).json({ result: false, error: 'Internal Server Error' });
   }
 });
-
 
 router.put('/users/changePassword', async (req, res) => {
   try {
