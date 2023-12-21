@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
@@ -9,7 +10,6 @@ const cloudinary = require('cloudinary').v2;
 const uniqid = require('uniqid');
 const fs = require('fs');
 
-require('dotenv').config();
 
 cloudinary.config({
   cloud_name: 'dsttg3p2z',
