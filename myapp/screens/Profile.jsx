@@ -303,7 +303,7 @@ const cameraRef = useRef(null);
             <Image
             style={styles.Image}
             source={{
-            uri: imageFromCloud.length>0? imageFromCloud: 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=3431&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            uri: imageFromCloud.length>0? imageFromCloud: 'https://img.freepik.com/vecteurs-premium/icone-profil-utilisateur-dans-style-plat-illustration-vectorielle-avatar-membre-fond-isole-concept-entreprise-signe-autorisation-humaine_157943-15752.jpg',
             }}
             />
             </TouchableOpacity>
