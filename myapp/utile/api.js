@@ -3,8 +3,6 @@
 import { BACKEND_ADDRESS } from './address.js';
 
 
-
-
 export const fetchBarsData = async () => {
     try {
         const response = await fetch(`${BACKEND_ADDRESS}/bars/all`);
@@ -55,8 +53,6 @@ export const fetchEventsData = async () => {
         throw error;
     }
 };
-
-
 
 export const fetchUserAccount = async (username) => {
     try {
