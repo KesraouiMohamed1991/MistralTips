@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt');
 const cloudinary = require('cloudinary').v2;
 const uniqid = require('uniqid');
 const fs = require('fs');
+
 require('dotenv').config();
 
 cloudinary.config({
