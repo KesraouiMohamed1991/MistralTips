@@ -93,15 +93,16 @@ const Barpage = ({ route, navigation }) => {
         <Text style={styles.barspresent}>Présentation: {presentation}.</Text>
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
 
-        <TouchableOpacity style={{ paddingVertical: 10, fontSize: 16, fontWeight: 'bold', fontSize: 16 }} onPress={handleDetails}>
-        <Text>{showDetails ? 'Cacher Horaires ↴' : 'Voir Horaires ↴'}</Text>
+        <TouchableOpacity style={{ paddingVertical: 10, fontSize: 16, fontWeight: 'bold', fontSize: 16, width:'100%', justifyContent:'center', alignItems:'flex-start' }} onPress={handleDetails}>
+        <Text style={{textAlign:'center'}}>{showDetails ? 'Cacher Horaires ↴' : 'Voir Horaires ↴'}</Text>
         </TouchableOpacity>
 
         {showDetails && (
-        <View style={styles.horaires}>
-        {Object.entries(horaires).map(([day, hours]) => (
-        <Text key={day}>{`${day.charAt(0).toUpperCase() + day.slice(1)}: ${hours}`}</Text>
-        ))}
+          <View style={styles.horaires}>
+          {Object.entries(horaires).slice(0, -1).map(([day, hours]) => (
+          <Text key={day}>{`${day.charAt(0).toUpperCase() + day.slice(1)}: ${hours}`}</Text>
+          ))}
+
         </View>
         )}
 
