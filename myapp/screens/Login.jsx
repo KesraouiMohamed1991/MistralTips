@@ -44,7 +44,7 @@ const Login = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={{ fontSize: 22, marginBottom: 50, fontFamily: 'BricolageGrotesque', textAlign:'center' }}>
-        Choisissez parmi tous les etablissements de votre ville
+        Veuillez vous connecter ou créer un compte.
       </Text>
 
       {renderGoogleButton()}

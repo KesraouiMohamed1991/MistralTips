@@ -17,8 +17,9 @@ const SignUp = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [loading, setLoading]=useState(false)
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{9,}$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{9,}$/;
+  const phoneNumberRegex= /^(?:\+33|0)(?:(?:(?:\d{1}[.-]?\d{2})|(?:\d{2}[.-]?\d{2})|(?:\d{3}[.-]?\d{2})|(?:\d{4}[.-]?\d{2})|(?:\d{5}[.-]?\d{2}))(?:(?:[.-]?\d{2})|(?:[.-]?\d{3}))?|(?:\d{8}))(?:(?:\d{2})|(?:[.-]?\d{2}))?$/;
 
 
 const handleSignUp = async () => {
@@ -33,6 +34,12 @@ const handleSignUp = async () => {
   if (!passwordRegex.test(password)) {
     return;
   }
+if (!phoneNumberRegex.test(phoneNumber)) {
+    return;
+  }
+
+
+
 
   try {
     const response = await fetch(`${BACKEND_ADDRESS}/bars/users/signup`, {
@@ -93,8 +100,9 @@ const handleSignUp = async () => {
         value={mail}
         onChangeText={setEmail}
         keyboardType="email-address"
-        autoCapitalize="none"
+        autoCapitalize="none" // Set autoCapitalize to 'none' to prevent automatic capitalization
       />
+
 
       <TextInput
         style={styles.input}
