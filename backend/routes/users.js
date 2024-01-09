@@ -1,4 +1,5 @@
 const express = require('express');
+dotenv.config();
 const router = express.Router();
 const User = require('../models/user');
 const { Bar, Blog, Event } = require('../models/DBModels');
@@ -11,9 +12,9 @@ const fs = require('fs');
 
 
 cloudinary.config({
-  cloud_name: 'dsttg3p2z',
-  api_key: '651845119925515',
-  api_secret: 'zVP5tTdsSxRratzwitKT81B-ZNE'
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 router.get('/all', async (req, res) => {

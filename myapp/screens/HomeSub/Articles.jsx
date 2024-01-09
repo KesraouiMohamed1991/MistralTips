@@ -10,7 +10,6 @@ const Articles = ({navigation}) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
   
-  // let BACKEND_ADDRESS = process.env.BACKEND_ADDRESS
   
   const fetcharticles = async () => {
     try {
